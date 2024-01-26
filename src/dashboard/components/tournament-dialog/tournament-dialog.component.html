@@ -1,0 +1,63 @@
+<p-dialog #dialog
+          header="{{ selectedTournament ? selectedTournament.name : 'Creeaza turneu'}}"
+          [modal]="true"
+          (onHide)="onHide()" [(visible)]="visible" [style]="{width: '90vw'}">
+    <form [formGroup]="tournamentForm"
+          (ngSubmit)="onSubmitForm()">
+        <div class="form">
+            <div class="tournament">
+                    <span class="p-float-label div">
+                        <input pInputText id="name" formControlName="name"/>
+                        <label for="name">Nume turneu</label>
+                     </span>
+                <span class="p-float-label div">
+                        <p-calendar [appendTo]="dialog"
+                                    formControlName="date"
+                                    selectionMode="range"
+                                    [showIcon]="true"
+                                    [readonlyInput]="true"
+                                    dateFormat="dd.mm.yy"
+                                    id="date"></p-calendar>
+                        <label for="date">Perioada</label>
+                     </span>
+                <span class="p-float-label div">
+                        <input pInputText id="court" formControlName="court"/>
+                        <label for="court">Teren</label>
+                     </span>
+                <span class="p-float-label div">
+                        <input pInputText id="city" formControlName="city"/>
+                        <label for="city">Oras</label>
+                     </span>
+                <span class="p-float-label div">
+                        <p-inputNumber id="courtNo" formControlName="courtNo" placeholder=""/>
+                        <label for="courtNo">Nr terenuri</label>
+                     </span>
+                <span class="p-float-label div">
+                        <p-dropdown [options]="logos" formControlName="logo" id="logo">
+                            <ng-template let-logo pTemplate="selectedItem">
+                                <div class="flex align-items-center gap-2" *ngIf="tournamentForm.controls.logo.value">
+                                    <img src="{{tournamentForm.controls.logo.value}}" style="width: 2rem"/>
+                                    <div>{{ logo.label}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template let-logo pTemplate="item">
+            <div class="flex align-items-center gap-2">
+                <img [src]="logo.value" style="width: 2rem"/>
+                <div>{{ logo.label }}</div>
+            </div>
+                            </ng-template>
+                        </p-dropdown>
+                        <label for="logo">Logo</label>
+                     </span>
+                <span class="p-float-label div">
+                        <input pInputText id="link" formControlName="link"/>
+                        <label for="link">Link turneu</label>
+                     </span>
+            </div>
+        </div>
+        <div class="button">
+            <p-button [disabled]="!tournamentForm.valid" type="submit" label="Salveaza"
+                      styleClass="p-button-text"></p-button>
+        </div>
+    </form>
+</p-dialog>

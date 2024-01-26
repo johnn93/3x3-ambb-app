@@ -1,0 +1,82 @@
+<div class="container">
+        <p-fieldset *ngFor="let tournament of allTournaments" [toggleable]="true" [collapsed]="true">
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center gap-2 px-2">
+<!--                    <p-avatar image="{{tournament.logo}}" shape="circle"/>-->
+                    <img loading="lazy" src="{{tournament.logo}}" width="75px"/>
+                    <span class="font-bold">{{tournament.name + ' | ' + formatDate(tournament.period[0], 'shortDate', 'ro-RO') + ' - ' + formatDate(tournament.period[1], 'shortDate', 'ro-RO')}}</span>
+                </div>
+            </ng-template>
+            <p-tabView>
+                <p-tabPanel header="Info turneu">
+                    <div class="info">
+                        <p class="info-items">Teren:&nbsp;<a class="tournament-link"
+                                                        href="https://www.google.com/maps/search/{{tournament.court}}"> {{tournament.court}}</a>
+                        </p>
+                        <p class="info-items">Oras:&nbsp;<a class="tournament-link"
+                                                       href="https://www.google.com/maps/search/{{tournament.city}}">{{tournament.city}}</a>
+                        </p>
+                        <p class="info-items">Nr Terenuri: {{tournament.courtNo}}</p>
+                        <a class="tournament-link info-items"
+                           href="https://play.fiba3x3.com/events/21583c19-34d6-41fb-932f-c8e01fcb0082">Link Turneu</a>
+                    </div>
+                </p-tabPanel>
+                <p-tabPanel header="Arbitrii">
+                    <div class="refs">
+                        <div>
+                            <div class="figure p-card">
+                                <img src="assets/ambb-logo.png" width="50">
+                            </div>
+                            <p class="ref-name">Stefanescu R</p>
+                        </div>
+                        <div>
+                            <div class="figure p-card">
+                                <img src="assets/ambb-logo.png" width="50">
+                            </div>
+                            <p class="ref-name">Barbu I</p>
+                        </div>
+                        <div>
+                            <div class="figure p-card">
+                                <img src="assets/ambb-logo.png" width="50">
+                            </div>
+                            <p class="ref-name">Bolborici A</p>
+                        </div>
+                        <div>
+                            <div class="figure p-card">
+                                <img src="assets/ambb-logo.png" width="50">
+                            </div>
+                            <p class="ref-name">Ghizdareanu V</p>
+                        </div>
+                        <div>
+                            <div class="figure p-card">
+                                <img src="assets/ambb-logo.png" width="50">
+                            </div>
+                            <p class="ref-name">Talpiga A</p>
+                        </div>
+                        <div>
+                            <div class="figure p-card">
+                                <img src="assets/ambb-logo.png" width="50">
+                            </div>
+                            <p class="ref-name">Bocman B</p>
+                        </div>
+                        <div>
+                            <div class="figure p-card">
+                                <img src="assets/ambb-logo.png" width="50">
+                            </div>
+                            <p class="ref-name">Talpus A</p>
+                        </div>
+                    </div>
+                </p-tabPanel>
+                <p-tabPanel header="Supervisors">
+                    <div class="refs">
+                        <div>
+                            <div class="figure p-card">
+                                <img src="assets/ambb-logo.png" width="50">
+                            </div>
+                            <p class="ref-name">Ghizdareanu V</p>
+                        </div>
+                    </div>
+                </p-tabPanel>
+            </p-tabView>
+        </p-fieldset>
+</div>

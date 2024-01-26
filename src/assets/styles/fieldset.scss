@@ -1,0 +1,18 @@
+.p-fieldset {
+  margin-top: 2rem;
+  background: transparent;
+  border: 1px solid var(--red-color);
+  color: var(--text-color);;
+  max-width: 30rem;
+}
+
+.p-fieldset-legend {
+  background: transparent;
+  border: 1px solid var(--red-color);
+}
+
+.p-fieldset.p-fieldset-toggleable .p-fieldset-legend a,
+.p-fieldset-toggler {
+  color: var(--text-color);
+  font-size: 0.75rem;
+}

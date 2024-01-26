@@ -1,0 +1,21 @@
+.new-user{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width:50rem;
+  gap:2rem;
+}
+
+.button{
+  margin-top:2rem;
+  display:flex;
+  justify-content: center;
+}
+
+.form{
+  margin-top:2rem;
+  display:flex;
+  justify-content:center;
+}

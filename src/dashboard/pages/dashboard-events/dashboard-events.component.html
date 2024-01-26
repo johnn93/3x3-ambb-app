@@ -1,0 +1,77 @@
+<div class="container">
+    <p-toolbar>
+        <div class="p-toolbar-group-start">
+        </div>
+        <div class="p-toolbar-group-end">
+            <p-button styleClass="p-button-text" (onClick)="addTournament()"
+                      icon="pi pi-user-plus"></p-button>
+            <p-button styleClass="p-button-text" (onClick)="createMokData()"
+                      label="mock data"></p-button>
+        </div>
+
+    </p-toolbar>
+</div>
+<p-table [loading]="loading" #dt styleClass="p-datatable-striped" [globalFilterFields]="filterFields" [paginator]="true"
+         [rows]="10"
+         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" responsiveLayout="stack"
+         [value]="allTournaments"
+         [tableStyle]="{ 'min-width': '10rem' }">
+    <ng-template pTemplate="caption">
+        <div class="flex" style="text-align: right;">
+            <i class="fa fa-search" style="margin:4px 4px 4px 4px"></i>
+            <input type="text" pInputText size="auto" placeholder="Search"
+                   (input)="dt.filterGlobal($any($event.target).value, 'contains')">
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Nume + Logo</th>
+            <th>Perioada</th>
+            <th>Teren + Oras</th>
+            <th>Nr Terenuri</th>
+            <th>Fara raspuns</th>
+            <th>Refuzat</th>
+            <th>Acceptat</th>
+            <th>Delegati</th>
+            <th>Actiuni</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-tournament>
+        <tr>
+            <td><span class="p-column-title">Nume + Logo</span><img [src]="tournament.logo"
+                                                                    style="width:2rem"> {{ tournament.name }}</td>
+            <td><span class="p-column-title">Perioada</span>{{formatDate(tournament.period[0], 'shortDate', 'ro-RO') + '-' + formatDate(tournament.period[1], 'shortDate', 'ro-RO')}}</td>
+            <td><span class="p-column-title">Teren + Oras</span>{{tournament.court + '|' + tournament.city}}</td>
+            <td><span class="p-column-title">Nr Terenuri</span>{{ tournament.courtNo}}</td>
+            <td><span class="p-column-title">Fara Raspuns</span>
+                <p-chip *ngFor="let ref of tournament.refsTotal" pDraggable
+                        (onDragStart)="dragStart(ref,tournament.key)" (onDragEnd)="dragEnd()"
+                >{{ ref.scheduledName }}</p-chip>
+            </td>
+            <td><span class="p-column-title">Refuzat</span>
+                <p-chip pDraggable (onDragStart)="dragStart(ref,tournament.key)"
+                        (onDragEnd)="dragEnd()"
+                        *ngFor="let ref of tournament.refsDeclined">{{ ref.scheduledName}}</p-chip>
+            </td>
+            <td><span class="p-column-title">Acceptat</span>
+                <p-chip pDraggable (onDragStart)="dragStart(ref,tournament.key)"
+                        (onDragEnd)="dragEnd()"
+                        *ngFor="let ref of tournament.refsAccepted">{{ ref.scheduledName}}</p-chip>
+            </td>
+            <td pDroppable (onDrop)="drop(tournament)"><span class="p-column-title">Delegati</span>
+                <p-chip *ngFor="let ref of tournament.refsConfirmed" [removable]="true"
+                        (onRemove)="onRemove(ref,tournament)">{{ref.scheduledName}}</p-chip>
+            </td>
+            <td>
+                <p-button styleClass="p-button-text p-button" icon="pi pi-save"
+                          (onClick)="nominate(tournament)"></p-button>
+                <p-button styleClass="p-button-text p-button-danger" icon="pi pi-trash"
+                          (onClick)="deleteTournament(tournament)"></p-button>
+                <p-button styleClass="p-button-text p-button-warning" icon="pi pi-user-edit"
+                          (onClick)="openUpdateDialog(tournament)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-toast [breakpoints]="{'920px': {width: '90%', right: '0'}}"></p-toast>
+<app-tournament-dialog [selectedTournament]="selectedTournament" [visible]="visible" [edit]="edit" (newHideEvent)="hideDialog()"></app-tournament-dialog>

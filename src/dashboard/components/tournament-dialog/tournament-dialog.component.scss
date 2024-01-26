@@ -1,0 +1,23 @@
+.tournament{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width:50rem;
+  gap:2rem;
+}
+
+.button{
+  margin-top:2rem;
+  display:flex;
+  justify-content: center;
+}
+
+.form{
+  height:100%;
+  margin-top:2rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}

@@ -1,0 +1,20 @@
+.navbar{
+  position:fixed;
+  top:1%;
+  width:100%;
+  background-color:transparent;
+  margin-top:1rem;
+}
+
+.dashboard-menu{
+  margin-top:5rem;
+}
+
+.icon{
+  font-size:2rem;
+  color:red;
+  cursor:pointer;
+  &:hover{
+    border-bottom: 0.10rem solid red;
+  }
+}

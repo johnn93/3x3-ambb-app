@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="images">
+        <p-image class="logo-photo" alt="ambb-logo" [src]="logo" width="400" height="400"></p-image>
+        <div class="profile-photo">
+            <p-image class="profile-photo" [src]="logo" alt="Poza arbitru" width="150"></p-image>
+        </div>
+    </div>
+    <div *ngFor="let tab of menu">
+        <div class="menu-button" routerLink="{{tab.link}}">
+            <label class="label"><span><i class="{{tab.icon}} label-icon"></i></span>{{tab.label}}</label>
+            <i class="pi pi-angle-right icon"></i>
+        </div>
+    </div>
+</div>

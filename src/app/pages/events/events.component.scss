@@ -1,0 +1,46 @@
+.header{
+  display:flex;
+  flex-direction:column;
+  justify-content: start;
+  align-items:center;
+}
+
+.card{
+  background:black;
+  border:1px solid var(--red-color);
+  color:var(--text-color);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
+
+.subheader{
+  display:flex;
+  flex-direction:column;
+  line-height: .25rem;
+  justify-content:center;
+  align-items:center;
+}
+
+.title{
+  color:var(--text-color);
+  text-align:center;
+}
+
+.content{
+  margin-top:2rem;
+  display:grid;
+  grid-template-columns:  auto auto;
+  font-size:0.75rem;
+  grid-auto-flow:row;
+  grid-gap: 1rem;
+  justify-content:center;
+  align-items:center;
+}
+
+.buttons{
+  display:flex;
+  flex-direction: row;
+  margin-top:1rem;
+}

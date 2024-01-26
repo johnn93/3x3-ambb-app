@@ -1,0 +1,27 @@
+
+.p-tabview-panels,
+.p-tabview .p-tabview-nav li .p-tabview-nav-link{
+  background: transparent;
+  color: var(--text-color);
+  font-size:.75rem;
+}
+
+.p-tabview .p-tabview-nav{
+  background:transparent;
+  margin-top:-5rem;
+  margin-bottom:1rem;
+  border: solid #dee2e6;
+  border-width:0 0 2px 0;
+}
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link{
+  border:solid var(--red-color);
+  border-width:0 0 2px 0;
+}
+
+.p-tabview-nav{
+  position:relative;
+  left:50%;
+  transform:translate(-50%,0);
+  min-width:max-content;
+}

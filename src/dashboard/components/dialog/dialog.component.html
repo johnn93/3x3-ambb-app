@@ -1,0 +1,124 @@
+<p-dialog #dialog
+          header="{{ selectedUser ? selectedUser.fName+ ' ' + selectedUser.lName : 'Inregistrare'}}"
+          [modal]="true"
+          (onHide)="onHide()" [(visible)]="visible" [style]="{width: '90vw'}">
+    <div *ngIf="createNewUser">
+        <form [formGroup]="arbitriiFormSignUp"
+              (ngSubmit)="onSubmitSignUp()">
+            <div class="form">
+                <div class="new-user">
+                    <span class="p-float-label div">
+                        <input pInputText id="email" formControlName="email"/>
+                        <label for="email">Email</label>
+                     </span>
+                    <span class="p-float-label div">
+                        <p-password [feedback]="false" [toggleMask]="true" id="password"
+                                    formControlName="password"></p-password>
+                        <label for="password">Parola</label>
+                     </span>
+                    <span class="p-float-label div">
+                        <p-password [ngClass]="checkIfPasswordsMatch()" [toggleMask]="true" id="reEnterPassword"
+                                    formControlName="reEnterPassword"></p-password>
+                        <label for="reEnterPassword">Confirma parola</label>
+                     </span>
+                    <span class="p-float-label div">
+                        <input pInputText id="fName" formControlName="fName"/>
+                        <label for="fName">Nume</label>
+                     </span>
+                    <span class="p-float-label div">
+                        <input pInputText id="lName" formControlName="lName"/>
+                        <label for="lName">Prenume</label>
+                     </span>
+                    <span class="p-float-label div">
+                        <p-inputMask mask="9999-999-999" formControlName="phone" id="phone"></p-inputMask>
+                        <label for="phone">Telefon</label>
+                     </span>
+                    <span class="p-float-label div">
+                        <input pInputText id="scheduledName" formControlName="scheduledName"/>
+                        <label for="scheduledName">Nume programare</label>
+                     </span>
+                    <span class="p-float-label div">
+                        <input pInputText id="jerseyNumber" formControlName="jersey"/>
+                        <label for="jerseyNumber">Marime tricou</label>
+                     </span>
+                    <span class="p-float-label div">
+                        <input pInputText id="shorts" formControlName="shorts"/>
+                        <label for="shorts">Marime short</label>
+                     </span>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                        <label for="isAdmin">Admin</label><br>
+                        <p-inputSwitch formControlName="isAdmin" id="isAdmin"></p-inputSwitch>
+                    </div>
+                </div>
+            </div>
+            <div class="button">
+                <p-button [disabled]="!arbitriiFormSignUp.valid" type="submit" label="Inregistreaza"
+                          styleClass="p-button-text"></p-button>
+            </div>
+        </form>
+    </div>
+
+    <!-- formular update -->
+    <div *ngIf="editMode">
+        <form [formGroup]="arbitriiFormUpdate" (ngSubmit)="onSubmitUpdate()">
+            <div class="form">
+                <div class="new-user">
+                    <div class="flex flex-wrap align-items-center justify-content-center gap-2">
+                    <span class="p-float-label div">
+                        <input pInputText id="emailUpdate" formControlName="email"/>
+                        <label for="emailUpdate">Email</label>
+                     </span>
+                    </div>
+                    <div class="flex flex-wrap align-items-center justify-content-center gap-2">
+                    <span class="p-float-label div">
+                        <input pInputText id="fNameUpdate" formControlName="fName"/>
+                        <label for="fNameUpdate">Nume</label>
+                     </span>
+                    </div>
+                    <div class="flex flex-wrap align-items-center justify-content-center gap-2">
+                    <span class="p-float-label div">
+                        <input pInputText id="lNameUpdate" formControlName="lName"/>
+                        <label for="lNameUpdate">Prenume</label>
+                     </span>
+                    </div>
+                    <div class="flex flex-wrap align-items-center justify-content-center gap-2">
+                    <span class="p-float-label div">
+                        <p-inputMask mask="9999-999-999" formControlName="phone" id="phoneUpdate"></p-inputMask>
+                        <label for="phone">Telefon</label>
+                     </span>
+                    </div>
+                    <div class="flex flex-wrap align-items-center justify-content-center gap-2">
+                    <span class="p-float-label div">
+                        <input pInputText id="scheduleNameUpdate" formControlName="scheduleName"/>
+                        <label for="scheduleNameUpdate">Nume programare</label>
+                     </span>
+                    </div>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                    <span class="p-float-label div">
+                        <input pInputText id="jerseyNumberUpdated" formControlName="jersey"/>
+                        <label for="jerseyNumberUpdated">Marime tricou</label>
+                     </span>
+                    </div>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                    <span class="p-float-label div">
+                        <input pInputText id="shortsUpdate" formControlName="shorts"/>
+                        <label for="shortsUpdate">Marime short</label>
+                     </span>
+                    </div>
+                    <div class="flex flex-wrap align-items-center justify-content-center gap-2">
+                        <label for="isAdminUpdated">Admin</label><br>
+                        <p-inputSwitch formControlName="isAdmin" id="isAdminUpdated"></p-inputSwitch>
+                    </div>
+
+                </div>
+            </div>
+            <div class="button">
+                <p-button [disabled]="!arbitriiFormUpdate.valid" type="submit" label="Actualizeaza"
+                          styleClass="p-button-text"></p-button>
+            </div>
+        </form>
+    </div>
+
+    <p-toast [breakpoints]="{'920px': {width: '90%', right: '0'}}"></p-toast>
+</p-dialog>
+
