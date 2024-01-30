@@ -22,6 +22,7 @@ export class ServiceService {
         this.tournamentsRef = this.db.list(this.eventsPath)
         this.getTournaments()
         this.getHistory()
+        this.getUsers()
     }
 
     getAllUsers(): AngularFireList<User> {
@@ -53,7 +54,33 @@ export class ServiceService {
             data.sort((a: any, b: any) => {
                 return a.fName?.localeCompare(b.fName!)
             });
+            this.allUsers.next(data)
         });
+    }
+
+    getUserByUid(uid: any) {
+        return this.usersRef
+            .snapshotChanges()
+            .pipe(map(changes =>
+                    changes.map(user => {
+                            if (uid === user.payload.val()?.uid)
+                                return {
+                                    fName: user.payload.val()!.fName,
+                                    lName: user.payload.val()!.lName,
+                                    email: user.payload.val()!.email,
+                                    phone: user.payload.val()!.phone,
+                                    isAdmin: user.payload.val()!.isAdmin,
+                                    uid: user.payload.val()!.uid,
+                                    scheduleName: user.payload.val()!.scheduledName,
+                                    key: user.payload.key,
+                                    jersey: user.payload.val()!.jersey,
+                                    shorts: user.payload.val()!.shorts,
+                                }
+                            return;
+                        }
+                    )
+                )
+            )
     }
 
     getTournaments(){

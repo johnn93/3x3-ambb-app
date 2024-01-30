@@ -2,3 +2,35 @@
   text-align:center;
   color:var(--text-color)
 }
+
+.button{
+  margin-top:2rem;
+  display:flex;
+  justify-content: center;
+}
+
+.form{
+  margin-top:2rem;
+  display:flex;
+  justify-content:center;
+}
+
+.user{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width:50rem;
+  gap:2rem;
+}
+
+.avatar{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+label{
+  color:var(--text-color)
+}

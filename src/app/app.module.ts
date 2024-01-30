@@ -38,6 +38,7 @@ import {RadioButtonModule} from "primeng/radiobutton";
 import {DockModule} from "primeng/dock";
 import { TournamentsNominations } from './components/tournaments-nominations/tournaments-nominations';
 import { HistoryDialog } from './components/history-dialog/history-dialog';
+import {DropdownModule} from "primeng/dropdown";
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -81,7 +82,8 @@ firebase.initializeApp(environment.firebaseConfig);
         InfiniteScrollModule,
         AccordionModule,
         RadioButtonModule,
-        DockModule
+        DockModule,
+        DropdownModule
     ],
     providers: [],
     exports: [

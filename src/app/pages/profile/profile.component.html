@@ -2,3 +2,41 @@
     <h1 class="title">Profil</h1>
     <p-divider layout="horizontal"></p-divider>
 </div>
+<div class="avatar">
+    <p-avatar image="assets/ambb-logo.png" size="xlarge" shape="square"></p-avatar>
+</div>
+<form [formGroup]="userFormUpdate"
+      (ngSubmit)="onSubmitUpdate()">
+    <div class="form">
+        <div class="user">
+            <span class="p-float-label div">
+                        <input pInputText id="email" formControlName="email"/>
+                        <label for="email">Email</label>
+            </span>
+            <span class="p-float-label div">
+                        <input pInputText id="fName" formControlName="fName"/>
+                        <label for="fName">Nume</label>
+                     </span>
+            <span class="p-float-label div">
+                        <input pInputText id="lName" formControlName="lName"/>
+                        <label for="lName">Prenume</label>
+                     </span>
+            <span class="p-float-label div">
+                        <p-inputMask mask="9999-999-999" formControlName="phone" id="phone"></p-inputMask>
+                        <label for="phone">Telefon</label>
+                     </span>
+            <span class="p-float-label div">
+                        <input pInputText id="jerseyNumber" formControlName="jersey"/>
+                        <label for="jerseyNumber">Marime tricou</label>
+                     </span>
+            <span class="p-float-label div">
+                        <input pInputText id="shorts" formControlName="shorts"/>
+                        <label for="shorts">Marime short</label>
+                     </span>
+        </div>
+    </div>
+    <div class="button">
+        <p-button [disabled]="!userFormUpdate.valid" type="submit" label="Salveaza"
+                  [text]="true"></p-button>
+    </div>
+</form>
