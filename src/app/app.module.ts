@@ -32,6 +32,12 @@ import {FieldsetModule} from "primeng/fieldset";
 import {AvatarModule} from "primeng/avatar";
 import {DividerModule} from "primeng/divider";
 import {TabViewModule} from "primeng/tabview";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {AccordionModule} from "primeng/accordion";
+import {RadioButtonModule} from "primeng/radiobutton";
+import {DockModule} from "primeng/dock";
+import { TournamentsNominations } from './components/tournaments-nominations/tournaments-nominations';
+import { HistoryDialog } from './components/history-dialog/history-dialog';
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -45,6 +51,8 @@ firebase.initializeApp(environment.firebaseConfig);
         PageNotFoundComponent,
         NavbarComponent,
         DashboardComponent,
+        TournamentsNominations,
+        HistoryDialog,
     ],
     imports: [
         BrowserModule,
@@ -69,7 +77,11 @@ firebase.initializeApp(environment.firebaseConfig);
         FieldsetModule,
         AvatarModule,
         DividerModule,
-        TabViewModule
+        TabViewModule,
+        InfiniteScrollModule,
+        AccordionModule,
+        RadioButtonModule,
+        DockModule
     ],
     providers: [],
     exports: [

@@ -3,12 +3,13 @@ import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {Tournament} from "../../../interfaces/tournament";
 import {ServiceService} from "../../../shared/service.service";
 import {map} from "rxjs";
-import {formatDate} from "@angular/common";
+import {MessageService} from "primeng/api";
 
 @Component({
     selector: 'app-tournament-dialog',
     templateUrl: './tournament-dialog.component.html',
-    styleUrls: ['./tournament-dialog.component.scss']
+    styleUrls: ['./tournament-dialog.component.scss'],
+    providers: [MessageService]
 })
 export class TournamentDialogComponent {
 
@@ -20,7 +21,8 @@ export class TournamentDialogComponent {
     allUsers: any = [];
 
     constructor(private fb: FormBuilder,
-                private service: ServiceService) {
+                private service: ServiceService,
+                private messageService: MessageService) {
     }
 
     tournamentForm = this.fb.group({
@@ -47,6 +49,7 @@ export class TournamentDialogComponent {
                                 key: c.payload.key,
                                 phone: c.payload.val()?.phone,
                                 uid: c.payload.val()?.uid,
+                                photo: c.payload.val()?.photo,
                                 scheduledName: c.payload.val()?.scheduledName,
                             }
                         }
@@ -69,24 +72,30 @@ export class TournamentDialogComponent {
             refsAccepted: '[]',
             supervisors: '[]'
         } as Tournament
-        if(!this.edit){
+        if (!this.edit) {
             this.service.createTournament(tournament)
-                .then((data)=>{
-                    this.allUsers.forEach((user:any)=>{
-                        user.tournaments=[...user.tournaments,{key:data.key,value:false}]
-                        const userUpdate = {
-                            tournaments:JSON.stringify(user.tournaments)
-                        }
-                        this.service.updateUser(user.key,userUpdate)
-                            .then()
-                    })
-                })
-        }else{
-            const updateTournament={
+                .then((data) => {
+                        this.allUsers.forEach((user: any) => {
+                                user.tournaments = [...user.tournaments, {key: data.key, value: false}]
+                                const userUpdate = {
+                                    tournaments: JSON.stringify(user.tournaments)
+                                }
+                                this.service.updateUser(user.key, userUpdate)
+                                    .then()
+                            }
+                        )
+                    }
+                ).catch(e => this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: `${e}`
+            }))
+        } else {
+            const updateTournament = {
                 ...this.tournamentForm.value,
-                period:this.tournamentForm.controls.date.value!.toString()
+                period: this.tournamentForm.controls.date.value!.toString()
             }
-            this.service.updateTournament(this.selectedTournament!.key,updateTournament)
+            this.service.updateTournament(this.selectedTournament!.key, updateTournament)
                 .then()
         }
 

@@ -1,0 +1,63 @@
+.container{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.subtitle{
+  font-size:.65rem;
+  color:var(--text-color);
+}
+
+.info{
+  display:grid;
+  grid-template-columns:  auto auto;
+  font-size:0.75rem;
+  grid-auto-flow:row;
+  grid-gap: 4rem;
+  justify-content:center;
+  align-items:center;
+}
+
+.refs{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, 5rem);
+  grid-gap: .5rem;
+  grid-auto-flow:row;
+  justify-content:center;
+}
+
+.title{
+  text-align:center;
+  color:var(--text-color);
+  margin-bottom:0;
+  margin-top:0;
+}
+
+.tournament-link{
+  color:var(--text-color);
+}
+
+.figure{
+  align-items:center;
+  display:flex;
+  flex-direction:column;
+}
+
+.ref-name{
+  color:var(--text-color);
+  font-size:.7rem;
+  text-align:left;
+  font-weight:bold;
+}
+
+.content-divider{
+  width:100%;
+}
+
+.info-items{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}

@@ -1,8 +1,10 @@
 <div class="container">
     <h1 class="title">Urmatoarele Turnee</h1>
-    <p-divider layout="horizontal" [style]="{'border-top':'1px var(--red-color)'}"></p-divider>
-    <div class="content">
-        <div class="p-card card p-2" *ngFor="let tournament of allTournaments">
+    <p-divider layout="horizontal"></p-divider>
+    <div class="content" *ngIf="!loading;else loader">
+        <div class="p-card card p-2" *ngFor="let tournament of tournaments" infiniteScroll
+             [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50"
+             (scrolled)="onScroll()">
             <div class="header">
                 <p-avatar image="{{tournament.logo}}" size="xlarge"/>
                 <div class="subheader">
@@ -20,3 +22,8 @@
         </div>
     </div>
 </div>
+<ng-template #loader>
+    <div>
+        <p style="color:white;margin-top:20rem;">se incarca</p>
+    </div>
+</ng-template>

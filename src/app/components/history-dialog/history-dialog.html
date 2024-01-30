@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="p-dialog-header">
+        <div class="flex flex-column align-items-center gap-2 px-2">
+            <p-avatar image="{{tournament.logo}}" size="xlarge"/>
+            <p class="title">{{tournament.name}}</p>
+            <span class="subtitle">{{formatDate(tournament.period[0], 'shortDate', 'ro-RO') + ' - ' + formatDate(tournament.period[1], 'shortDate', 'ro-RO')}}</span>
+        </div>
+    </div>
+    <p-tabView>
+        <p-tabPanel header="Info turneu">
+            <div class="info">
+                <p class="info-items">Teren:&nbsp;<a class="tournament-link"
+                                                     href="https://www.google.com/maps/search/{{tournament.court}}"> {{tournament.court}}</a>
+                </p>
+                <p class="info-items">Oras:&nbsp;<a class="tournament-link"
+                                                    href="https://www.google.com/maps/search/{{tournament.city}}">{{tournament.city}}</a>
+                </p>
+                <p class="info-items">Nr Terenuri: {{tournament.courtNo}}</p>
+                <a class="tournament-link info-items"
+                   href="https://play.fiba3x3.com/events/21583c19-34d6-41fb-932f-c8e01fcb0082">Link Turneu</a>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Arbitrii">
+            <div class="refs">
+                <div *ngFor="let ref of tournament.refsConfirmed">
+                    <div class="figure p-card">
+                        <p-avatar image="assets/ambb-logo.png" size="large"></p-avatar>
+                    </div>
+                    <p class="ref-name">{{ref.scheduledName}}</p>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Supervisors">
+            <div class="refs">
+                <div *ngFor="let supervisor of tournament.supervisors">
+                    <div class="figure p-card">
+                        <p-avatar image="assets/ambb-logo.png" size="large"></p-avatar>
+                    </div>
+                    <p class="ref-name">{{supervisor.scheduledName}}</p>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>

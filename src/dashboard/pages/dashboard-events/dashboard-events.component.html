@@ -5,8 +5,6 @@
         <div class="p-toolbar-group-end">
             <p-button styleClass="p-button-text" (onClick)="addTournament()"
                       icon="pi pi-user-plus"></p-button>
-            <p-button styleClass="p-button-text" (onClick)="createMokData()"
-                      label="mock data"></p-button>
         </div>
 
     </p-toolbar>
@@ -33,6 +31,7 @@
             <th>Refuzat</th>
             <th>Acceptat</th>
             <th>Delegati</th>
+            <th>Supervisors</th>
             <th>Actiuni</th>
         </tr>
     </ng-template>
@@ -60,6 +59,10 @@
             </td>
             <td pDroppable (onDrop)="drop(tournament)"><span class="p-column-title">Delegati</span>
                 <p-chip *ngFor="let ref of tournament.refsConfirmed" [removable]="true"
+                        (onRemove)="onRemove(ref,tournament)">{{ref.scheduledName}}</p-chip>
+            </td>
+            <td pDroppable (onDrop)="dropSupervisor(tournament)"><span class="p-column-title">Supervisors</span>
+                <p-chip *ngFor="let ref of tournament.supervisors" [removable]="true"
                         (onRemove)="onRemove(ref,tournament)">{{ref.scheduledName}}</p-chip>
             </td>
             <td>

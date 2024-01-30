@@ -1,0 +1,26 @@
+.p-accordion .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link{
+  background: transparent;
+  color: var(--text-color);
+  border:none;
+  border-bottom:1px solid var(--red-color)
+}
+
+.p-accordion .p-accordion-header .p-accordion-header-link{
+  background:transparent;
+  border-radius:0;
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  border-color:var(--red-color);
+  color:var(--text-color);
+}
+
+.p-accordion .p-accordion-content {
+  background:transparent;
+  color:var(--text-color);
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  border-color:red;
+  border-radius:0;
+}

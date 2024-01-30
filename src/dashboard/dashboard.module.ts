@@ -26,6 +26,8 @@ import {DragDropModule} from "primeng/dragdrop";
 import {CardModule} from "primeng/card";
 import {AvatarModule} from "primeng/avatar";
 import {DividerModule} from "primeng/divider";
+import {FieldsetModule} from "primeng/fieldset";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 
 @NgModule({
@@ -60,6 +62,8 @@ import {DividerModule} from "primeng/divider";
         CardModule,
         AvatarModule,
         DividerModule,
+        FieldsetModule,
+        InfiniteScrollModule,
     ],
     providers: [{ provide: LOCALE_ID, useValue: 'ro-RO' }],
     exports: [

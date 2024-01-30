@@ -1,0 +1,57 @@
+.title{
+  text-align:center;
+  color:var(--text-color);
+}
+
+.header{
+  display:flex;
+  flex-direction:row;
+  justify-content: start;
+  align-items:center;
+}
+
+.card{
+  background:black;
+  border:1px solid var(--red-color);
+  color:var(--text-color);
+  display:flex;
+  align-items:center;
+  flex-direction:row;
+  width:20rem;
+  height:4rem;
+}
+
+.location-date{
+  font-size:.6rem;
+  width:100%;
+  text-align:left;
+}
+
+.location-date:nth-child(2){
+  margin-bottom:.3rem
+}
+
+.tournament-name{
+  width:100%;
+  text-align:left;
+}
+
+.subheader{
+  display:flex;
+  flex-direction:column;
+  line-height: 0;
+  justify-content:center;
+  align-items:center;
+  margin-left:1rem;
+}
+
+.content{
+  margin-top:.5rem;
+  gap:.75rem;
+  display:grid;
+  grid-template-columns:  auto;
+  font-size:0.75rem;
+  grid-auto-flow:row;
+  justify-content:center;
+  align-items:center;
+}

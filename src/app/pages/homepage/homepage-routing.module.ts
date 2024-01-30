@@ -1,5 +1,4 @@
 import {RouterModule, Routes} from "@angular/router";
-import {HomepageComponent} from "./homepage.component";
 import {EventsComponent} from "../events/events.component";
 import {NominationsComponent} from "../nominations/nominations.component";
 import {HistoryComponent} from "../history/history.component";

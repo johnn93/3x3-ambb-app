@@ -1,47 +1,55 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {ServiceService} from "../../../shared/service.service";
-import {map} from "rxjs";
+import {map, Observable, Subscription} from "rxjs";
 import {formatDate} from "@angular/common";
 
 @Component({
-  selector: 'app-events',
-  templateUrl: './events.component.html',
-  styleUrls: ['./events.component.scss']
+    selector: 'app-events',
+    templateUrl: './events.component.html',
+    styleUrls: ['./events.component.scss']
 })
 export class EventsComponent {
 
-    allTournaments:any;
+    startIndex: number = 0;
+    sum = 15;
+    allTournaments: any[] = [];
+    tournaments: any[] = []
+    tournament: any;
+    subscription: Subscription | undefined
+    loading:boolean=false;
 
-    constructor(private service:ServiceService) {}
+    constructor(private service: ServiceService) {
+    }
 
-    ngOnInit(){
-        this.service.getAllTournaments()
-            .snapshotChanges()
-            .pipe(
-                map(changes =>
-                    changes.map(c => {
-                            return {
-                                key: c.payload.key,
-                                name: c.payload.val()?.name,
-                                period: c.payload.val()?.period.split(','),
-                                court: c.payload.val()?.court,
-                                city: c.payload.val()?.city,
-                                courtNo: c.payload.val()?.courtNo,
-                                logo: c.payload.val()?.logo,
-                                link: c.payload.val()?.link,
-                                refsTotal: JSON.parse(c.payload.val()!.refsTotal),
-                                refsDeclined: JSON.parse(c.payload.val()!.refsDeclined),
-                                refsAccepted: JSON.parse(c.payload.val()!.refsAccepted),
-                                refsConfirmed: JSON.parse(c.payload.val()!.refsConfirmed)
-                            }
-                        }
-                    )
-                )
-            ).subscribe(data => {
-            this.allTournaments = data;
-        })
+    ngOnInit() {
+        this.getTournaments()
+    }
 
+    ngOnDestroy() {
+        this.subscription?.unsubscribe()
     }
 
     protected readonly formatDate = formatDate;
+
+    onScroll() {
+        if(this.sum<=this.allTournaments.length){
+            this.startIndex = this.sum
+            this.sum += 1
+            this.getTournaments()
+        }
+    }
+
+    addItems(index: number, sum: number) {
+        for (let i = index; i < sum; ++i) {
+            if (i < this.allTournaments.length)
+                this.tournaments.push(this.allTournaments[i]);
+        }
+    }
+
+    getTournaments() {
+        this.subscription = this.service.allTournaments.subscribe(data => {
+            this.allTournaments = data;
+            this.addItems(this.startIndex, this.sum)
+        })
+    }
 }

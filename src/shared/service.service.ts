@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase, AngularFireList} from "@angular/fire/compat/database";
+import {AngularFireDatabase, AngularFireList, SnapshotAction} from "@angular/fire/compat/database";
 import {User} from "../interfaces/user";
 import {Tournament} from "../interfaces/tournament";
-import {BehaviorSubject, map, Observable, Subscription} from "rxjs";
+import {BehaviorSubject, map} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -13,6 +13,7 @@ export class ServiceService {
     usersRef: AngularFireList<User>;
     tournamentsRef: AngularFireList<Tournament>;
     allTournaments:BehaviorSubject<any[]>=new BehaviorSubject<any[]>([])
+    historyTournaments:BehaviorSubject<any[]>=new BehaviorSubject<any[]>([])
     allUsers:BehaviorSubject<any[]>=new BehaviorSubject<any[]>([])
 
     constructor(
@@ -20,6 +21,7 @@ export class ServiceService {
         this.usersRef = this.db.list(this.usersPath)
         this.tournamentsRef = this.db.list(this.eventsPath)
         this.getTournaments()
+        this.getHistory()
     }
 
     getAllUsers(): AngularFireList<User> {
@@ -55,7 +57,7 @@ export class ServiceService {
     }
 
     getTournaments(){
-        this.getAllTournaments()
+       return this.getAllTournaments()
             .snapshotChanges()
             .pipe(
                 map(changes =>
@@ -72,12 +74,14 @@ export class ServiceService {
                                 refsTotal: JSON.parse(c.payload.val()!.refsTotal),
                                 refsDeclined: JSON.parse(c.payload.val()!.refsDeclined),
                                 refsAccepted: JSON.parse(c.payload.val()!.refsAccepted),
-                                refsConfirmed: JSON.parse(c.payload.val()!.refsConfirmed)
+                                refsConfirmed: JSON.parse(c.payload.val()!.refsConfirmed),
+                                supervisors: JSON.parse(c.payload.val()!.supervisors)
                             }
                         }
                     )
                 )
-            ).subscribe(data => {
+            )
+           .subscribe(data => {
                 data.sort((a:any,b:any):any=> {
                     let date1=new Date(a.period[0])
                     let date2 = new Date(b.period[0])
@@ -86,6 +90,39 @@ export class ServiceService {
                 })
             this.allTournaments.next(data);
         })
+    }
+
+    getHistory(){
+        return this.getAllTournaments()
+            .snapshotChanges()
+            .pipe(
+                map(changes =>
+                    changes.map(c => {
+                            return {
+                                key: c.payload.key,
+                                name: c.payload.val()?.name,
+                                period: c.payload.val()?.period.split(','),
+                                court: c.payload.val()?.court,
+                                city: c.payload.val()?.city,
+                                courtNo: c.payload.val()?.courtNo,
+                                logo: c.payload.val()?.logo,
+                                link: c.payload.val()?.link,
+                                refsConfirmed: JSON.parse(c.payload.val()!.refsConfirmed),
+                                supervisors: JSON.parse(c.payload.val()!.supervisors)
+                            }
+                        }
+                    )
+                )
+            )
+            .subscribe(data => {
+                data.sort((a:any,b:any):any=> {
+                    let date1=new Date(a.period[0])
+                    let date2 = new Date(b.period[0])
+                    // @ts-ignore
+                    return date1 - date2
+                })
+                this.historyTournaments.next(data);
+            })
     }
 
     getAllTournaments():AngularFireList<any>  {

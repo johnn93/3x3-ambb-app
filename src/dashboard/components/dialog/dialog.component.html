@@ -8,6 +8,23 @@
             <div class="form">
                 <div class="new-user">
                     <span class="p-float-label div">
+                        <p-dropdown [options]="photos" formControlName="photo" id="photo">
+                            <ng-template let-photo pTemplate="selectedItem">
+                                <div class="flex align-items-center gap-2" *ngIf="arbitriiFormSignUp.controls.photo.value">
+                                    <img src="{{arbitriiFormSignUp.controls.photo.value}}" style="width: 2rem"/>
+                                    <div>{{ photo.label}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template let-photo pTemplate="item">
+                                 <div class="flex align-items-center gap-2">
+                                    <img [src]="photo.value" style="width: 2rem"/>
+                                    <div>{{ photo.label }}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                        <label for="photo">Poza</label>
+                </span>
+                    <span class="p-float-label div">
                         <input pInputText id="email" formControlName="email"/>
                         <label for="email">Email</label>
                      </span>

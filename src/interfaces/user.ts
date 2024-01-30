@@ -10,4 +10,5 @@ export interface User {
     uid:string;
     key:string;
     tournaments:string;
+    photo:string;
 }

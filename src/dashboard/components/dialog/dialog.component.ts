@@ -5,6 +5,7 @@ import {AuthenticationService} from "../../../shared/authentication.service";
 import {ServiceService} from "../../../shared/service.service";
 import {User} from "../../../interfaces/user";
 import {map} from "rxjs";
+import {refsPhotos} from "./refs-photos";
 
 @Component({
     selector: 'app-dialog',
@@ -20,6 +21,7 @@ export class DialogComponent {
     @Output() newHideEvent = new EventEmitter();
     @Output() newUpdateEvent = new EventEmitter();
     futureTournaments: any;
+    photos:any[]=[];
 
     constructor(private fb: FormBuilder,
                 private messageService: MessageService,
@@ -40,7 +42,8 @@ export class DialogComponent {
         key: [''],
         phone: ['', Validators.required],
         scheduledName: ['', Validators.required],
-        isAdmin: [false, Validators.required]
+        isAdmin: [false, Validators.required],
+        photo:['',Validators.required]
     })
 
     arbitriiFormUpdate = this.fb.group({
@@ -55,6 +58,9 @@ export class DialogComponent {
     })
 
     ngOnInit() {
+
+this.photos=refsPhotos.sort((a:any,b:any)=>a.label.localeCompare(b.label))
+
         this.service.getAllTournaments()
             .snapshotChanges()
             .pipe(
@@ -130,6 +136,7 @@ export class DialogComponent {
                         fName: this.arbitriiFormSignUp.controls.fName.value,
                         lName: this.arbitriiFormSignUp.controls.lName.value,
                         phone: this.arbitriiFormSignUp.controls.phone.value,
+                        photo: this.arbitriiFormSignUp.controls.photo.value,
                         scheduledName: this.arbitriiFormSignUp.controls.scheduledName.value,
                         jersey: this.arbitriiFormSignUp.controls.jersey.value,
                         shorts: this.arbitriiFormSignUp.controls.shorts.value,
@@ -149,6 +156,7 @@ export class DialogComponent {
                                     key:data.key,
                                     phone:user.phone,
                                     scheduledName:user.scheduledName,
+                                    photo:user.photo
                                 }
                                 tournament.refsTotal = [...tournament.refsTotal,newUser];
                                 const updateTournament={
@@ -184,5 +192,4 @@ export class DialogComponent {
             this.newUpdateEvent.emit(error)
         })
     }
-
 }

@@ -12,9 +12,9 @@
 
 .icon{
   font-size:2rem;
-  color:red;
+  color:var(--text-color);
   cursor:pointer;
   &:hover{
-    border-bottom: 0.10rem solid red;
+    border-bottom: 0.10rem solid var(--text-color);
   }
 }

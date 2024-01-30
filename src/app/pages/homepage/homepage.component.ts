@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {BehaviorSubject, map} from "rxjs";
 import {ServiceService} from "../../../shared/service.service";
 
 @Component({
@@ -9,7 +8,7 @@ import {ServiceService} from "../../../shared/service.service";
 })
 export class HomepageComponent {
 
-    constructor(private service:ServiceService) {
+    constructor() {
     }
 
     menu = [

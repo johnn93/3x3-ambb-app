@@ -1,0 +1,49 @@
+<div class="container">
+    <h1 class="title">Istoric</h1>
+    <p-divider layout="horizontal"></p-divider>
+</div>
+
+<div>
+    <p-tabView>
+        <p-tabPanel header="Turneele mele">
+            <ng-template pTemplate="content">
+                <p-accordion>
+                    <p-accordionTab *ngFor="let year of personalYears" header="{{year?.year}}">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                            laboris nisi ut aliquip ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                            officia deserunt mollit anim id est laborum.
+                        </p>
+                    </p-accordionTab>
+                </p-accordion>
+            </ng-template>
+        </p-tabPanel>
+        <p-tabPanel header="Toate turneele">
+            <ng-template pTemplate="content">
+                <p-accordion>
+                    <p-accordionTab *ngFor="let year of years" header="{{year}}">
+                        <div class="content">
+                            <div  *ngFor="let tournament of allHistory">
+                                <div class="p-card card p-2" *ngIf="tournament.year===year" (click)="openDialog(tournament)">
+                                    <div class="header">
+                                        <p-avatar image="{{tournament.tournaments.logo}}" shape="circle" size="large"/>
+                                        <div class="subheader">
+                                            <p class="tournament-name"><strong>{{tournament.tournaments.name}}</strong></p>
+                                            <p class="location-date"> {{tournament.tournaments.court + ' | ' + tournament.tournaments.city}}</p>
+                                            <p class="location-date">{{formatDate(tournament.tournaments.period[0], 'shortDate', 'ro-RO')}}
+                                                -{{ formatDate(tournament.tournaments.period[1], 'shortDate', 'ro-RO')}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </p-accordionTab>
+                </p-accordion>
+            </ng-template>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+

@@ -1,50 +1,56 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {ServiceService} from "../../../shared/service.service";
-import {map} from "rxjs";
+import {map, Subscriber, Subscription} from "rxjs";
 import {formatDate} from "@angular/common";
 
 @Component({
-  selector: 'app-nominations',
-  templateUrl: './nominations.component.html',
-  styleUrls: ['./nominations.component.scss']
+    selector: 'app-nominations',
+    templateUrl: './nominations.component.html',
+    styleUrls: ['./nominations.component.scss']
 })
 export class NominationsComponent {
+    startIndex: number = 0;
+    sum = 15;
+    allTournaments: any
+    tournaments: any[] = []
+    tournament: any;
+    protected readonly formatDate = formatDate;
+    subscription:Subscription | undefined
 
-    allTournaments:any;
+    constructor(private service: ServiceService) {
+    }
 
-    constructor(private service:ServiceService) {}
+    ngOnInit() {
+        this.getTournaments()
+    }
 
+    ngOnDestroy(){
+        this.subscription?.unsubscribe()
+    }
 
-    ngOnInit(){
-        this.service.getAllTournaments()
-            .snapshotChanges()
-            .pipe(
-                map(changes =>
-                    changes.map(c => {
-                            return {
-                                key: c.payload.key,
-                                name: c.payload.val()?.name,
-                                period: c.payload.val()?.period.split(','),
-                                court: c.payload.val()?.court,
-                                city: c.payload.val()?.city,
-                                courtNo: c.payload.val()?.courtNo,
-                                logo: c.payload.val()?.logo,
-                                link: c.payload.val()?.link,
-                                refsTotal: JSON.parse(c.payload.val()!.refsTotal),
-                                refsDeclined: JSON.parse(c.payload.val()!.refsDeclined),
-                                refsAccepted: JSON.parse(c.payload.val()!.refsAccepted),
-                                refsConfirmed: JSON.parse(c.payload.val()!.refsConfirmed)
-                            }
-                        }
-                    )
-                )
-            ).subscribe(data => {
+    getTournaments() {
+        this.subscription=this.service.allTournaments.subscribe(data => {
             this.allTournaments = data;
+            this.addItems(this.startIndex, this.sum)
         })
-        // this.allTournaments=this.service.allTournaments.value
+    }
 
+
+    addItems(index: number, sum: number) {
+        if (this.allTournaments.length) {
+            for (let i = index; i < sum; ++i) {
+                if (i < this.allTournaments.length)
+                    this.tournaments.push(this.allTournaments[i]);
+            }
+        }
 
     }
 
-    protected readonly formatDate = formatDate;
+    onScroll() {
+        if (this.sum <= this.allTournaments.length) {
+            this.startIndex = this.sum
+            this.sum += 1
+            this.getTournaments()
+        }
+    }
 }
