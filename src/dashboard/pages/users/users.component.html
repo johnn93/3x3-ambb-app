@@ -1,21 +1,16 @@
-<p-toolbar>
-    <div class="p-toolbar-group-start">
-    </div>
-    <div class="p-toolbar-group-end">
-        <p-button styleClass="p-button-text" (onClick)="addUser()"
-                  icon="pi pi-user-plus"></p-button>
-    </div>
-
-</p-toolbar>
 <p-table [loading]="loading" #dt styleClass="p-datatable-striped" [globalFilterFields]="filterFields" [paginator]="true"
          [rows]="10"
          [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" responsiveLayout="stack" [value]="allUsers"
          [tableStyle]="{ 'min-width': '10rem' }">
     <ng-template pTemplate="caption">
-        <div class="flex" style="text-align: right;">
-            <i class="fa fa-search" style="margin:4px 4px 4px 4px"></i>
-            <input type="text" pInputText size="auto" placeholder="Search"
-                   (input)="dt.filterGlobal($any($event.target).value, 'contains')">
+        <div class="flex flex-row justify-content-between">
+            <div>
+                <i class="fa fa-search" style="margin:4px 4px 4px 4px"></i>
+                <input type="text" pInputText size="auto" placeholder="Search"
+                       (input)="dt.filterGlobal($any($event.target).value, 'contains')">
+            </div>
+            <p-button styleClass="p-button-text" (onClick)="addUser()"
+                      icon="pi pi-user-plus"></p-button>
         </div>
     </ng-template>
     <ng-template pTemplate="header">
