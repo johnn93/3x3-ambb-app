@@ -1,0 +1,18 @@
+.p-datatable-header{
+  background:black;
+}
+
+.p-datatable-thead{
+  background:black;
+}
+
+th, td{
+  background:black;
+  color:var(--text-color);
+  border:none;
+  text-align:center;
+}
+
+td{
+  border:1px solid var(--text-color)
+}
