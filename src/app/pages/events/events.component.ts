@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {ServiceService} from "../../../shared/service.service";
 import {map, Observable, Subscription} from "rxjs";
 import {formatDate} from "@angular/common";
+import {Tournament} from "../../../interfaces/tournament";
 
 @Component({
     selector: 'app-events',
@@ -40,6 +41,9 @@ export class EventsComponent {
     }
 
     addItems(index: number, sum: number) {
+        if(this.tournaments.length===this.allTournaments.length){
+            return;
+        }
         for (let i = index; i < sum; ++i) {
             if (i < this.allTournaments.length)
                 this.tournaments.push(this.allTournaments[i]);
@@ -52,4 +56,56 @@ export class EventsComponent {
             this.addItems(this.startIndex, this.sum)
         })
     }
+
+    available(tournament:Tournament) {
+        console.log(tournament)
+        let total =[...tournament.refsTotal]
+        let accepted = [...tournament.refsAccepted]
+         total.forEach((ref:any,index:number)=>{
+             if('12'===ref.key){
+                 console.log(index)
+                 accepted = total.splice(index,1)
+             }
+             else {
+                 return
+             }
+         })
+        this.service.updateTournament(tournament.key,{refsTotal:JSON.stringify(total),refsAccepted:JSON.stringify(accepted)})
+            .then(()=>this.getTournaments());
+    }
+
+    declined(tournament:Tournament) {
+        let total =[...tournament.refsTotal]
+        let declined = [...tournament.refsDeclined]
+        total.forEach((ref:any,index:number)=>{
+            if('12'===ref.key){
+                console.log(index)
+                declined = total.splice(index,1)
+            }
+            else {
+                return
+            }
+        })
+        this.service.updateTournament(tournament.key,{refsTotal:JSON.stringify(total),refsDeclined:JSON.stringify(declined)})
+            .then(()=>this.getTournaments());
+    }
+
+    checkIfAccepted(tournament:Tournament):boolean{
+        let accepted = [...tournament.refsAccepted]
+        let acc = false
+        accepted.forEach((ref:any)=>{
+           acc=true
+        })
+        return acc;
+    }
+
+    checkIfDeclined(tournament:Tournament):boolean{
+        let declined = [...tournament.refsDeclined]
+        let acc = false
+        declined.forEach((ref:any)=>{
+            acc=true
+        })
+        return acc;
+    }
+
 }

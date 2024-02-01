@@ -58,7 +58,7 @@
             </td>
             <td pDroppable (onDrop)="dropSupervisor(tournament)"><span class="p-column-title">Supervisors</span>
                 <p-chip *ngFor="let ref of tournament.supervisors" [removable]="true"
-                        (onRemove)="onRemove(ref,tournament)">{{ref.scheduledName}}</p-chip>
+                        (onRemove)="onRemoveSupervisor(ref,tournament)">{{ref.scheduledName}}</p-chip>
             </td>
             <td>
                 <div class="buttons">

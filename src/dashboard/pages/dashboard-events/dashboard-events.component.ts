@@ -19,7 +19,7 @@ export class DashboardEventsComponent {
     loading: boolean = false;
     edit: boolean = false;
     allTournaments: any[] = [];
-    filterFields = ['name,city,court,courtNo,period']
+    filterFields = ['name','city','court','courtNo','period',]
     draggedRef: any;
     tournamentKey: string = '';
     private myObservableSubscription: Subscription | undefined;
@@ -106,6 +106,14 @@ export class DashboardEventsComponent {
         tournament.refsConfirmed.forEach((element: any, index: any) => {
             if (element.key === ref.key) {
                 tournament.refsConfirmed.splice(index, 1)
+            }
+        })
+    }
+
+    onRemoveSupervisor(ref: User, tournament: any) {
+        tournament.supervisors.forEach((element: any, index: any) => {
+            if (element.key === ref.key) {
+                tournament.supervisors.splice(index, 1)
             }
         })
     }

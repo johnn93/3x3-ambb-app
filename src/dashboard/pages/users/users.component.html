@@ -9,7 +9,7 @@
                 <input type="text" pInputText size="auto" placeholder="Search"
                        (input)="dt.filterGlobal($any($event.target).value, 'contains')">
             </div>
-            <p-button styleClass="p-button-text" (onClick)="addUser()"
+            <p-button [text]="true" (onClick)="addUser()"
                       icon="pi pi-user-plus"></p-button>
         </div>
     </ng-template>
@@ -41,10 +41,12 @@
                 <i *ngIf="user.isAdmin" class="pi pi-check" style="color:green"></i>
                 <i *ngIf="!user.isAdmin" class="pi pi-times" style="color:red"></i></td>
             <td>
-                <p-button styleClass="p-button-text p-button-danger" icon="pi pi-trash"
+                <div class="buttons">
+                <p-button [text]="true" icon="pi pi-trash"
                           (onClick)="deleteUser(user)"></p-button>
-                <p-button styleClass="p-button-text p-button-warning" icon="pi pi-user-edit"
+                <p-button [text]="true" icon="pi pi-user-edit"
                           (onClick)="openUpdateDialog(user)"></p-button>
+                </div>
             </td>
         </tr>
     </ng-template>
