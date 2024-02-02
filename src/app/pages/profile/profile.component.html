@@ -3,7 +3,8 @@
     <p-divider layout="horizontal"></p-divider>
 </div>
 <div class="avatar">
-    <p-avatar image="assets/ambb-logo.png" size="xlarge" shape="square"></p-avatar>
+    <img src="assets/ambb-logo.png" width="150" alt="profile-photo">
+    <p>{{user.fName + ' ' + user.lName}}</p>
 </div>
 <form [formGroup]="userFormUpdate"
       (ngSubmit)="onSubmitUpdate()">

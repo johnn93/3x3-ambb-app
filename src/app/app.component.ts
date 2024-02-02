@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
+import {AuthenticationService} from "../shared/authentication.service";
 
 @Component({
   selector: 'app-root',
@@ -23,4 +24,6 @@ export class AppComponent {
       });
   }
 
+    protected readonly AuthenticationService = AuthenticationService;
+    protected readonly localStorage = localStorage;
 }

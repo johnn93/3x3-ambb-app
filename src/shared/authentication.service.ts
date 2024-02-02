@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
 import {Router} from "@angular/router";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
-import {ServiceService} from "./service.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
+    user:any;
+
     constructor(private auth: AngularFireAuth,
-                private router: Router,
-                private service: ServiceService) {
+                private router: Router) {
+    }
+
+    get isLoggedIn(){
+        return !!localStorage.getItem('uid')
+
     }
 
     SignUp(email: any, password: any) {

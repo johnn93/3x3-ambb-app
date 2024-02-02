@@ -39,6 +39,8 @@ import {DockModule} from "primeng/dock";
 import { TournamentsNominations } from './components/tournaments-nominations/tournaments-nominations';
 import { HistoryDialog } from './components/history-dialog/history-dialog';
 import {DropdownModule} from "primeng/dropdown";
+import {LoginPageComponent} from "./pages/login-page/login-page.component";
+import {CheckboxModule} from "primeng/checkbox";
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -46,6 +48,7 @@ firebase.initializeApp(environment.firebaseConfig);
     declarations: [
         AppComponent,
         HomepageComponent,
+        LoginPageComponent,
         HistoryComponent,
         NominationsComponent,
         ProfileComponent,
@@ -83,7 +86,8 @@ firebase.initializeApp(environment.firebaseConfig);
         AccordionModule,
         RadioButtonModule,
         DockModule,
-        DropdownModule
+        DropdownModule,
+        CheckboxModule
     ],
     providers: [],
     exports: [

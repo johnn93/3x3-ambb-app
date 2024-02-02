@@ -59,12 +59,14 @@ export class ServiceService {
     }
 
     getUserByUid(uid: any) {
+        let userFound={}
         return this.usersRef
             .snapshotChanges()
             .pipe(map(changes =>
+                    // @ts-ignore
                     changes.map(user => {
-                            if (uid === user.payload.val()?.uid)
-                                return {
+                            if (uid === user.payload.val()?.uid){
+                                userFound = {
                                     fName: user.payload.val()!.fName,
                                     lName: user.payload.val()!.lName,
                                     email: user.payload.val()!.email,
@@ -76,7 +78,9 @@ export class ServiceService {
                                     jersey: user.payload.val()!.jersey,
                                     shorts: user.payload.val()!.shorts,
                                 }
-                            return;
+                                return userFound
+                            }
+
                         }
                     )
                 )

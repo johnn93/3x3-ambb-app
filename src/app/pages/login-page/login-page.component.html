@@ -1,0 +1,26 @@
+<div>
+    <img style="margin-bottom:10px" src="../../../assets/ambb-logo.png" alt="poza" class="logo">
+    <div class='logo' style="margin-top:10px">
+        <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+            <div class="flex flex-column">
+                <span class="p-float-label">
+                <input pInputText id="email"
+                       formControlName="email"/>
+                <label for="email">Email</label>
+                </span>
+                <span class="p-float-label" style="margin-top: 32px;margin-bottom: 32px;">
+                <p-password [feedback]="false" [toggleMask]="false" id="password"
+                            formControlName="password"></p-password>
+                <label for="password">Password</label>
+                </span>
+                <div class="flex justify-content-center checkbox" style="margin-bottom:1rem;">
+                    <p-checkbox (onChange)="saveCredentials($event)" [binary]="true" formControlName="isChecked"
+                                label="Salveaza datele de logare" inputId="checkbox"></p-checkbox>
+                </div>
+                <p-button [loading]="loading" [disabled]="!loginForm.valid" type="submit" [text]="true"
+                          label="Log in"></p-button>
+            </div>
+        </form>
+    </div>
+</div>
+<p-toast [breakpoints]="{'920px': {width: '90%', right: '0'}}"></p-toast>
