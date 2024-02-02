@@ -11,7 +11,7 @@ import {formatDate} from "@angular/common";
 export class NominationsComponent {
     startIndex: number = 0;
     sum = 15;
-    allTournaments: any
+    allTournaments: any[]=[]
     tournaments: any[] = []
     tournament: any;
     protected readonly formatDate = formatDate;
@@ -30,13 +30,22 @@ export class NominationsComponent {
 
     getTournaments() {
         this.subscription=this.service.allTournaments.subscribe(data => {
-            this.allTournaments = data;
+            data.forEach(tournament=>{
+                tournament.refsConfirmed.forEach((ref:any)=>{
+                    if('12'===ref.key){
+                        this.allTournaments.push(tournament)
+                    }
+                })
+            })
             this.addItems(this.startIndex, this.sum)
         })
     }
 
 
     addItems(index: number, sum: number) {
+        if(this.tournaments.length===this.allTournaments.length){
+            return
+        }
         if (this.allTournaments.length) {
             for (let i = index; i < sum; ++i) {
                 if (i < this.allTournaments.length)

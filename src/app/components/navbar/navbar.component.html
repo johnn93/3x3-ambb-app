@@ -1,6 +1,8 @@
 <div *ngIf="homepage">
 <nav class="navbar">
     <i class="pi pi-angle-left icon" routerLink=""></i>
+    <h1 class="title" *ngIf="dashboard">Dashboard</h1>
+    <p-divider *ngIf="dashboard"></p-divider>
 </nav>
 <div *ngIf="dashboard" class="dashboard-menu">
     <p-tabMenu [model]="items"></p-tabMenu>

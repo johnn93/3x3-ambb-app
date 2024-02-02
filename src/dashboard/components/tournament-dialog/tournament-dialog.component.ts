@@ -74,18 +74,8 @@ export class TournamentDialogComponent {
         } as Tournament
         if (!this.edit) {
             this.service.createTournament(tournament)
-                .then((data) => {
-                        this.allUsers.forEach((user: any) => {
-                                user.tournaments = [...user.tournaments, {key: data.key, value: false}]
-                                const userUpdate = {
-                                    tournaments: JSON.stringify(user.tournaments)
-                                }
-                                this.service.updateUser(user.key, userUpdate)
-                                    .then()
-                            }
-                        )
-                    }
-                ).catch(e => this.messageService.add({
+                .then()
+                .catch(e => this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
                 detail: `${e}`

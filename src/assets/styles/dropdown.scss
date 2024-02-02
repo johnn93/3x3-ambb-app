@@ -7,3 +7,16 @@
 .p-dropdown-label{
   border:none !important;
 }
+
+.p-dropdown-item,
+.p-dropdown-panel{
+  background:black;
+}
+
+.p-dropdown-item{
+  border-bottom:1px solid var(--text-color);
+}
+
+.p-dropdown-item:hover{
+  border:1px solid var(--text-color);
+}

@@ -10,11 +10,15 @@
   margin-top:5rem;
 }
 
+.title{
+  position:absolute;
+  left:50%;
+  transform:translate(-50%,0);
+  top:-23%;
+}
+
 .icon{
   font-size:2rem;
   color:var(--text-color);
   cursor:pointer;
-  &:hover{
-    border-bottom: 0.10rem solid var(--text-color);
-  }
 }
