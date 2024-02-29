@@ -20,14 +20,14 @@ export class ProfileComponent {
     ngOnInit(){
         const uid = this.activatedRoute.snapshot.paramMap.get('uid')
         this.service.getUserByUid(uid)
-            .subscribe(user=> {
-                user.forEach(user=>{
-                    if(user!=undefined){
-                        this.user = user
-                    }
-                })
-                this.setForm()
-            })
+            // .subscribe(user=> {
+            //     user.forEach(user=>{
+            //         if(user!=undefined){
+            //             this.user = user
+            //         }
+            //     })
+            //     this.setForm()
+            // })
     }
 
     userFormUpdate = this.fb.group({
