@@ -1,62 +1,68 @@
-.container{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  height:100%;
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  background: url('https://img.olympics.com/images/image/private/t_s_pog_staticContent_hero_xl_2x/f_auto/primary/vc4ucoz6rs96naqnk3jb') no-repeat center center fixed black;
+  background-size: cover;
 }
 
-.images{
-  position:relative;
-  margin-top:-4rem;
+.images {
+  position: relative;
+  margin-top: -4rem;
 }
 
-.profile-photo{
-  position:absolute;
-  top:60%;
-  left:50%;
+.profile-photo {
+  position: absolute;
+  top: 60%;
+  left: 50%;
   transform: translate(-50%, 0);
   border-radius: 50%;
-  background:black;
+  background: black;
 }
 
 
-.menu-button{
-  display:flex;
-  flex-direction:row;
-  justify-content:space-between;
-  color:white;
-  width:20rem;
-  max-width:20rem;
-  height:3rem;
-  background-color:var(--red-color);
+.menu-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: white;
+  width: 20rem;
+  max-width: 20rem;
+  height: 3rem;
+  background-color: var(--red-color);
   align-items: center;
-  border-radius:3rem;
-  margin-top:1.5rem;
+  border-radius: 3rem;
+  margin-top: 1.5rem;
 
-  &:hover{
-    cursor:pointer;
+  &:hover {
+    cursor: pointer;
   }
 }
 
-.label{
-  margin-left:1rem;
-  &:hover{
-    cursor:pointer;
+.label {
+  margin-left: 1rem;
+
+  &:hover {
+    cursor: pointer;
   }
 }
 
-.label-icon{
-  margin-right:0.5rem;
-  &:hover{
-    cursor:pointer;
+.label-icon {
+  margin-right: 0.5rem;
+
+  &:hover {
+    cursor: pointer;
   }
 }
 
-.icon{
-  margin-right:1rem;
-  &:hover{
-    cursor:pointer;
+.icon {
+  margin-right: 1rem;
+
+  &:hover {
+    cursor: pointer;
   }
 }
