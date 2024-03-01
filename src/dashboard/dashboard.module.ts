@@ -28,18 +28,21 @@ import {AvatarModule} from "primeng/avatar";
 import {DividerModule} from "primeng/divider";
 import {FieldsetModule} from "primeng/fieldset";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {AppModule} from "../app/app.module";
+import {LoaderComponent} from "../shared/Loader/loader/loader.component";
 
 
 @NgModule({
-    declarations: [
-        UsersComponent,
-        DialogComponent,
-        EventsComponent,
-        DialogComponent,
-        DashboardEventsComponent,
-        TournamentDialogComponent
+  declarations: [
+    UsersComponent,
+    DialogComponent,
+    EventsComponent,
+    DialogComponent,
+    DashboardEventsComponent,
+    TournamentDialogComponent,
+    LoaderComponent
 
-    ],
+  ],
     imports: [
         DashboardRoutingModule,
         CommonModule,
@@ -66,10 +69,11 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
         InfiniteScrollModule,
     ],
     providers: [{ provide: LOCALE_ID, useValue: 'ro-RO' }],
-    exports: [
-        UsersComponent,
-        DialogComponent,
-    ],
+  exports: [
+    UsersComponent,
+    DialogComponent,
+    LoaderComponent,
+  ],
     bootstrap: [DashboardComponent]
 })
 export class DashboardModule { }

@@ -8,10 +8,10 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: url('/assets/Wilson ball.png'); /* Replace with your image */
+  background-image: url('~/src/assets/Wilson ball.png'); /* Replace with your image */
   background-size: cover;
   border-radius: 50%;
-  animation: bounce 1s infinite alternate;
+  animation: bounce .5s infinite alternate;
 }
 
 @keyframes bounce {
@@ -19,6 +19,6 @@
     transform: translateY(0);
   }
   100% {
-    transform: translateY(-50px);
+    transform: translateY(-100px);
   }
 }

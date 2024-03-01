@@ -1,31 +1,32 @@
 <div class="container">
-    <h1 class="title">Urmatoarele Turnee</h1>
-    <p-divider layout="horizontal"></p-divider>
-    <div class="content" *ngIf="!loading;else loader">
-        <div class="p-card card p-2" *ngFor="let tournament of tournaments" infiniteScroll
-             [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50"
-             (scrolled)="onScroll()">
-            <div class="header">
-                <p-avatar image="{{tournament.logo}}" size="xlarge"/>
-                <div class="subheader">
-                    <h2>{{tournament.name}}</h2><br>
-                    {{formatDate(tournament.period[0], 'shortDate', 'ro-RO') + ' - ' + formatDate(tournament.period[1], 'shortDate', 'ro-RO')}}
-                    <p>{{tournament.court + ' | ' + tournament.city}}</p>
-                    <p *ngIf="checkIfAccepted(tournament)" style="color:var(--text-color)">Ai acceptat acest turneu</p>
-                    <p *ngIf="checkIfDeclined(tournament)" style="color:var(--text-color)">Ai refuzat acest turneu</p>
-                </div>
-            </div>
-            <div class="buttons" *ngIf="!checkIfAccepted(tournament) && !checkIfDeclined(tournament)">
-                <p-button size="small" label="Disponibil"
-                          [style]="{'font-size':'.75rem','max-width':'5.5rem','padding':'.75rem'}" (onClick)="available(tournament)"></p-button>
-                <p-button size="small" label="Refuza" styleClass="p-button-secondary"
-                          [style]="{ 'margin-left': '.75rem','font-size':'.75rem','max-width':'4.5rem','padding':'.75rem' }" (onClick)="declined(tournament)"></p-button>
-            </div>
+  <h1 class="title">Urmatoarele Turnee</h1>
+  <p-divider layout="horizontal"></p-divider>
+  <div class="content" *ngIf="!loading;else loader">
+    <div class="p-card card p-2" *ngFor="let tournament of tournaments" infiniteScroll
+         [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50"
+         (scrolled)="onScroll()">
+      <div class="header">
+        <p-avatar image="{{tournament.logo}}" size="xlarge"/>
+        <div class="subheader">
+          <h2>{{ tournament.name }}</h2><br>
+          {{ formatDate(tournament.period[0], 'shortDate', 'ro-RO') + ' - ' + formatDate(tournament.period[1], 'shortDate', 'ro-RO') }}
+          <p>{{ tournament.court + ' | ' + tournament.city }}</p>
+          <p *ngIf="checkIfAccepted(tournament)" style="color:var(--text-color)">Ai acceptat acest turneu</p>
+          <p *ngIf="checkIfDeclined(tournament)" style="color:var(--text-color)">Ai refuzat acest turneu</p>
+          {{checkIfAccepted(tournament)}}
         </div>
+      </div>
+      <div class="buttons" *ngIf="!checkIfAccepted(tournament) && !checkIfDeclined(tournament)">
+        <p-button [loading]='loading' size="small" label="Disponibil"
+                  [style]="{'font-size':'.75rem','max-width':'5.5rem','padding':'.75rem'}"
+                  (onClick)="available(tournament)"></p-button>
+        <p-button [loading]='loading' size="small" label="Refuza" styleClass="p-button-secondary"
+                  [style]="{ 'margin-left': '.75rem','font-size':'.75rem','max-width':'4.5rem','padding':'.75rem' }"
+                  (onClick)="declined(tournament)"></p-button>
+      </div>
     </div>
+  </div>
 </div>
 <ng-template #loader>
-    <div>
-        <p style="color:white;margin-top:20rem;">se incarca</p>
-    </div>
+    <app-loader/>
 </ng-template>

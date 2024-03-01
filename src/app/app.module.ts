@@ -41,7 +41,6 @@ import { HistoryDialog } from './components/history-dialog/history-dialog';
 import {DropdownModule} from "primeng/dropdown";
 import {LoginPageComponent} from "./pages/login-page/login-page.component";
 import {CheckboxModule} from "primeng/checkbox";
-import { LoaderComponent } from './components/Loader/loader/loader.component';
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -58,7 +57,6 @@ firebase.initializeApp(environment.firebaseConfig);
         DashboardComponent,
         TournamentsNominations,
         HistoryDialog,
-        LoaderComponent,
     ],
     imports: [
         BrowserModule,
@@ -92,8 +90,8 @@ firebase.initializeApp(environment.firebaseConfig);
         CheckboxModule
     ],
     providers: [],
-    exports: [
-    ],
+  exports: [
+  ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

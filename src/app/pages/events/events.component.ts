@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ServiceService} from "../../../shared/service.service";
-import {Subscription, take} from "rxjs";
+import {Subscription} from "rxjs";
 import {formatDate} from "@angular/common";
 import {Tournament} from "../../../interfaces/tournament";
 
@@ -17,20 +17,24 @@ export class EventsComponent {
   tournaments: any[] = []
   tournament: any;
   subscription: Subscription | undefined
-  profile:any;
+  profile: any;
   loading: boolean = false;
 
   constructor(private service: ServiceService) {
   }
 
   ngOnInit() {
+    this.loading = true;
     this.getTournaments()
-    this.service.getUserByUid(localStorage.getItem('uid')).valueChanges().subscribe(data=> {
-      this.profile = data[0]
-      console.log(this.profile)
-      return;
-    })
-
+    this.service
+      .getUserByUid(localStorage.getItem('uid'))
+      .valueChanges()
+      .subscribe(data => {
+        // @ts-ignore
+        this.profile = data[0];
+        console.log(this.profile)
+        this.loading = false;
+      })
   }
 
   protected readonly formatDate = formatDate;
@@ -60,22 +64,6 @@ export class EventsComponent {
     })
   }
 
-  available(tournament: Tournament) {
-    const ref={
-      uid:this.profile.uid,
-      scheduleName:this.profile.scheduledName,
-      phone:this.profile.phone
-    }
-    let total = [...tournament.refsTotal]
-    let accepted = [...tournament.refsAccepted]
-    accepted.push(JSON.stringify(ref))
-    this.service.updateTournament(tournament.key, {
-      refsTotal: JSON.stringify(total),
-      refsAccepted: JSON.stringify(accepted)
-    })
-      .then(() => this.checkIfAccepted(tournament));
-  }
-
   declined(tournament: Tournament) {
     let total = [...tournament.refsTotal]
     let declined = [...tournament.refsDeclined]
@@ -94,11 +82,36 @@ export class EventsComponent {
       .then(() => console.log());
   }
 
+  async available(tournament: Tournament) {
+    console.log(tournament)
+    this.loading=true;
+    const ref = {
+      uid: this.profile.uid,
+      scheduleName: this.profile.scheduledName,
+      phone: this.profile.phone
+    }
+    let accepted = tournament.refsAccepted
+    console.log(accepted)
+    // @ts-ignore
+    accepted.push(ref)
+    try {
+      await this.service.updateTournament(tournament.key, {
+        refsAccepted: JSON.stringify(accepted)
+      })
+      this.checkIfAccepted(tournament)
+      console.log('succes')
+    } catch (e) {
+
+    }
+    console.log(accepted)
+    this.loading=false;
+  }
+
   checkIfAccepted(tournament: Tournament): boolean {
     let accepted = [...tournament.refsAccepted]
     let acc = false
     accepted.forEach((ref: any) => {
-        acc = true
+      acc = true
     })
     return acc;
   }

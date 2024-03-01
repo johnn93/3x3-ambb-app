@@ -29,30 +29,6 @@ export class ServiceService {
 
   getUserByUid(uid: any) {
      return this.db.list('users',ref=>ref.orderByChild('uid').equalTo(uid))
-    // return this.usersRef
-    //   .snapshotChanges()
-    //   .pipe(take(1),map(changes =>
-    //       changes.map(user => {
-    //           if (uid === user.payload.val()?.uid) {
-    //              this.profile.next({
-    //               fName: user.payload.val()!.fName,
-    //               lName: user.payload.val()!.lName,
-    //               email: user.payload.val()!.email,
-    //               phone: user.payload.val()!.phone,
-    //               isAdmin: user.payload.val()!.isAdmin,
-    //               uid: user.payload.val()!.uid,
-    //               scheduleName: user.payload.val()!.scheduledName,
-    //               key: user.payload.key,
-    //               jersey: user.payload.val()!.jersey,
-    //               shorts: user.payload.val()!.shorts,
-    //             })
-    //             return
-    //           }
-    //           return
-    //         }
-    //       )
-    //     )
-    //   )
   }
 
   getTournaments() {
@@ -87,6 +63,7 @@ export class ServiceService {
           // @ts-ignore
           return date1 - date2
         })
+        console.log(data)
         this.allTournaments.next(data);
       })
   }
