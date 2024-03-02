@@ -24,11 +24,11 @@ export class ServiceService {
   }
 
   getAllUsers(): AngularFireList<User> {
-    return this.db.list('users',ref=>ref.orderByChild('fName'))
+    return this.db.list('users', ref => ref.orderByChild('fName'))
   }
 
   getUserByUid(uid: any) {
-     return this.db.list('users',ref=>ref.orderByChild('uid').equalTo(uid))
+    return this.db.list('users', ref => ref.orderByChild('uid').equalTo(uid))
   }
 
   getTournaments() {
@@ -46,26 +46,16 @@ export class ServiceService {
                 courtNo: c.payload.val()?.courtNo,
                 logo: c.payload.val()?.logo,
                 link: c.payload.val()?.link,
-                refsTotal: JSON.parse(c.payload.val()!.refsTotal),
-                refsDeclined: JSON.parse(c.payload.val()!.refsDeclined),
-                refsAccepted: JSON.parse(c.payload.val()!.refsAccepted),
-                refsConfirmed: JSON.parse(c.payload.val()!.refsConfirmed),
-                supervisors: JSON.parse(c.payload.val()!.supervisors)
+                refsTotal: c.payload.val()!.refsTotal ? JSON.parse(c.payload.val()!.refsTotal) : [],
+                refsDeclined: c.payload.val()!.refsDeclined ? JSON.parse(c.payload.val()!.refsDeclined) : [],
+                refsAccepted: c.payload.val()!.refsAccepted ? JSON.parse(c.payload.val()!.refsAccepted) : [],
+                refsConfirmed: c.payload.val()!.refsConfirmed ? JSON.parse(c.payload.val()!.refsConfirmed) : [],
+                supervisors: c.payload.val()!.supervisors ? JSON.parse(c.payload.val()!.supervisors) : []
               }
             }
           )
         )
       )
-      .subscribe(data => {
-        data.sort((a: any, b: any): any => {
-          let date1 = new Date(a.period[0])
-          let date2 = new Date(b.period[0])
-          // @ts-ignore
-          return date1 - date2
-        })
-        console.log(data)
-        this.allTournaments.next(data);
-      })
   }
 
   getHistory() {

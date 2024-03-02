@@ -31,6 +31,7 @@ export class DashboardEventsComponent {
 
     ngOnInit() {
         this.myObservableSubscription = this.service.allTournaments.subscribe(data => {
+          console.log(data)
             this.allTournaments = data
         })
 

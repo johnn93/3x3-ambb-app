@@ -3,11 +3,13 @@ import {ServiceService} from "../../../shared/service.service";
 import {Subscription} from "rxjs";
 import {formatDate} from "@angular/common";
 import {Tournament} from "../../../interfaces/tournament";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
-  styleUrls: ['./events.component.scss']
+  styleUrls: ['./events.component.scss'],
+  providers: [MessageService]
 })
 export class EventsComponent {
 
@@ -20,7 +22,8 @@ export class EventsComponent {
   profile: any;
   loading: boolean = false;
 
-  constructor(private service: ServiceService) {
+  constructor(private service: ServiceService,
+              private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -58,71 +61,83 @@ export class EventsComponent {
   }
 
   getTournaments() {
-    this.subscription = this.service.allTournaments.subscribe(data => {
+    this.subscription = this.service.getTournaments().subscribe(data => {
+      data.sort((a: any, b: any): any => {
+        let date1 = new Date(a.period[0])
+        let date2 = new Date(b.period[0])
+        // @ts-ignore
+        return date1 - date2
+      })
       this.allTournaments = data;
       this.addItems(this.startIndex, this.sum)
     })
   }
 
-  declined(tournament: Tournament) {
-    let total = [...tournament.refsTotal]
-    let declined = [...tournament.refsDeclined]
-    total.forEach((ref: any, index: number) => {
-      if ('12' === ref.key) {
-        console.log(index)
-        declined = total.splice(index, 1)
-      } else {
-        return
-      }
-    })
-    this.service.updateTournament(tournament.key, {
-      refsTotal: JSON.stringify(total),
-      refsDeclined: JSON.stringify(declined)
-    })
-      .then(() => console.log());
+  async declined(tournament: Tournament) {
+    this.loading = true;
+    const ref = {
+      uid: this.profile.uid,
+      scheduledName: this.profile.scheduledName,
+      phone: this.profile.phone
+    }
+    let declined = tournament.refsDeclined
+    // @ts-ignore
+    declined.push(ref)
+    try {
+      await this.service.updateTournament(tournament.key, {
+        refsDeclined: JSON.stringify(declined)
+      })
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Raspunsul tau a fost trimis cu succes.'
+      })
+      this.ngOnInit()
+    } catch (e) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: `${e}`
+      })
+    }
+    this.loading = false;
   }
 
   async available(tournament: Tournament) {
-    console.log(tournament)
-    this.loading=true;
+    this.loading = true;
     const ref = {
       uid: this.profile.uid,
-      scheduleName: this.profile.scheduledName,
+      scheduledName: this.profile.scheduledName,
       phone: this.profile.phone
     }
     let accepted = tournament.refsAccepted
-    console.log(accepted)
     // @ts-ignore
     accepted.push(ref)
     try {
       await this.service.updateTournament(tournament.key, {
         refsAccepted: JSON.stringify(accepted)
       })
-      this.checkIfAccepted(tournament)
-      console.log('succes')
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Raspunsul tau a fost trimis cu succes.'
+      })
+      this.ngOnInit()
     } catch (e) {
-
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: `${e}`
+      })
     }
-    console.log(accepted)
-    this.loading=false;
+    this.loading = false;
   }
 
-  checkIfAccepted(tournament: Tournament): boolean {
-    let accepted = [...tournament.refsAccepted]
-    let acc = false
-    accepted.forEach((ref: any) => {
-      acc = true
-    })
-    return acc;
+  checkIfAccepted(tournament: any): boolean {
+    return tournament.find((value: any) => value.uid === this.profile.uid)
   }
 
-  checkIfDeclined(tournament: Tournament): boolean {
-    let declined = [...tournament.refsDeclined]
-    let acc = false
-    declined.forEach((ref: any) => {
-      acc = true
-    })
-    return acc;
+  checkIfDeclined(tournament: any): boolean {
+    return tournament.find((value: any) => value.uid === this.profile.uid)
   }
-
 }

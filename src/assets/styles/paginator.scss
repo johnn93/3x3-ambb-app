@@ -3,13 +3,11 @@
   border-top-left-radius:0;
   border-top-right-radius: 0;
   border:1px solid var(--text-color);
-}
-
-*{
   color:var(--text-color);
 }
 
 .p-paginator .p-paginator-pages .p-paginator-page.p-highlight{
   background:transparent;
   border-color:transparent;
+  color:var(--text-color);
 }
