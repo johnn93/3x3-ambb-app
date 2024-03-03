@@ -19,8 +19,6 @@ export class ServiceService {
     private db: AngularFireDatabase,) {
     this.usersRef = this.db.list(this.usersPath)
     this.tournamentsRef = this.db.list(this.eventsPath)
-    this.getTournaments()
-    this.getHistory()
   }
 
   getAllUsers(): AngularFireList<User> {
@@ -28,7 +26,7 @@ export class ServiceService {
   }
 
   getUserByUid(uid: any) {
-    return this.db.list('users', ref => ref.orderByChild('uid').equalTo(uid))
+    return this.db.list('users', ref => ref.orderByChild('uid').equalTo(uid).limitToFirst(1))
   }
 
   getTournaments() {
@@ -80,15 +78,6 @@ export class ServiceService {
           )
         )
       )
-      .subscribe(data => {
-        data.sort((a: any, b: any): any => {
-          let date1 = new Date(a.period[0])
-          let date2 = new Date(b.period[0])
-          // @ts-ignore
-          return date1 - date2
-        })
-        this.historyTournaments.next(data);
-      })
   }
 
   getAllTournaments(): AngularFireList<any> {

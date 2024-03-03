@@ -62,17 +62,17 @@
             </td>
             <td>
                 <div class="buttons">
-                    <p-button [text]="true" label="Nominalizeaza"
+                    <p-button [loading]='isSaving' [text]="true" label="Nominalizeaza"
                               (onClick)="nominate(tournament)"></p-button>
-                    <p-button [text]="true" label="Sterge"
+                    <p-button [loading]='isSaving' [text]="true" label="Sterge"
                               (onClick)="deleteTournament(tournament)"></p-button>
-                    <p-button [text]="true" label="Editeaza"
+                    <p-button [loading]='isSaving' [text]="true" label="Editeaza"
                               (onClick)="openUpdateDialog(tournament)"></p-button>
                 </div>
             </td>
         </tr>
     </ng-template>
 </p-table>
-<p-toast [breakpoints]="{'920px': {width: '90%', right: '0'}}"></p-toast>
+<p-toast></p-toast>
 <app-tournament-dialog [selectedTournament]="selectedTournament" [visible]="visible" [edit]="edit"
                        (newHideEvent)="hideDialog()"></app-tournament-dialog>

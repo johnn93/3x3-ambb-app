@@ -29,17 +29,6 @@
   text-align:center;
 }
 
-.content{
-  margin-top:2rem;
-  display:grid;
-  grid-template-columns:  auto auto;
-  font-size:0.75rem;
-  grid-auto-flow:row;
-  grid-gap: .5rem;
-  justify-content:center;
-  align-items:center;
-}
-
 .buttons{
   display:flex;
   flex-direction: row;

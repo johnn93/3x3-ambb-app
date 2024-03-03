@@ -1,37 +1,52 @@
 <div class="container">
   <h1 class="title">Urmatoarele Turnee</h1>
   <p-divider layout="horizontal"></p-divider>
-  <div class="content" *ngIf="!loading;else loader">
-    <div class="p-card card p-2" *ngFor="let tournament of tournaments" infiniteScroll
-         [infiniteScrollDistance]="2" [infiniteScrollThrottle]="150"
-         (scrolled)="onScroll()">
-      <div class="header">
-        <p-avatar image="{{tournament.logo}}" size="xlarge"/>
-        <div class="subheader">
-          <h2>{{ tournament.name }}</h2><br>
-          {{ formatDate(tournament.period[0], 'shortDate', 'ro-RO') + ' - ' + formatDate(tournament.period[1], 'shortDate', 'ro-RO') }}
-          <p>{{ tournament.court + ' | ' + tournament.city }}</p>
+  <div *ngIf="loading;else data">
+    <app-loader/>
+  </div>
+  <ng-template #empty>
+    <div class="flex flex-column justify-content-center align-items-center mt-8">
+      <img src="/assets/3x3%20refs.png" width="400px" style="filter:grayscale(100%)"/>
+      <h1>Momentan nu sunt turnee.</h1>
+    </div>
+  </ng-template>
+  <ng-template #data>
+    <div *ngIf="tournaments.length;else empty">
+      <div class="flex flex-row flex-wrap mt-2 justify-content-center align-items-center gap-2">
+        <div class="p-card card p-2" *ngFor="let tournament of tournaments" infiniteScroll
+             [infiniteScrollDistance]="2" [infiniteScrollThrottle]="150"
+             (scrolled)="onScroll()">
+          <div class="header">
+            <p-avatar image="{{tournament.logo}}" size="xlarge"/>
+            <div class="subheader">
+              <h2>{{ tournament.name }}</h2><br>
+              {{ formatDate(tournament.period[0], 'shortDate', 'ro-RO') + ' - ' + formatDate(tournament.period[1], 'shortDate', 'ro-RO') }}
+              <p>{{ tournament.court + ' | ' + tournament.city }}</p>
+            </div>
+          </div>
+          <div class="buttons"
+               *ngIf="(!checkIfAccepted(tournament.refsAccepted) && !checkIfDeclined(tournament.refsDeclined));else showText">
+            <p-button [loading]='isSaving' size="small" label="Disponibil"
+                      [style]="{'font-size':'.75rem','max-width':'5.5rem','padding':'.75rem'}"
+                      (onClick)="available(tournament)"></p-button>
+            <p-button [loading]='isSaving' size="small" label="Refuza" styleClass="p-button-secondary"
+                      [style]="{ 'margin-left': '.75rem','font-size':'.75rem','max-width':'4.5rem','padding':'.75rem' }"
+                      (onClick)="declined(tournament)"></p-button>
+          </div>
+          <ng-template #showText>
+            <p class="text-xs" *ngIf="checkIfAccepted(tournament.refsAccepted)"
+               style="color:var(--text-color)"
+            >
+              <strong>Esti disponibil pentru acest turneu.</strong></p>
+            <p class="text-xs" *ngIf="checkIfDeclined(tournament.refsDeclined)"
+               style="color:var(--text-color)"
+            >
+              <strong>Ai refuzat acest turneu.</strong></p>
+          </ng-template>
         </div>
       </div>
-      <div class="buttons"
-           *ngIf="(!checkIfAccepted(tournament.refsAccepted) && !checkIfDeclined(tournament.refsDeclined));else showText">
-        <p-button [loading]='loading' size="small" label="Disponibil"
-                  [style]="{'font-size':'.75rem','max-width':'5.5rem','padding':'.75rem'}"
-                  (onClick)="available(tournament)"></p-button>
-        <p-button [loading]='loading' size="small" label="Refuza" styleClass="p-button-secondary"
-                  [style]="{ 'margin-left': '.75rem','font-size':'.75rem','max-width':'4.5rem','padding':'.75rem' }"
-                  (onClick)="declined(tournament)"></p-button>
-      </div>
-      <ng-template #showText>
-        <p *ngIf="checkIfAccepted(tournament.refsAccepted)" style="color:var(--text-color)"><strong>Esti disponibil
-          pentru acest turneu.</strong></p>
-        <p *ngIf="checkIfDeclined(tournament.refsDeclined)" style="color:var(--text-color)"><strong>Ai refuzat acest
-          turneu.</strong></p>
-      </ng-template>
     </div>
-  </div>
+  </ng-template>
+
 </div>
 <p-toast></p-toast>
-<ng-template #loader>
-  <app-loader/>
-</ng-template>

@@ -13,6 +13,7 @@ import {MessageService} from "primeng/api";
 })
 export class EventsComponent {
 
+  protected readonly formatDate = formatDate;
   startIndex: number = 0;
   sum = 15;
   allTournaments: any[] = [];
@@ -21,6 +22,7 @@ export class EventsComponent {
   subscription: Subscription | undefined
   profile: any;
   loading: boolean = false;
+  isSaving: boolean = false;
 
   constructor(private service: ServiceService,
               private messageService: MessageService) {
@@ -33,14 +35,10 @@ export class EventsComponent {
       .getUserByUid(localStorage.getItem('uid'))
       .valueChanges()
       .subscribe(data => {
-        // @ts-ignore
         this.profile = data[0];
-        console.log(this.profile)
         this.loading = false;
       })
   }
-
-  protected readonly formatDate = formatDate;
 
   onScroll() {
     if (this.sum <= this.allTournaments.length) {
@@ -74,7 +72,7 @@ export class EventsComponent {
   }
 
   async declined(tournament: Tournament) {
-    this.loading = true;
+    this.isSaving = true;
     const ref = {
       uid: this.profile.uid,
       scheduledName: this.profile.scheduledName,
@@ -100,11 +98,11 @@ export class EventsComponent {
         detail: `${e}`
       })
     }
-    this.loading = false;
+    this.isSaving = false;
   }
 
   async available(tournament: Tournament) {
-    this.loading = true;
+    this.isSaving = true;
     const ref = {
       uid: this.profile.uid,
       scheduledName: this.profile.scheduledName,
@@ -130,7 +128,7 @@ export class EventsComponent {
         detail: `${e}`
       })
     }
-    this.loading = false;
+    this.isSaving = false;
   }
 
   checkIfAccepted(tournament: any): boolean {

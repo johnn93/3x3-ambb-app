@@ -1,3 +1,18 @@
 <h1 class="title">Nominalizari</h1>
 <p-divider layout="horizontal"></p-divider>
-<app-tournaments-nominations [tournaments]="tournaments" (newScroll)="onScroll()"></app-tournaments-nominations>
+<div *ngIf="loading;else data">
+  <app-loader/>
+</div>
+<ng-template #data>
+  <app-tournaments-nominations *ngIf="tournaments.length;else empty" [tournaments]="tournaments"
+                               (newScroll)="onScroll()"></app-tournaments-nominations>
+  <ng-template #empty>
+    <div class="flex flex-column justify-content-center align-items-center mt-8">
+      <img
+        src="/assets/3x3%20refs.png"
+        width="400px" style="filter:grayscale(100%)"/>
+      <h1 class="text-center">Momentan nu ai nicio nominalizare.</h1>
+    </div>
+  </ng-template>
+</ng-template>
+

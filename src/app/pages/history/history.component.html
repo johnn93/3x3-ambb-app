@@ -3,7 +3,7 @@
     <p-divider layout="horizontal"></p-divider>
 </div>
 
-<div>
+<div *ngIf="!loading;else loader">
     <p-tabView>
         <p-tabPanel header="Turneele mele">
             <ng-template pTemplate="content">
@@ -57,4 +57,7 @@
         </p-tabPanel>
     </p-tabView>
 </div>
+<ng-template #loader>
+  <app-loader/>
+</ng-template>
 

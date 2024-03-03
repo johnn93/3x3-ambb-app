@@ -19,7 +19,6 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    console.log('sunt aici')
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.homepage = event.url !== '/';
