@@ -5,11 +5,65 @@
       <p-image class="profile-photo" [src]="logo" alt="Poza arbitru" width="150"></p-image>
     </div>
   </div>
-  <div *ngFor="let tab of menu">
-    <div class="menu-button" routerLink="{{tab.link}}">
-      <label class="label"><span><i class="{{tab.icon}} label-icon"></i></span>{{ tab.label }}</label>
-      <i class="pi pi-angle-right icon"></i>
-    </div>
+  <div class="menu-button" routerLink="events">
+    <label class="label">
+        <span>
+          <i class="pi pi-calendar label-icon">
+          </i>
+        </span>
+      Turnee
+    </label>
+    <i class="pi pi-angle-right icon"></i>
+  </div>
+  <div class="menu-button" routerLink="nominations">
+    <label class="label">
+        <span>
+          <i class="pi pi-file label-icon">
+          </i>
+        </span>
+      Nominalizari
+    </label>
+    <i class="pi pi-angle-right icon"></i>
+  </div>
+  <div class="menu-button" routerLink="history">
+    <label class="label">
+        <span>
+          <i class="pi pi-history label-icon">
+          </i>
+        </span>
+      Istoric
+    </label>
+    <i class="pi pi-angle-right icon"></i>
+  </div>
+  <div class="menu-button" [routerLink]="['profile', userId]">
+    <label class="label">
+        <span>
+          <i class="pi pi-user label-icon">
+          </i>
+        </span>
+      Profil
+    </label>
+    <i class="pi pi-angle-right icon"></i>
+  </div>
+  <div class="menu-button" routerLink="dashboard">
+    <label class="label">
+        <span>
+          <i class="pi pi-external-link label-icon">
+          </i>
+        </span>
+      Dashboard
+    </label>
+    <i class="pi pi-angle-right icon"></i>
+  </div>
+  <div class="menu-button" (click)="signOut()">
+    <label class="label">
+        <span>
+          <i class="pi pi-user label-icon">
+          </i>
+        </span>
+      Sign Out
+    </label>
+    <i class="pi pi-sign-out icon"></i>
   </div>
 </div>
 <div class="background-image">

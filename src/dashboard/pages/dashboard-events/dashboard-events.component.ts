@@ -21,11 +21,13 @@ export class DashboardEventsComponent {
   isSaving: boolean = false;
   edit: boolean = false;
   allTournaments: any[] = [];
-  filterFields = ['name', 'city', 'court', 'courtNo', 'period',]
+  filterFields = ['name', 'city', 'court', 'courtNo', 'refsTotal','refsAccepted','refsDeclined',]
   draggedRef: any;
   tournamentKey: string = '';
   private myObservableSubscription: Subscription | undefined;
   history: any[] = [];
+  filteredTournaments: any[] = [];
+  searchText: string = '';
 
   constructor(private service: ServiceService,
               private messageService:MessageService) {
@@ -39,12 +41,26 @@ export class DashboardEventsComponent {
           let date1 = new Date(a.period[0])
           let date2 = new Date(b.period[0])
           // @ts-ignore
-          return date1 - date2
+          return date2-date1;
         })
         this.allTournaments = data
+        this.filteredTournaments=this.allTournaments;
         this.loading=false;
       })
 
+  }
+
+  filterTournaments() {
+    this.filteredTournaments = this.allTournaments.filter(tournament =>
+      tournament.name?.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      tournament.period[0]?.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      tournament.period[1]?.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      tournament.refsTotal?.some((ref: any) => ref.scheduledName.toLowerCase().includes(this.searchText.toLowerCase())) ||
+      tournament.refsAccepted?.some((ref: any) => ref.scheduledName.toLowerCase().includes(this.searchText.toLowerCase())) ||
+      tournament.refsDeclined?.some((ref: any) => ref.scheduledName.toLowerCase().includes(this.searchText.toLowerCase())) ||
+      tournament.supervisors?.some((ref: any) => ref.scheduledName.toLowerCase().includes(this.searchText.toLowerCase()))
+    );
+    return this.filteredTournaments
   }
 
   addTournament() {

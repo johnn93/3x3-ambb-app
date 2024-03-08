@@ -4,7 +4,6 @@ import {formatDate} from "@angular/common";
 import {DialogService} from "primeng/dynamicdialog";
 import {HistoryDialog} from "../../components/history-dialog/history-dialog";
 import {MessageService} from "primeng/api";
-import {debounceTime} from "rxjs";
 
 @Component({
   selector: 'app-history',
@@ -13,7 +12,7 @@ import {debounceTime} from "rxjs";
   providers: [DialogService, MessageService]
 })
 export class HistoryComponent {
-
+  protected readonly formatDate = formatDate;
   allTournaments: any;
   years: any[] = [];
   personalYears: any[] = [];
@@ -23,8 +22,7 @@ export class HistoryComponent {
   loading: boolean = false;
 
   constructor(private service: ServiceService,
-              private dialog: DialogService,
-              private messageService: MessageService) {
+              private dialog: DialogService) {
   }
 
   ngOnInit() {
@@ -53,24 +51,17 @@ export class HistoryComponent {
     return tournament.find((ref: any) => ref?.uid === this.profile?.uid)
   }
 
-  checkIfTournament(tournament: any) {
-    return tournament.find((key: any) => key === tournament.key)
-  }
-
   addPersonalYears(tournaments: any) {
-    console.log(tournaments)
     tournaments.find((tournament: any) => {
-      if(this.checkIfRef(tournament.refsConfirmed)){
+      if (this.checkIfRef(tournament.refsConfirmed)) {
         let year = new Date(tournament.period[0]).getFullYear().toString()
         let endDate = new Date(tournament.period[1])
-        // if (this.checkIfRef(tournament)) {
-          if (!this.personalYears.includes(year) && endDate < new Date()) {
-            this.personalYears.push(year);
-          }
-          if (endDate < new Date()) {
-            this.personalHistory.push({year: year, tournaments: tournament})
-          }
-        // }
+        if (!this.personalYears.includes(year) && endDate < new Date()) {
+          this.personalYears.push(year);
+        }
+        if (endDate < new Date()) {
+          this.personalHistory.push({year: year, tournaments: tournament})
+        }
       }
 
     })
@@ -87,8 +78,6 @@ export class HistoryComponent {
       }
     })
   }
-
-  protected readonly formatDate = formatDate;
 
   openDialog(tournament: any) {
     this.dialog.open(HistoryDialog, {data: tournament})

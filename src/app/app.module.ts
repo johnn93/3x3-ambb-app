@@ -43,6 +43,7 @@ import {LoginPageComponent} from "./pages/login-page/login-page.component";
 import {CheckboxModule} from "primeng/checkbox";
 import {ConfirmationDialogComponent} from '../shared/confirmation-dialog/confirmation-dialog.component';
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {MenuModule} from "primeng/menu";
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -90,7 +91,8 @@ firebase.initializeApp(environment.firebaseConfig);
     DropdownModule,
     CheckboxModule,
     ConfirmDialogModule,
-    DashboardModule
+    DashboardModule,
+    MenuModule
   ],
   providers: [],
   exports: [

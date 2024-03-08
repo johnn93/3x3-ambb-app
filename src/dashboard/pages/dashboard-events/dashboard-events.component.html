@@ -1,77 +1,85 @@
 <p-table [loading]="loading" #dt styleClass="p-datatable-striped" [globalFilterFields]="filterFields" [paginator]="true"
          [rows]="10"
          [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]"
-         [value]="allTournaments"
+         [value]="filteredTournaments"
          [tableStyle]="{ 'min-width': '10rem' }">
-    <ng-template pTemplate="caption">
-        <div class="flex flex-row justify-content-between">
-            <div>
-                <i class="fa fa-search" style="margin:4px 4px 4px 4px"></i>
-                <input type="text" pInputText size="auto" placeholder="Search"
-                       (input)="dt.filterGlobal($any($event.target).value, 'contains')">
-            </div>
-            <p-button [outlined]="true" (onClick)="addTournament()"
-                      label="Adauga turneu"></p-button>
+  <ng-template pTemplate="caption">
+    <div class="flex flex-row justify-content-between">
+      <div>
+        <i class="fa fa-search" style="margin:4px 4px 4px 4px"></i>
+        <input type="text" pInputText size="auto"
+               [(ngModel)]="searchText"
+               placeholder="Search"
+               (input)="filterTournaments()">
+      </div>
+      <p-button [outlined]="true" (onClick)="addTournament()"
+                label="Adauga turneu"></p-button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Nume + Logo</th>
+      <th>Perioada</th>
+      <th>Teren + Oras</th>
+      <th>Nr Terenuri</th>
+      <th>Fara raspuns</th>
+      <th>Refuzat</th>
+      <th>Acceptat</th>
+      <th>Delegati</th>
+      <th>Supervisors</th>
+      <th>Actiuni</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-tournament>
+    <tr>
+      <td><span class="p-column-title">Nume + Logo</span><img [src]="tournament.logo"
+                                                              style="width:2rem"> {{ tournament.name }}
+      </td>
+      <td><span
+        class="p-column-title">Perioada</span>{{ formatDate(tournament.period[0], 'shortDate', 'ro-RO') + '-' + formatDate(tournament.period[1], 'shortDate', 'ro-RO') }}
+      </td>
+      <td><span class="p-column-title">Teren + Oras</span>{{ tournament.court + '|' + tournament.city }}</td>
+      <td><span class="p-column-title">Nr Terenuri</span>{{ tournament.courtNo }}</td>
+      <td><span class="p-column-title">Fara Raspuns</span>
+        <p-chip *ngFor="let ref of tournament.refsTotal" pDraggable
+                (onDragStart)="dragStart(ref,tournament.key)" (onDragEnd)="dragEnd()"
+        >{{ ref.scheduledName }}
+        </p-chip>
+      </td>
+      <td><span class="p-column-title">Refuzat</span>
+        <p-chip pDraggable (onDragStart)="dragStart(ref,tournament.key)"
+                (onDragEnd)="dragEnd()"
+                *ngFor="let ref of tournament.refsDeclined">{{ ref.scheduledName }}
+        </p-chip>
+      </td>
+      <td><span class="p-column-title">Acceptat</span>
+        <p-chip pDraggable (onDragStart)="dragStart(ref,tournament.key)"
+                (onDragEnd)="dragEnd()"
+                *ngFor="let ref of tournament.refsAccepted">{{ ref.scheduledName }}
+        </p-chip>
+      </td>
+      <td pDroppable (onDrop)="drop(tournament)"><span class="p-column-title">Delegati</span>
+        <p-chip *ngFor="let ref of tournament.refsConfirmed" [removable]="true"
+                (onRemove)="onRemove(ref,tournament)">{{ ref.scheduledName }}
+        </p-chip>
+      </td>
+      <td pDroppable (onDrop)="dropSupervisor(tournament)"><span class="p-column-title">Supervisors</span>
+        <p-chip *ngFor="let ref of tournament.supervisors" [removable]="true"
+                (onRemove)="onRemoveSupervisor(ref,tournament)">{{ ref.scheduledName }}
+        </p-chip>
+      </td>
+      <td>
+        <div class="buttons">
+          <p-button [loading]='isSaving' [text]="true" label="Nominalizeaza"
+                    (onClick)="nominate(tournament)"></p-button>
+          <p-button [loading]='isSaving' [text]="true" label="Sterge"
+                    (onClick)="deleteTournament(tournament)"></p-button>
+          <p-button [loading]='isSaving' [text]="true" label="Editeaza"
+                    (onClick)="openUpdateDialog(tournament)"></p-button>
         </div>
-    </ng-template>
-    <ng-template pTemplate="header">
-        <tr>
-            <th>Nume + Logo</th>
-            <th>Perioada</th>
-            <th>Teren + Oras</th>
-            <th>Nr Terenuri</th>
-            <th>Fara raspuns</th>
-            <th>Refuzat</th>
-            <th>Acceptat</th>
-            <th>Delegati</th>
-            <th>Supervisors</th>
-            <th>Actiuni</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-tournament>
-        <tr>
-            <td><span class="p-column-title">Nume + Logo</span><img [src]="tournament.logo"
-                                                                    style="width:2rem"> {{ tournament.name }}</td>
-            <td><span
-                    class="p-column-title">Perioada</span>{{formatDate(tournament.period[0], 'shortDate', 'ro-RO') + '-' + formatDate(tournament.period[1], 'shortDate', 'ro-RO')}}
-            </td>
-            <td><span class="p-column-title">Teren + Oras</span>{{tournament.court + '|' + tournament.city}}</td>
-            <td><span class="p-column-title">Nr Terenuri</span>{{ tournament.courtNo}}</td>
-            <td><span class="p-column-title">Fara Raspuns</span>
-                <p-chip *ngFor="let ref of tournament.refsTotal" pDraggable
-                        (onDragStart)="dragStart(ref,tournament.key)" (onDragEnd)="dragEnd()"
-                >{{ ref.scheduledName }}</p-chip>
-            </td>
-            <td><span class="p-column-title">Refuzat</span>
-                <p-chip pDraggable (onDragStart)="dragStart(ref,tournament.key)"
-                        (onDragEnd)="dragEnd()"
-                        *ngFor="let ref of tournament.refsDeclined">{{ ref.scheduledName}}</p-chip>
-            </td>
-            <td><span class="p-column-title">Acceptat</span>
-                <p-chip pDraggable (onDragStart)="dragStart(ref,tournament.key)"
-                        (onDragEnd)="dragEnd()"
-                        *ngFor="let ref of tournament.refsAccepted">{{ ref.scheduledName}}</p-chip>
-            </td>
-            <td pDroppable (onDrop)="drop(tournament)"><span class="p-column-title">Delegati</span>
-                <p-chip *ngFor="let ref of tournament.refsConfirmed" [removable]="true"
-                        (onRemove)="onRemove(ref,tournament)">{{ref.scheduledName}}</p-chip>
-            </td>
-            <td pDroppable (onDrop)="dropSupervisor(tournament)"><span class="p-column-title">Supervisors</span>
-                <p-chip *ngFor="let ref of tournament.supervisors" [removable]="true"
-                        (onRemove)="onRemoveSupervisor(ref,tournament)">{{ref.scheduledName}}</p-chip>
-            </td>
-            <td>
-                <div class="buttons">
-                    <p-button [loading]='isSaving' [text]="true" label="Nominalizeaza"
-                              (onClick)="nominate(tournament)"></p-button>
-                    <p-button [loading]='isSaving' [text]="true" label="Sterge"
-                              (onClick)="deleteTournament(tournament)"></p-button>
-                    <p-button [loading]='isSaving' [text]="true" label="Editeaza"
-                              (onClick)="openUpdateDialog(tournament)"></p-button>
-                </div>
-            </td>
-        </tr>
-    </ng-template>
+      </td>
+    </tr>
+  </ng-template>
 </p-table>
 <p-toast></p-toast>
 <app-tournament-dialog [selectedTournament]="selectedTournament" [visible]="visible" [edit]="edit"

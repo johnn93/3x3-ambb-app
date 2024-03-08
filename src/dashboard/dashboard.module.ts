@@ -13,7 +13,7 @@ import {DialogComponent} from "./components/dialog/dialog.component";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {PasswordModule} from "primeng/password";
 import {InputMaskModule} from "primeng/inputmask";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
 import {TabMenuModule} from "primeng/tabmenu";
 import {DashboardEventsComponent} from "./pages/dashboard-events/dashboard-events.component";
@@ -74,6 +74,7 @@ import {TabViewModule} from "primeng/tabview";
     ConfirmDialogModule,
     ConfirmPopupModule,
     TabViewModule,
+    FormsModule,
   ],
     providers: [{ provide: LOCALE_ID, useValue: 'ro-RO' }],
   exports: [
