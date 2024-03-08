@@ -77,7 +77,7 @@ this.photos=refsPhotos.sort((a:any,b:any)=>a.label.localeCompare(b.label))
                                 link: c.payload.val()?.link,
                                 refsTotal: JSON.parse(c.payload.val()!.refsTotal),
                                 refsDeclined: JSON.parse(c.payload.val()!.refsDeclined),
-                                refsAccepted: JSON.parse(c.payload.val()!.refsAccepted),
+                                refsAccepted: JSON.parse(c.payload.val().refsAccepted),
                                 refsConfirmed: JSON.parse(c.payload.val()!.refsConfirmed)
                             }
                         }
@@ -85,8 +85,9 @@ this.photos=refsPhotos.sort((a:any,b:any)=>a.label.localeCompare(b.label))
                 )
             ).subscribe(data => {
             if (data.length > 0) {
-                this.futureTournaments = data.filter(tournament => new Date(tournament.period![0]) >= new Date())
+                this.futureTournaments = data.filter(tournament => new Date(tournament.period[0]) >= new Date())
             }
+            console.log(data)
         })
     }
 

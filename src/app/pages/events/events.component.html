@@ -28,7 +28,8 @@
                *ngIf="(!checkIfAccepted(tournament.refsAccepted) && !checkIfDeclined(tournament.refsDeclined));else showText">
             <p-button [loading]='isSaving' size="small" label="Disponibil"
                       [style]="{'font-size':'.75rem','max-width':'5.5rem','padding':'.75rem'}"
-                      (onClick)="available(tournament)"></p-button>
+                      (onClick)="openConfirmationDialog(tournament)"></p-button>
+            <app-confirmation-dialog/>
             <p-button [loading]='isSaving' size="small" label="Refuza" styleClass="p-button-secondary"
                       [style]="{ 'margin-left': '.75rem','font-size':'.75rem','max-width':'4.5rem','padding':'.75rem' }"
                       (onClick)="declined(tournament)"></p-button>
@@ -47,6 +48,5 @@
       </div>
     </div>
   </ng-template>
-
 </div>
 <p-toast></p-toast>

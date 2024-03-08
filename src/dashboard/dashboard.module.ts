@@ -30,6 +30,10 @@ import {FieldsetModule} from "primeng/fieldset";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {AppModule} from "../app/app.module";
 import {LoaderComponent} from "../shared/Loader/loader/loader.component";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {ConfirmationDialogComponent} from "../shared/confirmation-dialog/confirmation-dialog.component";
+import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {TabViewModule} from "primeng/tabview";
 
 
 @NgModule({
@@ -40,39 +44,43 @@ import {LoaderComponent} from "../shared/Loader/loader/loader.component";
     DialogComponent,
     DashboardEventsComponent,
     TournamentDialogComponent,
-    LoaderComponent
-
+    LoaderComponent,
+    ConfirmationDialogComponent
   ],
-    imports: [
-        DashboardRoutingModule,
-        CommonModule,
-        ButtonModule,
-        ToolbarModule,
-        TableModule,
-        ToastModule,
-        DialogModule,
-        InputSwitchModule,
-        PasswordModule,
-        InputMaskModule,
-        ReactiveFormsModule,
-        InputTextModule,
-        TabMenuModule,
-        CalendarModule,
-        InputNumberModule,
-        DropdownModule,
-        ChipModule,
-        DragDropModule,
-        CardModule,
-        AvatarModule,
-        DividerModule,
-        FieldsetModule,
-        InfiniteScrollModule,
-    ],
+  imports: [
+    DashboardRoutingModule,
+    CommonModule,
+    ButtonModule,
+    ToolbarModule,
+    TableModule,
+    ToastModule,
+    DialogModule,
+    InputSwitchModule,
+    PasswordModule,
+    InputMaskModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    TabMenuModule,
+    CalendarModule,
+    InputNumberModule,
+    DropdownModule,
+    ChipModule,
+    DragDropModule,
+    CardModule,
+    AvatarModule,
+    DividerModule,
+    FieldsetModule,
+    InfiniteScrollModule,
+    ConfirmDialogModule,
+    ConfirmPopupModule,
+    TabViewModule,
+  ],
     providers: [{ provide: LOCALE_ID, useValue: 'ro-RO' }],
   exports: [
     UsersComponent,
     DialogComponent,
     LoaderComponent,
+    ConfirmationDialogComponent
   ],
     bootstrap: [DashboardComponent]
 })

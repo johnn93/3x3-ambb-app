@@ -1,18 +1,20 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ServiceService} from "../../../shared/service.service";
 import {Subscription} from "rxjs";
 import {formatDate} from "@angular/common";
 import {Tournament} from "../../../interfaces/tournament";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {ConfirmationDialogComponent} from "../../../shared/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss'],
-  providers: [MessageService]
+  providers: [MessageService,ConfirmationService]
 })
 export class EventsComponent {
 
+  @ViewChild(ConfirmationDialogComponent) confirmationDialogComponent: ConfirmationDialogComponent | undefined;
   protected readonly formatDate = formatDate;
   startIndex: number = 0;
   sum = 15;
@@ -137,5 +139,11 @@ export class EventsComponent {
 
   checkIfDeclined(tournament: any): boolean {
     return tournament.find((value: any) => value.uid === this.profile.uid)
+  }
+
+  openConfirmationDialog(event: Event) {
+    this.confirmationDialogComponent?.confirm1(event);
+    console.log(this.confirmationDialogComponent)
+    console.log(event)
   }
 }
