@@ -5,6 +5,11 @@
   align-items: center;
 }
 
+:host ::ng-deep a:-webkit-any-link{
+  text-decoration:none !important;
+  color:white !important;
+}
+
 .subtitle{
   font-size:.65rem;
   color:var(--text-color);

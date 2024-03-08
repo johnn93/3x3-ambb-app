@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {ConfirmationService, MessageService} from "primeng/api";
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 
 @Component({
   selector: 'app-confirmation-dialog',
@@ -8,28 +9,21 @@ import {ConfirmationService, MessageService} from "primeng/api";
   providers: [ConfirmationService, MessageService]
 })
 export class ConfirmationDialogComponent {
-  constructor(private confirmationService: ConfirmationService,
-              private messageService: MessageService) {
+
+  data:any
+  message:string=''
+  constructor(public dialogRef: DynamicDialogRef,
+              public dialogConfig: DynamicDialogConfig) {
+    this.data=dialogConfig.data.tournament
+    this.message=dialogConfig.data.message
   }
 
-  @Input() header:string=''
+  confirm(): void {
+    this.dialogRef.close(true);
+  }
 
-  confirm1(event: Event) {
-    this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Are you sure that you want to proceed?',
-      header: 'Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      acceptIcon: "none",
-      rejectIcon: "none",
-      rejectButtonStyleClass: "p-button-text",
-      accept: () => {
-        this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
-      },
-      reject: () => {
-        this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
-      }
-    });
+  cancel(): void {
+    this.dialogRef.close(false);
   }
 
 }

@@ -6,6 +6,11 @@
   align-items: center;
 }
 
+:host ::ng-deep a:-webkit-any-link{
+  text-decoration:none !important;
+  color:white !important;
+}
+
 .info{
   display:grid;
   grid-template-columns:  auto auto;
