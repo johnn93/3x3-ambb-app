@@ -13,12 +13,15 @@ export class AppComponent {
   homepage: boolean = true;
   dashboard: boolean = false;
 
+  protected readonly localStorage = localStorage;
+
   constructor(private router: Router,
               private service: ServiceService
   ) {
   }
 
   ngOnInit() {
+    console.log(localStorage.getItem('uid'))
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.homepage = event.url !== '/';
@@ -26,7 +29,4 @@ export class AppComponent {
       }
     });
   }
-
-  protected readonly AuthenticationService = AuthenticationService;
-  protected readonly localStorage = localStorage;
 }

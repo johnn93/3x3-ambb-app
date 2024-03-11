@@ -1,26 +1,41 @@
-<div>
-    <img style="margin-bottom:10px" src="../../../assets/ambb-logo.png" alt="poza" class="logo">
-    <div class='logo' style="margin-top:10px">
-        <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
-            <div class="flex flex-column">
-                <span class="p-float-label">
+<div class="flex flex-wrap align-items-center overflow-hidden md:h-screen">
+  <div class="flex-1 justify-content-center md:flex hidden">
+    <div style="position:fixed;
+  top:0;
+  left:0;
+  background: url('/assets/paris olimpique.png') no-repeat black;
+  background-size: auto;
+  z-index:-1;
+  width:50%;
+  height: 100% !important;">
+    </div>
+    <img style="margin-bottom:10px" src="../../../assets/AMBB_coin_2024-01.png" width="300px" alt="poza" class="logo">
+  </div>
+  <div class="sm:hidden flex-1 justify-content-center flex mt-8">
+    <img style="margin-bottom:10px" src="../../../assets/AMBB_coin_2024-01.png" width="300px" alt="poza" class="logo">
+  </div>
+  <div class='flex-1 justify-content-center flex' style="margin-top:10px">
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+      <div class="flex flex-column align-items-center justify-content-center">
+        <h1 class="mb-8 hidden sm:block">AMBB 3x3 referee platform</h1>
+        <span class="p-float-label">
                 <input pInputText id="email"
                        formControlName="email"/>
                 <label for="email">Email</label>
                 </span>
-                <span class="p-float-label" style="margin-top: 32px;margin-bottom: 32px;">
+        <span class="p-float-label" style="margin-top: 32px;margin-bottom: 32px;">
                 <p-password [feedback]="false" [toggleMask]="false" id="password"
                             formControlName="password"></p-password>
                 <label for="password">Password</label>
                 </span>
-                <div class="flex justify-content-center checkbox" style="margin-bottom:1rem;">
-                    <p-checkbox (onChange)="saveCredentials($event)" [binary]="true" formControlName="isChecked"
-                                label="Salveaza datele de logare" inputId="checkbox"></p-checkbox>
-                </div>
-                <p-button [loading]="loading" [disabled]="!loginForm.valid" type="submit" [text]="true"
-                          label="Log in"></p-button>
-            </div>
-        </form>
-    </div>
+        <div class="flex justify-content-center checkbox" style="margin-bottom:1rem;">
+          <p-checkbox (onChange)="saveCredentials($event)" [binary]="true" formControlName="isChecked"
+                      label="Salveaza datele de logare" inputId="checkbox"></p-checkbox>
+        </div>
+        <p-button [loading]="loading" [disabled]="!loginForm.valid" type="submit" [text]="true"
+                  label="Log in"></p-button>
+      </div>
+    </form>
+  </div>
 </div>
 <p-toast [breakpoints]="{'920px': {width: '90%', right: '0'}}"></p-toast>

@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {AuthenticationService} from "../../../shared/authentication.service";
+import {ADMINS} from "../../../shared/ADMINS";
 
 @Component({
   selector: 'app-homepage',
@@ -8,6 +9,8 @@ import {AuthenticationService} from "../../../shared/authentication.service";
 })
 export class HomepageComponent {
   userId: string | null = localStorage.getItem('uid');
+  isAdmin: boolean = false;
+
   constructor(private authService: AuthenticationService) {
   }
 
@@ -19,9 +22,10 @@ export class HomepageComponent {
     {label: 'Dashboard', link: 'dashboard', icon: 'pi pi-external-link'},
     {label: 'Sign Out', icon: 'pi pi-sign-out'},
   ]
-  logo: any = 'assets/ambb-logo.png';
+  logo: any = 'assets/AMBB_coin_2024-01.png';
 
   ngOnInit() {
+    this.isAdmin = ADMINS.includes(localStorage.getItem('email')!)
   }
 
   async signOut() {

@@ -1,2 +1,2 @@
-<app-navbar *ngIf="localStorage.getItem('uid')" [homepage]="homepage" [dashboard]="dashboard"></app-navbar>
+<app-navbar *ngIf="localStorage.getItem('user')!=null" [homepage]="homepage" [dashboard]="dashboard"></app-navbar>
 <router-outlet></router-outlet>

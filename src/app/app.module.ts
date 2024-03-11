@@ -41,9 +41,9 @@ import {HistoryDialog} from './components/history-dialog/history-dialog';
 import {DropdownModule} from "primeng/dropdown";
 import {LoginPageComponent} from "./pages/login-page/login-page.component";
 import {CheckboxModule} from "primeng/checkbox";
-import {ConfirmationDialogComponent} from '../shared/confirmation-dialog/confirmation-dialog.component';
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {MenuModule} from "primeng/menu";
+import {getAuth, provideAuth} from "@angular/fire/auth";
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -77,6 +77,7 @@ firebase.initializeApp(environment.firebaseConfig);
     InputSwitchModule,
     ToolbarModule,
     provideFirestore(() => getFirestore()),
+    provideAuth(() => getAuth()),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     InputTextModule,
     TabMenuModule,

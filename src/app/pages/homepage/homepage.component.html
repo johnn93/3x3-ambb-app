@@ -2,7 +2,7 @@
   <div class="images">
     <p-image class="logo-photo" alt="ambb-logo" [src]="logo" width="400" height="400"></p-image>
     <div class="profile-photo">
-      <p-image class="profile-photo" [src]="logo" alt="Poza arbitru" width="150"></p-image>
+      <p-image [src]="logo" alt="Poza arbitru" width="150"></p-image>
     </div>
   </div>
   <div class="menu-button" routerLink="events">
@@ -45,7 +45,7 @@
     </label>
     <i class="pi pi-angle-right icon"></i>
   </div>
-  <div class="menu-button" routerLink="dashboard">
+  <div *ngIf="isAdmin" class="menu-button" routerLink="dashboard">
     <label class="label">
         <span>
           <i class="pi pi-external-link label-icon">

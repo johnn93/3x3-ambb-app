@@ -28,7 +28,6 @@ import {AvatarModule} from "primeng/avatar";
 import {DividerModule} from "primeng/divider";
 import {FieldsetModule} from "primeng/fieldset";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
-import {AppModule} from "../app/app.module";
 import {LoaderComponent} from "../shared/Loader/loader/loader.component";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {ConfirmationDialogComponent} from "../shared/confirmation-dialog/confirmation-dialog.component";
