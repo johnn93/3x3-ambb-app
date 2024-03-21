@@ -37,7 +37,7 @@ export class TournamentDialogComponent {
 
   ngOnInit() {
     this.logos = [
-      {label: 'AMBB Logo', value: 'assets/ambb-logo.png'}
+      {label: 'AMBB Logo', value: 'assets/AMBB_coin_2024-01.png'}
     ]
 
     this.service.getAllUsers()

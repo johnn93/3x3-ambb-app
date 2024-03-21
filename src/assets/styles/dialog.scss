@@ -1,18 +1,19 @@
-.p-dialog .p-dialog-content{
+.p-dialog .p-dialog-content {
   background: black;
-  border:1px solid var(--red-color);
-  height:100%;
-  border-radius:1rem;
+  border: 1px solid var(--red-color);
+  height: 100%;
+  border-radius: 1rem;
 }
 
-.p-dialog-header{
-  background:transparent;
+.p-dialog-header {
+  background: transparent;
+  color: var(--text-color);
 }
 
-.p-dialog{
-  padding:1rem;
+.p-dialog {
+  padding: 1rem;
 }
 
-.p-dialog .p-dialog-header .p-dialog-header-icon{
-  color:var(--text-color)
+.p-dialog .p-dialog-header .p-dialog-header-icon {
+  color: var(--text-color)
 }

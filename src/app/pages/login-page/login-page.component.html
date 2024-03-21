@@ -1,23 +1,22 @@
 <div class="flex flex-wrap align-items-center overflow-hidden md:h-screen">
   <div class="flex-1 justify-content-center md:flex hidden">
-    <div style="position:fixed;
+    <div class="flex-1" style="position:fixed;
   top:0;
   left:0;
-  background: url('/assets/paris olimpique.png') no-repeat black;
-  background-size: auto;
   z-index:-1;
   width:50%;
   height: 100% !important;">
+      <img loading="lazy" src="/assets/paris olimpique.png" width="100%" height="100%"/>
     </div>
-    <img style="margin-bottom:10px" src="../../../assets/AMBB_coin_2024-01.png" width="300px" alt="poza" class="logo">
+    <img loading="lazy" style="margin-bottom:10px" src="../../../assets/AMBB_coin_2024-01.png" width="300px" alt="poza" class="logo"/>
   </div>
   <div class="sm:hidden flex-1 justify-content-center flex mt-8">
-    <img style="margin-bottom:10px" src="../../../assets/AMBB_coin_2024-01.png" width="300px" alt="poza" class="logo">
+    <img loading="lazy" style="margin-bottom:10px" src="../../../assets/AMBB_coin_2024-01.png" width="300px" alt="poza" class="logo"/>
   </div>
   <div class='flex-1 justify-content-center flex' style="margin-top:10px">
     <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
       <div class="flex flex-column align-items-center justify-content-center">
-        <h1 class="mb-8 hidden sm:block">AMBB 3x3 referee platform</h1>
+        <h1 class="mb-8 hidden sm:block">AMBB 3x3 REFEREE APP</h1>
         <span class="p-float-label">
                 <input pInputText id="email"
                        formControlName="email"/>

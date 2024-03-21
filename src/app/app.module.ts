@@ -44,6 +44,8 @@ import {CheckboxModule} from "primeng/checkbox";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {MenuModule} from "primeng/menu";
 import {getAuth, provideAuth} from "@angular/fire/auth";
+// @ts-ignore
+import {ServiceWorkerModule} from '@angular/service-worker';
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -93,11 +95,13 @@ firebase.initializeApp(environment.firebaseConfig);
     CheckboxModule,
     ConfirmDialogModule,
     DashboardModule,
-    MenuModule
+    MenuModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production
+    })
   ],
   providers: [],
-  exports: [
-  ],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
