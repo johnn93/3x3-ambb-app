@@ -11,7 +11,7 @@ import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
   selector: 'app-events',
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss'],
-  providers: [MessageService,ConfirmationService,DialogService]
+  providers: [MessageService, ConfirmationService, DialogService]
 })
 export class EventsComponent {
 
@@ -30,7 +30,7 @@ export class EventsComponent {
 
   constructor(private service: ServiceService,
               private messageService: MessageService,
-              private dialogService:DialogService) {
+              private dialogService: DialogService) {
   }
 
   ngOnInit() {
@@ -71,7 +71,7 @@ export class EventsComponent {
         // @ts-ignore
         return date1 - date2
       })
-      this.allTournaments = data;
+      this.allTournaments = data.filter(data => new Date(data.period[0]) > new Date());
       this.addItems(this.startIndex, this.sum)
     })
   }
@@ -85,15 +85,15 @@ export class EventsComponent {
     }
     let totalRefs = tournament.refsTotal
     // @ts-ignore
-    let index=totalRefs.findIndex(x => x.uid === this.profile.uid);
+    let index = totalRefs.findIndex(x => x.uid === this.profile.uid);
     // @ts-ignore
-    totalRefs.splice(index,1)
+    totalRefs.splice(index, 1)
     let declined = tournament.refsDeclined
     // @ts-ignore
     declined.push(ref)
     try {
       await this.service.updateTournament(tournament.key, {
-        refsTotal:JSON.stringify(totalRefs),
+        refsTotal: JSON.stringify(totalRefs),
         refsDeclined: JSON.stringify(declined)
       })
       this.messageService.add({
@@ -112,7 +112,7 @@ export class EventsComponent {
     this.isSaving = false;
   }
 
-  async available(tournament: Tournament):Promise<void> {
+  async available(tournament: Tournament): Promise<void> {
     this.isSaving = true;
     const ref = {
       uid: this.profile.uid,
@@ -121,16 +121,16 @@ export class EventsComponent {
     }
     let totalRefs = tournament.refsTotal
     // @ts-ignore
-    let index=totalRefs.findIndex(x => x.uid === this.profile.uid);
+    let index = totalRefs.findIndex(x => x.uid === this.profile.uid);
     // @ts-ignore
-    totalRefs.splice(index,1)
+    totalRefs.splice(index, 1)
     let accepted = tournament.refsAccepted
     // @ts-ignore
     accepted.push(ref)
     try {
       await this.service.updateTournament(tournament.key, {
         refsAccepted: JSON.stringify(accepted),
-        refsTotal:JSON.stringify(totalRefs),
+        refsTotal: JSON.stringify(totalRefs),
       })
       this.messageService.add({
         severity: 'success',
@@ -156,18 +156,18 @@ export class EventsComponent {
     return tournament.find((value: any) => value.uid === this.profile.uid)
   }
 
-  openConfirmationDialog(event:any,isAvailable:string) {
-    this.ref=this.dialogService.open(ConfirmationDialogComponent,{
-      contentStyle:{color:'var(--text-color)',padding:'2rem', width:'20rem'},
+  openConfirmationDialog(event: any, isAvailable: string) {
+    this.ref = this.dialogService.open(ConfirmationDialogComponent, {
+      contentStyle: {color: 'var(--text-color)', padding: '2rem', width: '20rem'},
       data: {
-        tournament:event,
-        message:`Esti sigur ca esti ${isAvailable} ?`
+        tournament: event,
+        message: `Esti sigur ca esti ${isAvailable} ?`
       },
     });
     this.ref.onClose.subscribe(async (confirmed: boolean) => {
-      if (confirmed && isAvailable==='disponibil') {
+      if (confirmed && isAvailable === 'disponibil') {
         await this.available(event);
-      }else if(confirmed && isAvailable==='indisponibil'){
+      } else if (confirmed && isAvailable === 'indisponibil') {
         await this.declined(event);
       }
     });
