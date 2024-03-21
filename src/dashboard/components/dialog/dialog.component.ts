@@ -87,7 +87,6 @@ this.photos=refsPhotos.sort((a:any,b:any)=>a.label.localeCompare(b.label))
             if (data.length > 0) {
                 this.futureTournaments = data.filter(tournament => new Date(tournament.period[0]) >= new Date())
             }
-            console.log(data)
         })
     }
 

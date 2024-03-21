@@ -7,33 +7,13 @@
     A new version of this app is available. <a href="" (click)="updateVersion()">Update now</a>
   </div>
 </div>
-<!--<div class="w-100 position-absolute bottom-0"-->
-<!--     *ngIf="(modalPwaPlatform === 'ANDROID' || modalPwaPlatform === 'IOS') && homepage">-->
-<!--  <div class="alert alert-secondary m-2">-->
-<!--    <p-button [text]="true" icon="pi pi-times" class="btn-close position-absolute top-0 end-0 m-1" aria-label="Close"-->
-<!--              (onClick)="closePwa()"></p-button>-->
-<!--    &lt;!&ndash; Android &ndash;&gt;-->
-<!--    <div *ngIf="modalPwaPlatform === 'ANDROID'" (click)="addToHomeScreen()">-->
-<!--      Add this WEB app to home screen-->
-<!--    </div>-->
-<!--    &lt;!&ndash; iOS with Safari &ndash;&gt;-->
-<!--    <div *ngIf="modalPwaPlatform === 'IOS'">-->
-<!--      To install this WEB app on your device, tap the "Menu" button-->
-<!--      <img-->
-<!--        src="https://res.cloudinary.com/rodrigokamada/image/upload/v1641089482/Blog/angular-pwa/safari_action_button_38x50.png"-->
-<!--        class="ios-menu m-0"/>-->
-<!--      and then "Add to home screen" button-->
-<!--      <i class="bi bi-plus-square"></i>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
 <div *ngIf="(modalPwaPlatform === 'ANDROID' || modalPwaPlatform === 'IOS') && homepage" class="modal-background">
   <div class="modal-content">
     <div class="flex flex-column" *ngIf="modalPwaPlatform === 'ANDROID'">
       <h2 style="color: black;text-align: center">Aceasta aplicatie poate fi instalata pe mobil</h2>
       <div class="flex flex-row justify-content-evenly">
         <p-button label="Instaleaza" severity="success" (onClick)="addToHomeScreen()"/>
-        <p-button label="Inchide" (onClick)="closePwa()"/>
+        <p-button label="Inchide" [outlined]="true" (onClick)="closePwa()"/>
       </div>
     </div>
     <div class="ios-instructions" *ngIf="modalPwaPlatform === 'IOS'">

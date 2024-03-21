@@ -25,7 +25,18 @@ export class ServiceService {
     return this.db.list('users', ref => ref.orderByChild('fName'))
   }
 
-  getUserByUid(uid: any) {
+  getUserByUidTest(uid: any) {
+    return this.db.list('users', ref => ref.orderByChild('uid').equalTo(uid).limitToFirst(1))
+      .snapshotChanges()
+      .pipe(
+        map(actions => {
+          const userAction = actions[0]; // Assuming only one user matches the query
+          return {key: userAction.key, ...userAction.payload.val()!};
+        })
+      );
+  }
+
+  getUserByUid(uid:any){
     return this.db.list('users', ref => ref.orderByChild('uid').equalTo(uid).limitToFirst(1))
   }
 

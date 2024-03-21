@@ -32,8 +32,11 @@
   </ng-template>
   <ng-template pTemplate="body" let-tournament>
     <tr>
-      <td><span class="p-column-title">Nume + Logo</span><img [src]="tournament.logo"
-                                                              style="width:2rem"> {{ tournament.name }}
+      <td><span class="p-column-title">Nume + Logo</span>
+        <div class="flex flex-column justify-content-center align-items-center">
+          <img [src]="tournament.logo" style="width:3rem"/>
+          <p>{{ tournament.name }}</p>
+        </div>
       </td>
       <td><span
         class="p-column-title">Perioada</span>{{ formatDate(tournament.period[0], 'shortDate', 'ro-RO') + '-' + formatDate(tournament.period[1], 'shortDate', 'ro-RO') }}

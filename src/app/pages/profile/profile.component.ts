@@ -2,11 +2,13 @@ import {Component} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {ServiceService} from "../../../shared/service.service";
 import {ActivatedRoute} from "@angular/router";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
+  providers: [MessageService]
 })
 export class ProfileComponent {
   user: any
@@ -14,16 +16,16 @@ export class ProfileComponent {
 
   constructor(private fb: FormBuilder,
               private service: ServiceService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private messageService: MessageService) {
   }
 
   ngOnInit() {
     this.loading = true;
     const uid = this.activatedRoute.snapshot.paramMap.get('uid')
-    this.service.getUserByUid(uid)
-      .valueChanges()
+    this.service.getUserByUidTest(uid)
       .subscribe(data => {
-        this.user = data[0];
+        this.user = data;
         this.loading = false;
         this.setForm();
       })
@@ -51,7 +53,15 @@ export class ProfileComponent {
     this.userFormUpdate.controls.scheduledName.disable()
   }
 
-  onSubmitUpdate() {
-
+  async onSubmitUpdate() {
+    const user = {
+      ...this.userFormUpdate.value
+    }
+    try {
+      await this.service.updateUser(this.user.key, user)
+      this.messageService.add({severity: 'success', summary: 'Success', detail: "Update cu succes"})
+    } catch (error:any) {
+      this.messageService.add({severity: 'error', summary: 'Error', detail: error.message})
+    }
   }
 }

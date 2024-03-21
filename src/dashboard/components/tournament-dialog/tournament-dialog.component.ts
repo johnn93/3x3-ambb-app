@@ -37,7 +37,17 @@ export class TournamentDialogComponent {
 
   ngOnInit() {
     this.logos = [
-      {label: 'AMBB Logo', value: 'assets/AMBB_coin_2024-01.png'}
+      {label: 'AMBB', value: 'assets/AMBB_coin_2024-01.png'},
+      {label: 'ASE', value: 'assets/host-icons/ASE.png'},
+      {label: 'FRB', value: 'assets/host-icons/FRBaschet.jpg'},
+      {label: 'FRB 3X3', value: 'assets/host-icons/FRBaschet3x3.jpg'},
+      {label: 'Sports Events', value: 'assets/host-icons/logo SE.jpg'},
+      {label: 'Politehnica', value: 'assets/host-icons/Politehnica.png'},
+      {label: 'Sport Arena', value: 'assets/host-icons/Sport Arena.jpg'},
+      {label: 'Sport Mall', value: 'assets/host-icons/Sport Mall.png'},
+      {label: 'UMF', value: 'assets/host-icons/UMF.jpg'},
+      {label: 'UNEFS', value: 'assets/host-icons/UNEFS.png'},
+      {label: 'FSSU', value: 'assets/host-icons/FSSU.png'},
     ]
 
     this.service.getAllUsers()
