@@ -29,14 +29,14 @@
 <!--</div>-->
 <div *ngIf="(modalPwaPlatform === 'ANDROID' || modalPwaPlatform === 'IOS') && homepage" class="modal-background">
   <div class="modal-content">
-    <div class="flex flex-column">
+    <div class="flex flex-column" *ngIf="modalPwaPlatform === 'ANDROID'">
       <h2 style="color: black;text-align: center">Aceasta aplicatie poate fi instalata pe mobil</h2>
       <div class="flex flex-row justify-content-evenly">
         <p-button label="Instaleaza" severity="success" (onClick)="addToHomeScreen()"/>
         <p-button label="Inchide" (onClick)="closePwa()"/>
       </div>
     </div>
-    <div class="ios-instructions">
+    <div class="ios-instructions" *ngIf="modalPwaPlatform === 'IOS'">
       <p style="color: black">To install this WEB app on your device, tap the "Menu" button
         <img
           src="https://res.cloudinary.com/rodrigokamada/image/upload/v1641089482/Blog/angular-pwa/safari_action_button_38x50.png"
