@@ -10,6 +10,7 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+/src/shared/constants.ts
 
 # IDEs and editors
 .idea/
@@ -36,7 +37,6 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-/src/shared/constants.ts
 
 # System files
 .DS_Store
