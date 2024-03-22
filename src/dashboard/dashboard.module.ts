@@ -33,6 +33,7 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {ConfirmationDialogComponent} from "../shared/confirmation-dialog/confirmation-dialog.component";
 import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {TabViewModule} from "primeng/tabview";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import {TabViewModule} from "primeng/tabview";
   ],
   imports: [
     DashboardRoutingModule,
+    HttpClientModule,
     CommonModule,
     ButtonModule,
     ToolbarModule,

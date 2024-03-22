@@ -61,6 +61,9 @@ export class TournamentDialogComponent {
                 uid: c.payload.val()?.uid,
                 photo: c.payload.val()?.photo,
                 scheduledName: c.payload.val()?.scheduledName,
+                email: c.payload.val()?.email,
+                fname:c.payload.val()?.fName,
+                lName:c.payload.val()?.lName,
               }
             }
           )
@@ -73,6 +76,12 @@ export class TournamentDialogComponent {
   }
 
   onSubmitForm() {
+    let emails: any[] = [];
+    this.allUsers.forEach((user: any) => {
+      if (user.email !== undefined) {
+        emails.push(user.email)
+      }
+    })
     const tournament: Tournament = {
       ...this.tournamentForm.value,
       period: this.tournamentForm.controls.date.value!.toString(),
@@ -90,23 +99,32 @@ export class TournamentDialogComponent {
           summary: 'Error',
           detail: `${e}`
         }))
+      this.sendEmail(emails, tournament,'created')
     } else {
-      let updateTournament={}
-      if(this.tournamentForm.controls.date.value![0] < new Date()){
-         updateTournament = {
+      let updateTournament = {}
+      if (this.tournamentForm.controls.date.value![0] < new Date()) {
+        updateTournament = {
           ...this.tournamentForm.value,
           period: this.tournamentForm.controls.date.value!.toString()
         }
-      }else{
-         updateTournament = {
+      } else {
+        updateTournament = {
           ...this.tournamentForm.value,
           refsTotal: JSON.stringify(this.allUsers),
-          period: this.tournamentForm.controls.date.value!.toString()
+          period: this.tournamentForm.controls.date.value!.toString(),
+          refsDeclined: '[]',
+          refsAccepted: '[]',
         }
       }
+      try {
+        this.service.updateTournament(this.selectedTournament!.key, updateTournament)
+          .then()
+        this.messageService.add({severity: 'success', summary: 'Success', detail: "Updatat cu succes"})
+        this.sendEmail(emails,tournament,'updated')
+      } catch (error: any) {
+        this.handleError(error.message)
+      }
 
-      this.service.updateTournament(this.selectedTournament!.key, updateTournament)
-        .then()
     }
   }
 
@@ -138,6 +156,38 @@ export class TournamentDialogComponent {
       this.tournamentForm.controls.logo.setValue(this.selectedTournament?.logo || null)
       this.tournamentForm.controls.link.setValue(this.selectedTournament?.link || null)
     }
+  }
+
+  sendEmail(bcc: any, tournament: any, type: string) {
+    switch (type) {
+      case 'created':
+        this.service.sendNewTournamentEmail('bicinigar@gmail.com', bcc, tournament.name, tournament.date)
+          .subscribe(
+            response => {
+              this.messageService.add({severity: 'success', summary: 'Success', detail: "Mail-uri trimise cu succes"})
+            },
+            error => {
+              this.handleError(error.message)
+            }
+          );
+        break;
+      case 'updated':
+        this.service.sendUpdateTournamentEmail('bicinigar@gmail.com', bcc, tournament.name, tournament.date)
+          .subscribe(
+            response => {
+              this.messageService.add({severity: 'success', summary: 'Success', detail: "Mail-uri trimise cu succes"})
+            },
+            error => {
+              this.handleError(error.message)
+            }
+          );
+        break;
+    }
+
+  }
+
+  handleError(message: string) {
+    this.messageService.add({severity: 'error', summary: 'Error', detail: message})
   }
 
 }

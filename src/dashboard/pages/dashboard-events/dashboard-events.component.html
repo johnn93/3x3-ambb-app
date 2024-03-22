@@ -39,7 +39,7 @@
         </div>
       </td>
       <td><span
-        class="p-column-title">Perioada</span>{{ formatDate(tournament.period[0], 'shortDate', 'ro-RO') + '-' + formatDate(tournament.period[1], 'shortDate', 'ro-RO') }}
+        class="p-column-title">Perioada</span>{{ formatDate(tournament?.period[0], 'shortDate', 'ro-RO') + '-' + formatDate(tournament?.period[1], 'shortDate', 'ro-RO') }}
       </td>
       <td><span class="p-column-title">Teren + Oras</span>{{ tournament.court + '|' + tournament.city }}</td>
       <td><span class="p-column-title">Nr Terenuri</span>{{ tournament.courtNo }}</td>
@@ -76,7 +76,7 @@
           <p-button [loading]='isSaving' [text]="true" label="Nominalizeaza"
                     (onClick)="nominate(tournament)"></p-button>
           <p-button [loading]='isSaving' [text]="true" label="Sterge"
-                    (onClick)="deleteTournament(tournament)"></p-button>
+                    (onClick)="openConfirmationDialog(tournament)"></p-button>
           <p-button [loading]='isSaving' [text]="true" label="Editeaza"
                     (onClick)="openUpdateDialog(tournament)"></p-button>
         </div>

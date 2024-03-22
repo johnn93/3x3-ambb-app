@@ -77,7 +77,7 @@ export class UsersComponent {
                 phone: c.payload.val()?.phone,
                 uid: c.payload.val()?.uid,
                 isAdmin: c.payload.val()?.isAdmin,
-                scheduleName: c.payload.val()?.scheduledName,
+                scheduledName: c.payload.val()?.scheduledName,
                 jersey: c.payload.val()?.jersey,
                 shorts: c.payload.val()?.shorts,
               }

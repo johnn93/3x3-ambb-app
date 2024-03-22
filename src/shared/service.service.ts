@@ -2,7 +2,10 @@ import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from "@angular/fire/compat/database";
 import {User} from "../interfaces/user";
 import {Tournament} from "../interfaces/tournament";
-import {BehaviorSubject, map} from "rxjs";
+import {map} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {emailApiKey, emailApiUrl} from "./constants";
+import {formatDate} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +15,16 @@ export class ServiceService {
   private eventsPath = '/events/'
   usersRef: AngularFireList<User>;
   tournamentsRef: AngularFireList<Tournament>;
-  allTournaments: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
-  historyTournaments: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
+  apiKey: any;
+  apiUrl: any;
 
   constructor(
-    private db: AngularFireDatabase,) {
+    private db: AngularFireDatabase,
+    private http: HttpClient) {
     this.usersRef = this.db.list(this.usersPath)
     this.tournamentsRef = this.db.list(this.eventsPath)
+    this.apiKey = emailApiKey
+    this.apiUrl = emailApiUrl
   }
 
   getAllUsers(): AngularFireList<User> {
@@ -36,7 +42,7 @@ export class ServiceService {
       );
   }
 
-  getUserByUid(uid:any){
+  getUserByUid(uid: any) {
     return this.db.list('users', ref => ref.orderByChild('uid').equalTo(uid).limitToFirst(1))
   }
 
@@ -110,4 +116,100 @@ export class ServiceService {
   updateUser(key: string, value: any): Promise<void> {
     return this.usersRef.update(key, value);
   }
+
+  async deleteTournament(tournament: any): Promise<void> {
+    try {
+      return await this.tournamentsRef.remove(tournament.key);
+    } catch (error) {
+      console.error('Error deleting tournament:', error);
+    }
+  }
+
+  sendNominationEmail(senderEmail?: string, bcc?: string[], tournamentName?: string, tournamentDate?: any) {
+    const name = tournamentName;
+    const date = formatDate(tournamentDate[0], 'dd/MM/yyyy', 'ro-RO') + '-' + formatDate(tournamentDate[1], 'dd/MM/yyyy', 'ro-RO');
+    const htmlContent = `<p> Ai fost nominalizat la turneul ${name} din data de ${date}.
+        <br>Mai multe detalii poti vedea in aplicatie.</p>`
+    const subjectContent = `Nominalizari ${name}`
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'api-key': this.apiKey,
+    });
+    const emailData = {
+      sender: {email: senderEmail},
+      subject: subjectContent,
+      htmlContent: htmlContent,
+      params: {
+        name: name
+      },
+      bcc: bcc?.map(email => ({email: 'ionut.b.alex@gmail.com'})),
+    };
+    return this.http.post(this.apiUrl, emailData, {headers})
+  }
+
+  sendNewTournamentEmail(senderEmail?: string, bcc?: string[], tournamentName?: string, tournamentDate?: any) {
+    const name = tournamentName;
+    const date = formatDate(tournamentDate[0], 'dd/MM/yyyy', 'ro-RO') + '-' + formatDate(tournamentDate[1], 'dd/MM/yyyy', 'ro-RO');
+    const htmlContent = `<p> Turneul ${name} in perioada ${date} a fost incarcat in aplicatie.
+        <br>Te rog sa accesezi aplicatia pentru a iti oferi disponibilitatea la turneu.</p>`
+    const subjectContent = `Turneu ${name}`
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'api-key': this.apiKey,
+    });
+    const emailData = {
+      sender: {email: senderEmail},
+      subject: subjectContent,
+      htmlContent: htmlContent,
+      params: {
+        name: name
+      },
+      bcc: bcc?.map(email => ({email: 'ionut.b.alex@gmail.com'})),
+    };
+    return this.http.post(this.apiUrl, emailData, {headers})
+  }
+
+  sendCanceledTournament(senderEmail?: string, bcc?: string[], tournamentName?: string, tournamentDate?: any) {
+    const name = tournamentName;
+    const date = formatDate(tournamentDate[0], 'dd/MM/yyyy', 'ro-RO') + '-' + formatDate(tournamentDate[1], 'dd/MM/yyyy', 'ro-RO');
+    const htmlContent = `<p> Turneul ${name} din perioada ${date} a fost anulat.</p>`
+    const subjectContent = `Turneu anulat`
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'api-key': this.apiKey,
+    });
+    const emailData = {
+      sender: {email: senderEmail},
+      subject: subjectContent,
+      htmlContent: htmlContent,
+      params: {
+        name: name
+      },
+      bcc: bcc?.map(email => ({email: 'ionut.b.alex@gmail.com'})),
+    };
+    return this.http.post(this.apiUrl, emailData, {headers})
+  }
+
+  sendUpdateTournamentEmail(senderEmail?: string, bcc?: string[], tournamentName?: string, tournamentDate?: any) {
+    const name = tournamentName;
+    const date = formatDate(tournamentDate[0], 'dd/MM/yyyy', 'ro-RO') + '-' + formatDate(tournamentDate[1], 'dd/MM/yyyy', 'ro-RO');
+    const htmlContent = `<p> Turneul ${name} a fost modificat.
+<br>Va rog sa verificati in aplicatie si sa acceptati sau sa refuzati turneul.</p>`
+    const subjectContent = `Turneul ${tournamentName} a fost modificat`
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'api-key': this.apiKey,
+    });
+    const emailData = {
+      sender: {email: senderEmail},
+      subject: subjectContent,
+      htmlContent: htmlContent,
+      params: {
+        name: name
+      },
+      bcc: bcc?.map(email => ({email: 'ionut.b.alex@gmail.com'})),
+    };
+    return this.http.post(this.apiUrl, emailData, {headers})
+  }
+
 }

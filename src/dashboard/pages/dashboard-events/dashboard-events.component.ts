@@ -1,16 +1,18 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ServiceService} from "../../../shared/service.service";
 import {Subscription} from "rxjs";
 import {MessageService} from "primeng/api";
 import {formatDate} from "@angular/common";
 import {User} from "../../../interfaces/user";
 import {Tournament} from "../../../interfaces/tournament";
+import {ConfirmationDialogComponent} from "../../../shared/confirmation-dialog/confirmation-dialog.component";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 
 @Component({
   selector: 'app-dashboard-events',
   templateUrl: './dashboard-events.component.html',
   styleUrls: ['./dashboard-events.component.scss'],
-  providers: [MessageService]
+  providers: [MessageService, DialogService]
 })
 export class DashboardEventsComponent {
 
@@ -21,31 +23,34 @@ export class DashboardEventsComponent {
   isSaving: boolean = false;
   edit: boolean = false;
   allTournaments: any[] = [];
-  filterFields = ['name', 'city', 'court', 'courtNo', 'refsTotal','refsAccepted','refsDeclined',]
+  filterFields = ['name', 'city', 'court', 'courtNo', 'refsTotal', 'refsAccepted', 'refsDeclined',]
   draggedRef: any;
   tournamentKey: string = '';
   private myObservableSubscription: Subscription | undefined;
   history: any[] = [];
   filteredTournaments: any[] = [];
   searchText: string = '';
+  @ViewChild(ConfirmationDialogComponent) confirmationDialogComponent: ConfirmationDialogComponent | undefined;
+  ref: DynamicDialogRef | undefined;
 
   constructor(private service: ServiceService,
-              private messageService:MessageService) {
+              private messageService: MessageService,
+              private dialogService: DialogService) {
   }
 
   ngOnInit() {
-    this.loading=true;
+    this.loading = true;
     this.myObservableSubscription = this.service.getTournaments()
       .subscribe(data => {
         data.sort((a: any, b: any): any => {
           let date1 = new Date(a.period[0])
           let date2 = new Date(b.period[0])
           // @ts-ignore
-          return date2-date1;
+          return date2 - date1;
         })
         this.allTournaments = data
-        this.filteredTournaments=this.allTournaments;
-        this.loading=false;
+        this.filteredTournaments = this.allTournaments;
+        this.loading = false;
       })
 
   }
@@ -78,7 +83,38 @@ export class DashboardEventsComponent {
   }
 
   deleteTournament(tournament: any) {
+    let emails: string[] = [];
+    tournament.refsTotal.forEach((ref: any) => {
+      if (ref.email !== undefined) {
+        emails.push(ref.email)
+      }
+    })
+    try {
+      this.service.deleteTournament(tournament).then()
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Turneu sters.'
+      })
+      this.sendEmail(emails, tournament, 'canceled')
+    } catch (error: any) {
+      this.handleError(error.detail)
+    }
+  }
 
+  openConfirmationDialog(event: any) {
+    this.ref = this.dialogService.open(ConfirmationDialogComponent, {
+      contentStyle: {color: 'var(--text-color)', padding: '2rem', width: '20rem'},
+      data: {
+        tournament: event,
+        message: `Turneul va fi sters definitiv. Esti sigur ?`
+      },
+    });
+    this.ref?.onClose.subscribe(async (confirmed: boolean) => {
+      if (confirmed) {
+        this.deleteTournament(event);
+      }
+    });
   }
 
   openUpdateDialog(tournament: any) {
@@ -89,6 +125,7 @@ export class DashboardEventsComponent {
 
   dragStart(ref: any, key: string) {
     this.draggedRef = ref;
+    console.log(this.draggedRef)
     this.tournamentKey = key;
   }
 
@@ -122,11 +159,17 @@ export class DashboardEventsComponent {
 
   async nominate(tournament: any) {
     this.isSaving = true;
+    let emails: string[] = [];
+    await tournament.refsConfirmed.forEach((ref: any) => {
+      if (ref.email !== undefined) {
+        emails.push(ref.email)
+      }
+    })
     const tournamentUpdate = {
       refsConfirmed: JSON.stringify(tournament.refsConfirmed),
       supervisors: JSON.stringify(tournament.supervisors)
     } as Tournament
-    try{
+    try {
       await this.service
         .updateTournament(tournament.key, tournamentUpdate)
         .then()
@@ -135,14 +178,15 @@ export class DashboardEventsComponent {
         summary: 'Success',
         detail: 'Nominalizari inregistrate cu succes.'
       })
-    }catch (e){
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: `${e}`
-      })
+      try {
+        this.sendEmail(emails, tournament, 'nomination')
+      } catch (error: any) {
+        this.handleError(error.detail)
+      }
+    } catch (e: any) {
+      this.handleError(e.detail)
     }
-    this.isSaving=false;
+    this.isSaving = false;
   }
 
   onRemove(ref: User, tournament: any) {
@@ -160,4 +204,41 @@ export class DashboardEventsComponent {
       }
     })
   }
+
+  sendEmail(bcc: any, tournament: any, type: string) {
+    switch (type) {
+      case 'nomination':
+        this.service.sendNominationEmail('bicinigar@gmail.com', ['ionut.b.alex@gmail.com'], tournament.name, tournament.period)
+          .subscribe(
+            response => {
+              this.messageService.add({severity: 'success', summary: 'Success', detail: "Mail-uri trimise cu succes"})
+            },
+            error => {
+              this.handleError(error.detail)
+            }
+          );
+        break;
+
+      case 'canceled':
+        this.service.sendCanceledTournament('bicinigar@gmail.com', ['ionut.b.alex@gmail.com'], tournament.name, tournament.period)
+          .subscribe(
+            response => {
+              this.messageService.add({severity: 'success', summary: 'Success', detail: "Mail-uri trimise cu succes"})
+            },
+            error => {
+              this.handleError(error.detail)
+            }
+          );
+        break;
+    }
+  }
+
+  handleError(message: string) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: `${message}`
+    })
+  }
+
 }
