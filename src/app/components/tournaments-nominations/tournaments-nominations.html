@@ -27,7 +27,7 @@
         <div class="refs">
           <div *ngFor="let ref of tournament.refsConfirmed">
             <div class="figure p-card">
-              <p-avatar image="assets/ambb-logo.png" size="large"></p-avatar>
+              <p-avatar image="{{ref.photo}}" size="large"></p-avatar>
             </div>
             <p class="ref-name"><a href="tel:{{ref.phone}}">{{ ref.scheduledName }}</a></p>
           </div>
@@ -37,7 +37,7 @@
         <div class="refs">
           <div *ngFor="let supervisor of tournament.supervisors">
             <div class="figure p-card">
-              <p-avatar image="assets/ambb-logo.png" size="large"></p-avatar>
+              <p-avatar image="{{supervisor.photo}}" size="large"></p-avatar>
             </div>
             <p class="ref-name"><a href="tel:{{supervisor.phone}}">{{ supervisor.scheduledName }}</a></p>
           </div>

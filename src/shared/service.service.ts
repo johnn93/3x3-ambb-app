@@ -212,4 +212,22 @@ export class ServiceService {
     return this.http.post(this.apiUrl, emailData, {headers})
   }
 
+  sendCreateAccountEmail(recipientEmail: string, senderEmail?: string, bcc?: string[]) {
+    const htmlContent = `<p> Contul tau a fost creat.
+<br>In scurt timp vei primi un email pentru resetarea parolei.
+<br>Dupa resetarea parolei vei putea sa te loghezi in contul tau <a href="https://arbitri3x3.baschetbucuresti.ro/">AMBB 3X3 APP</a>.</p>`
+    const subjectContent = `Contul tau a fost creat.`
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'api-key': this.apiKey,
+    });
+    const emailData = {
+      sender: {email: senderEmail},
+      subject: subjectContent,
+      htmlContent: htmlContent,
+      to: [{email: recipientEmail}]
+    };
+    return this.http.post(this.apiUrl, emailData, {headers})
+  }
+
 }

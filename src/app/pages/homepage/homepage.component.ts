@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AuthenticationService} from "../../../shared/authentication.service";
 import {ADMINS} from "../../../shared/ADMINS";
+import {ServiceService} from "../../../shared/service.service";
 
 @Component({
   selector: 'app-homepage',
@@ -10,8 +11,11 @@ import {ADMINS} from "../../../shared/ADMINS";
 export class HomepageComponent {
   userId: string | null = localStorage.getItem('uid');
   isAdmin: boolean = false;
+  user: any;
+  loading: boolean = false;
 
-  constructor(private authService: AuthenticationService) {
+  constructor(private authService: AuthenticationService,
+              private service: ServiceService) {
   }
 
   menu = [
@@ -25,7 +29,13 @@ export class HomepageComponent {
   logo: any = 'assets/AMBB_coin_2024-01.png';
 
   ngOnInit() {
+    this.loading = true;
     this.isAdmin = ADMINS.includes(localStorage.getItem('email')!)
+    this.service.getUserByUidTest(this.userId)
+      .subscribe(user => {
+        this.user = user
+        this.loading = false;
+      })
   }
 
   async signOut() {
