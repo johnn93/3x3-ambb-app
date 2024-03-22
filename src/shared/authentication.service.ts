@@ -14,7 +14,6 @@ export class AuthenticationService {
   }
 
   get isLoggedIn() {
-    console.log(localStorage.getItem('uid'))
     return localStorage.getItem('uid')
 
   }

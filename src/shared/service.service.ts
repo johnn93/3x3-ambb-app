@@ -142,7 +142,7 @@ export class ServiceService {
       params: {
         name: name
       },
-      bcc: bcc?.map(email => ({email: 'ionut.b.alex@gmail.com'})),
+      bcc: bcc?.map(email => ({email: email})),
     };
     return this.http.post(this.apiUrl, emailData, {headers})
   }
@@ -164,7 +164,7 @@ export class ServiceService {
       params: {
         name: name
       },
-      bcc: bcc?.map(email => ({email: 'ionut.b.alex@gmail.com'})),
+      bcc: bcc?.map(email => ({email: email})),
     };
     return this.http.post(this.apiUrl, emailData, {headers})
   }
@@ -185,7 +185,7 @@ export class ServiceService {
       params: {
         name: name
       },
-      bcc: bcc?.map(email => ({email: 'ionut.b.alex@gmail.com'})),
+      bcc: bcc?.map(email => ({email: email})),
     };
     return this.http.post(this.apiUrl, emailData, {headers})
   }
@@ -207,7 +207,7 @@ export class ServiceService {
       params: {
         name: name
       },
-      bcc: bcc?.map(email => ({email: 'ionut.b.alex@gmail.com'})),
+      bcc: bcc?.map(email => ({email: email})),
     };
     return this.http.post(this.apiUrl, emailData, {headers})
   }

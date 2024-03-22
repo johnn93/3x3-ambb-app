@@ -173,9 +173,8 @@ export class DialogComponent {
                   })
               })
             }).catch(error => {
-            console.log(error)
+            this.messageService.add({severity: 'error', summary: 'Error', detail: error})
           });
-
         }).catch(error => {
         this.messageService.add({severity: 'error', summary: 'Error', detail: error})
       })

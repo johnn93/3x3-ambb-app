@@ -19,6 +19,7 @@ export class TournamentDialogComponent {
   @Output() newHideEvent = new EventEmitter()
   logos: any;
   allUsers: any = [];
+  initialDate: any;
 
   constructor(private fb: FormBuilder,
               private service: ServiceService,
@@ -62,8 +63,8 @@ export class TournamentDialogComponent {
                 photo: c.payload.val()?.photo,
                 scheduledName: c.payload.val()?.scheduledName,
                 email: c.payload.val()?.email,
-                fname:c.payload.val()?.fName,
-                lName:c.payload.val()?.lName,
+                fname: c.payload.val()?.fName,
+                lName: c.payload.val()?.lName,
               }
             }
           )
@@ -76,6 +77,7 @@ export class TournamentDialogComponent {
   }
 
   onSubmitForm() {
+    const date = this.tournamentForm.controls.date.value
     let emails: any[] = [];
     this.allUsers.forEach((user: any) => {
       if (user.email !== undefined) {
@@ -99,7 +101,8 @@ export class TournamentDialogComponent {
           summary: 'Error',
           detail: `${e}`
         }))
-      this.sendEmail(emails, tournament,'created')
+      this.sendEmail(emails, tournament, 'created')
+      this.onHide()
     } else {
       let updateTournament = {}
       if (this.tournamentForm.controls.date.value![0] < new Date()) {
@@ -107,7 +110,7 @@ export class TournamentDialogComponent {
           ...this.tournamentForm.value,
           period: this.tournamentForm.controls.date.value!.toString()
         }
-      } else {
+      } else if (new Date(this.initialDate[0]).getTime() !== new Date(date![0]).getTime() || new Date(this.initialDate[1]).getTime() !== new Date(date![1]).getTime()) {
         updateTournament = {
           ...this.tournamentForm.value,
           refsTotal: JSON.stringify(this.allUsers),
@@ -115,16 +118,22 @@ export class TournamentDialogComponent {
           refsDeclined: '[]',
           refsAccepted: '[]',
         }
+      }else{
+        updateTournament = {
+          ...this.tournamentForm.value,
+          refsTotal: JSON.stringify(this.allUsers),
+          period: this.tournamentForm.controls.date.value!.toString(),
+        }
       }
       try {
         this.service.updateTournament(this.selectedTournament!.key, updateTournament)
           .then()
         this.messageService.add({severity: 'success', summary: 'Success', detail: "Updatat cu succes"})
-        this.sendEmail(emails,tournament,'updated')
+        this.sendEmail(emails, tournament, 'updated')
+        this.onHide()
       } catch (error: any) {
         this.handleError(error.message)
       }
-
     }
   }
 
@@ -148,6 +157,7 @@ export class TournamentDialogComponent {
 
     if (changes['selectedTournament'] !== undefined &&
       changes['selectedTournament'].currentValue !== undefined && this.edit) {
+      this.initialDate = this.selectedTournament?.period
       this.tournamentForm.controls.date.setValue([new Date(this.selectedTournament?.period[0] || new Date()), new Date(this.selectedTournament?.period[1] || new Date())])
       this.tournamentForm.controls.name.setValue(this.selectedTournament?.name || null)
       this.tournamentForm.controls.court.setValue(this.selectedTournament?.court || null)
@@ -159,6 +169,7 @@ export class TournamentDialogComponent {
   }
 
   sendEmail(bcc: any, tournament: any, type: string) {
+    const date = this.tournamentForm.controls.date.value
     switch (type) {
       case 'created':
         this.service.sendNewTournamentEmail('bicinigar@gmail.com', bcc, tournament.name, tournament.date)
@@ -172,15 +183,21 @@ export class TournamentDialogComponent {
           );
         break;
       case 'updated':
-        this.service.sendUpdateTournamentEmail('bicinigar@gmail.com', bcc, tournament.name, tournament.date)
-          .subscribe(
-            response => {
-              this.messageService.add({severity: 'success', summary: 'Success', detail: "Mail-uri trimise cu succes"})
-            },
-            error => {
-              this.handleError(error.message)
-            }
-          );
+        if (new Date(this.initialDate[0]).getTime() !== new Date(date![0]).getTime() || new Date(this.initialDate[1]).getTime() !== new Date(date![1]).getTime()) {
+          this.service.sendUpdateTournamentEmail('bicinigar@gmail.com', bcc, tournament.name, tournament.date)
+            .subscribe(
+              response => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Success',
+                  detail: "Mail-uri trimise cu succes"
+                });
+              },
+              error => {
+                this.handleError(error.message)
+              }
+            );
+        }
         break;
     }
 

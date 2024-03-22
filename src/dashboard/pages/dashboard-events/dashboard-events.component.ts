@@ -125,7 +125,6 @@ export class DashboardEventsComponent {
 
   dragStart(ref: any, key: string) {
     this.draggedRef = ref;
-    console.log(this.draggedRef)
     this.tournamentKey = key;
   }
 
