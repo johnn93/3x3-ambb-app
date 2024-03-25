@@ -5,7 +5,7 @@
 <app-loader *ngIf="loading;else content"/>
 <ng-template #content>
   <div class="avatar">
-    <img src="assets/AMBB_coin_2024-01.png" width="150" alt="profile-photo">
+    <img style="border-radius:50%" [src]="user.photo ? user.photo : defaultAvatar" width="150" alt="profile-photo">
     <p>{{ user.fName + ' ' + user.lName }}</p>
   </div>
   <form [formGroup]="userFormUpdate"

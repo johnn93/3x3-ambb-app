@@ -148,6 +148,7 @@ export class DialogComponent {
             jersey: this.arbitriiFormSignUp.controls.jersey.value,
             shorts: this.arbitriiFormSignUp.controls.shorts.value,
             isAdmin: this.arbitriiFormSignUp.controls.isAdmin.value,
+            profileUpdated: false,
           } as User
           this.service.createUser(user)
             .then((data) => {
@@ -160,10 +161,7 @@ export class DialogComponent {
               this.resetFormValues()
               this.futureTournaments.forEach((tournament: any) => {
                 let newUser = {
-                  key: data.key,
-                  phone: user.phone,
                   scheduledName: user.scheduledName,
-                  photo: user.photo,
                   email: user.email,
                   uid: user.uid
                 }
@@ -207,7 +205,7 @@ export class DialogComponent {
 
   sendEmail(to: string) {
     try {
-      this.service.sendCreateAccountEmail(to,this.user.email)
+      this.service.sendCreateAccountEmail(to, this.user.email)
         .subscribe(() => {
           this.messageService.add({severity: 'success', summary: 'Success', detail: "Mail trimis cu succes"})
         })

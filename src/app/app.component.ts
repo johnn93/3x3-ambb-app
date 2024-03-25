@@ -3,6 +3,8 @@ import {NavigationEnd, Router} from "@angular/router";
 import {SwUpdate, VersionReadyEvent} from "@angular/service-worker";
 import {Platform} from "@angular/cdk/platform";
 import {filter, map} from "rxjs";
+import {ServiceService} from "../shared/service.service";
+import {User} from "../interfaces/user";
 
 @Component({
   selector: 'app-root',
@@ -23,7 +25,8 @@ export class AppComponent {
 
   constructor(private platform: Platform,
               private swUpdate: SwUpdate,
-              private router: Router,) {
+              private router: Router,
+              private service: ServiceService) {
     this.isOnline = false;
     this.modalVersion = false;
   }
@@ -34,6 +37,12 @@ export class AppComponent {
         this.homepage = event.url !== '/';
         this.dashboard = event.url.includes('dashboard')
       }
+      this.service.getUserByUidTest(localStorage.getItem('uid')).subscribe(data => {
+        const user = data as User
+        if (!user.profileUpdated) {
+          this.router.navigate([`/profile/${user.uid}`])
+        }
+      })
     });
 
     this.updateOnlineStatus();

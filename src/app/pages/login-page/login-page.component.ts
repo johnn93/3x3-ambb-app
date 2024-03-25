@@ -5,6 +5,8 @@ import {Router} from "@angular/router";
 import {CheckboxChangeEvent} from "primeng/checkbox";
 import {EncrDecrServiceService} from "../../../shared/encr-decr-service.service";
 import {AuthenticationService} from "../../../shared/authentication.service";
+import {ServiceService} from "../../../shared/service.service";
+import {User} from "../../../interfaces/user";
 
 @Component({
   selector: 'app-login-page',
@@ -21,7 +23,9 @@ export class LoginPageComponent {
               private auth: AuthenticationService,
               private message: MessageService,
               private router: Router,
-              private ecrDecrService: EncrDecrServiceService) {
+              private ecrDecrService: EncrDecrServiceService,
+              private service: ServiceService
+  ) {
   }
 
   loginForm = this.fb.group({
@@ -36,19 +40,19 @@ export class LoginPageComponent {
       this.loginForm.controls.email.setValue(localStorage.getItem('email'))
     }
     if (localStorage.getItem('uuid') != null) {
-      this.loginForm.controls.password.setValue(this.ecrDecrService.get('123456$#@$^@1ERF',localStorage.getItem('uuid')));
+      this.loginForm.controls.password.setValue(this.ecrDecrService.get('123456$#@$^@1ERF', localStorage.getItem('uuid')));
     }
   }
 
   onSubmit() {
     this.loading = true;
     this.loginForm.disable()
-       this.userSignIn = {
-        email: this.loginForm.controls.email.value,
-        password: this.loginForm.controls.password.value,
-      }
+    this.userSignIn = {
+      email: this.loginForm.controls.email.value,
+      password: this.loginForm.controls.password.value,
+    }
     this.auth.SignIn(this.userSignIn.email, this.userSignIn.password)
-      .then((result:any) => {
+      .then((result: any) => {
         if (this.loginForm.controls.isChecked.value) {
           localStorage.setItem('email', result.user!.email!)
           let encrypted = this.ecrDecrService.set('123456$#@$^@1ERF', this.userSignIn.password);
@@ -57,12 +61,18 @@ export class LoginPageComponent {
           localStorage.removeItem('email');
           localStorage.removeItem('uuid')
         }
-        localStorage.setItem('uid', result.user!.uid)
-        localStorage.setItem('lastTime', result.user!.metadata.lastSignInTime!)
-        localStorage.setItem('user', JSON.stringify(result.user))
-        this.router.navigate([''])
-        this.loginForm.enable()
-        this.loading = false;
+        this.service.getUserByUidTest(result.user.uid)
+          .subscribe((data: any) => {
+            const user = data as User
+            localStorage.setItem('profileUpdated', JSON.stringify(user.profileUpdated ? user.profileUpdated : false))
+            localStorage.setItem('uid', result.user!.uid)
+            localStorage.setItem('lastTime', result.user!.metadata.lastSignInTime!)
+            localStorage.setItem('user', JSON.stringify(result.user))
+            this.router.navigate([''])
+            this.loginForm.enable()
+            this.loading = false;
+          })
+
 
       }).catch(() => {
       this.loading = false;
@@ -71,7 +81,10 @@ export class LoginPageComponent {
     })
   }
 
-  saveCredentials(event: CheckboxChangeEvent) {
+  saveCredentials(event
+                    :
+                    CheckboxChangeEvent
+  ) {
     localStorage.setItem('saveCredentials', event.checked)
   }
 }
