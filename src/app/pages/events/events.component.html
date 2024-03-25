@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 class="title">Urmatoarele Turnee</h1>
+  <h2 class="title">Turnee viitoare</h2>
   <p-divider layout="horizontal"></p-divider>
   <div *ngIf="loading;else data">
     <app-loader/>
@@ -7,7 +7,7 @@
   <ng-template #empty>
     <div class="flex flex-column justify-content-center align-items-center mt-8">
       <img src="/assets/3x3%20refs.png" width="400px" style="filter:grayscale(100%)"/>
-      <h1>Momentan nu sunt turnee.</h1>
+      <h3>Momentan nu exista turnee.</h3>
     </div>
   </ng-template>
   <ng-template #data>
