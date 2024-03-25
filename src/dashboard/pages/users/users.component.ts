@@ -25,6 +25,7 @@ export class UsersComponent {
   }
 
   addUser() {
+    this.selectedUser=null;
     this.visible = true;
     this.editMode = false;
     this.createNewUser = true;
@@ -43,7 +44,6 @@ export class UsersComponent {
 
   newHideEvent() {
     this.visible = false;
-    this.selectedUser=null;
   }
 
   newUpdateEvent(event: any) {

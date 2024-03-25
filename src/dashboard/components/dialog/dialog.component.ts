@@ -13,7 +13,7 @@ import {map} from "rxjs";
   providers: [MessageService]
 })
 export class DialogComponent {
-  @Input() selectedUser?: User;
+  @Input() selectedUser?: User | undefined;
   @Input() editMode?: boolean;
   @Input() createNewUser?: boolean;
   @Input() visible: boolean = false;
@@ -47,7 +47,7 @@ export class DialogComponent {
 
   arbitriiFormUpdate = this.fb.group({
     email: ['', Validators.required],
-    fName: ['', Validators.required],
+    fName: ['' , Validators.required],
     lName: ['', Validators.required],
     phone: ['', Validators.required],
     scheduledName: ['', Validators.required],
@@ -104,16 +104,16 @@ export class DialogComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['selectedUser'] !== undefined &&
       changes['selectedUser'].currentValue !== undefined) {
-      this.arbitriiFormUpdate.controls.fName.setValue(this.selectedUser!.fName)
+      this.arbitriiFormUpdate.controls.fName.setValue(this.selectedUser?.fName ?? '')
       // @ts-ignore
-      this.arbitriiFormUpdate.controls.photo.setValue(this.selectedUser!.photo.split('/')[2])
-      this.arbitriiFormUpdate.controls.lName.setValue(this.selectedUser!.lName)
-      this.arbitriiFormUpdate.controls.email.setValue(this.selectedUser!.email)
-      this.arbitriiFormUpdate.controls.phone.setValue(this.selectedUser!.phone)
-      this.arbitriiFormUpdate.controls.scheduledName.setValue(this.selectedUser!.scheduledName)
-      this.arbitriiFormUpdate.controls.jersey.setValue(this.selectedUser!.jersey)
-      this.arbitriiFormUpdate.controls.shorts.setValue(this.selectedUser!.shorts)
-      this.arbitriiFormUpdate.controls.isAdmin.setValue(this.selectedUser!.isAdmin)
+      this.arbitriiFormUpdate.controls.photo.setValue(this.selectedUser?.photo.split('/')[2] ? this.selectedUser.photo.split('/')[2] : '' )
+      this.arbitriiFormUpdate.controls.lName.setValue(this.selectedUser?.lName ?? '')
+      this.arbitriiFormUpdate.controls.email.setValue(this.selectedUser?.email ?? '')
+      this.arbitriiFormUpdate.controls.phone.setValue(this.selectedUser?.phone ?? '')
+      this.arbitriiFormUpdate.controls.scheduledName.setValue(this.selectedUser?.scheduledName ?? '')
+      this.arbitriiFormUpdate.controls.jersey.setValue(this.selectedUser?.jersey ?? '')
+      this.arbitriiFormUpdate.controls.shorts.setValue(this.selectedUser?.shorts ?? '')
+      this.arbitriiFormUpdate.controls.isAdmin.setValue(this.selectedUser?.isAdmin ?? false)
     }
   }
 
