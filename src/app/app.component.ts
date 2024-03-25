@@ -37,10 +37,10 @@ export class AppComponent {
         this.homepage = event.url !== '/';
         this.dashboard = event.url.includes('dashboard')
       }
-      this.service.getUserByUidTest(localStorage.getItem('uid')).subscribe(data => {
+      this.service.getUserByUidTest(localStorage.getItem('uid')).subscribe(async data => {
         const user = data as User
-        if (user.profileUpdated!==new Date().getFullYear().toString()) {
-          this.router.navigate([`/profile/${user.uid}`])
+        if (user.profileUpdated !== new Date().getFullYear().toString()) {
+          await this.router.navigate([`/profile/${user.uid}`])
         }
       })
     });
