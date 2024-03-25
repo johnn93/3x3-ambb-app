@@ -27,7 +27,7 @@
             <p-avatar
               [image]="ref.photo ? ref.photo : defaultAvatar"
               size="xlarge"></p-avatar>
-            <p class="ref-name"><a href="tel:{{ref.phone}}">{{ ref.scheduledName }}</a></p>
+            <p class="ref-name"><a href="tel:{{ref.phone}}">{{ ref.fName + " " + ref.lName.split(" ")[1] }}</a></p>
           </div>
         </div>
       </p-tabPanel>

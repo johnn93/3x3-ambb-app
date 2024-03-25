@@ -38,6 +38,11 @@
   right:50px;
 }
 
+.profile-photo{
+  border-radius:50%;
+  overflow:hidden;
+}
+
 label{
   color:var(--text-color)
 }

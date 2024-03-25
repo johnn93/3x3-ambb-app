@@ -64,7 +64,7 @@ export class LoginPageComponent {
         this.service.getUserByUidTest(result.user.uid)
           .subscribe((data: any) => {
             const user = data as User
-            localStorage.setItem('profileUpdated', JSON.stringify(user.profileUpdated ? user.profileUpdated : false))
+            localStorage.setItem('profileUpdated', JSON.stringify(user.profileUpdated))
             localStorage.setItem('uid', result.user!.uid)
             localStorage.setItem('lastTime', result.user!.metadata.lastSignInTime!)
             localStorage.setItem('user', JSON.stringify(result.user))

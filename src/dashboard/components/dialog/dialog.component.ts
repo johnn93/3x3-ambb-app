@@ -5,7 +5,6 @@ import {AuthenticationService} from "../../../shared/authentication.service";
 import {ServiceService} from "../../../shared/service.service";
 import {User} from "../../../interfaces/user";
 import {map} from "rxjs";
-import {refsPhotos} from "./refs-photos";
 
 @Component({
   selector: 'app-dialog',
@@ -21,7 +20,6 @@ export class DialogComponent {
   @Output() newHideEvent = new EventEmitter();
   @Output() newUpdateEvent = new EventEmitter();
   futureTournaments: any[] = [];
-  photos: any[] = [];
   user: any;
 
   constructor(private fb: FormBuilder,
@@ -61,7 +59,6 @@ export class DialogComponent {
 
   ngOnInit() {
 
-    this.photos = refsPhotos.sort((a: any, b: any) => a.label.localeCompare(b.label))
     this.service.getUserByUidTest(localStorage.getItem('uid'))
       .subscribe(data => {
         this.user = data;
