@@ -27,6 +27,7 @@ export class HistoryComponent {
   }
 
   ngOnInit() {
+    this.loading = true;
     const historyObservable = this.service.getHistory()
     const userObservable = this.service.getUsers()
     combineLatest({
@@ -47,33 +48,12 @@ export class HistoryComponent {
           // @ts-ignore
           return date1 - date2
         })
-        this.allTournaments=tournamentsWithRefsTotal.filter(data => new Date(data.period[0]) < new Date());
+        this.allTournaments = tournamentsWithRefsTotal.filter(data => new Date(data.period[0]) < new Date());
         this.addYears(this.allTournaments)
         this.addPersonalYears(this.allTournaments)
         this.loading = false;
       })
   }
-
-  // this.loading = true;
-  // this.service.getHistory().subscribe(data => {
-  //   data.sort((a: any, b: any): any => {
-  //     let date1 = new Date(a.period[0])
-  //     let date2 = new Date(b.period[0])
-  //     // @ts-ignore
-  //     return date1 - date2
-  //   })
-  //   this.allTournaments = data
-  //   this.service
-  //     .getUserByUid(localStorage.getItem('uid'))
-  //     .valueChanges()
-  //     .subscribe(data => {
-  //       this.profile = data[0];
-  //       this.addYears(this.allTournaments)
-  //       this.addPersonalYears(this.allTournaments)
-  //       this.loading = false;
-  //     })
-  // })
-  // }
 
   checkIfRef(tournament: any) {
     return tournament.find((ref: any) => ref?.uid === this.profile?.uid)
@@ -96,7 +76,6 @@ export class HistoryComponent {
   }
 
   addYears(tournaments: any) {
-    console.log(tournaments)
     tournaments.forEach((tournament: any) => {
       let year = new Date(tournament.period[0]).getFullYear().toString()
       if (new Date(tournament.period[1]) < new Date()) {
