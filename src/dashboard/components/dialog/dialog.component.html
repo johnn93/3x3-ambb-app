@@ -2,7 +2,6 @@
           header="{{ selectedUser ? selectedUser.fName+ ' ' + selectedUser.lName : 'Inregistrare'}}"
           [modal]="true"
           (onHide)="onHide()" [(visible)]="visible" [style]="{width: '90vw'}">
-  <button (click)="sendEmail(['ionut.b.alex@gmail.com'])">trimite email</button>
   <div *ngIf="createNewUser">
     <form [formGroup]="arbitriiFormSignUp"
           (ngSubmit)="onSubmitSignUp()">

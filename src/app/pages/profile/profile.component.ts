@@ -71,7 +71,6 @@ export class ProfileComponent {
         .subscribe(async data => {
           this.user = data;
           this.setForm();
-          await this.router.navigate([''])
           this.loading = false;
         })
     } catch (error: any) {

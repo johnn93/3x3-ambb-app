@@ -47,7 +47,7 @@ export class ServiceService {
                 scheduledName: c.payload.val()?.scheduledName,
                 isAdmin: c.payload.val()?.isAdmin,
                 uid: c.payload.val()!.uid,
-                photo: c.payload.val()!.photo,
+                photo: c.payload.val()?.photo,
               }
             }
           )
