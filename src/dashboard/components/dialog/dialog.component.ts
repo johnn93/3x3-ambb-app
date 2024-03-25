@@ -89,7 +89,7 @@ export class DialogComponent {
           )
         )
       ).subscribe(data => {
-      if (data.length > 0) {
+      if (data?.length > 0) {
         this.futureTournaments = data.filter(tournament => new Date(tournament.period[0]) >= new Date())
       }
     })
@@ -154,25 +154,27 @@ export class DialogComponent {
               this.sendEmail([result.user!.email!])
               this.authService.sendPasswordResetEmail(result.user!.email!)
               this.resetFormValues()
-              this.futureTournaments.forEach((tournament: any) => {
-                let newUser = {
-                  scheduledName: user.scheduledName,
-                  email: user.email,
-                  uid: user.uid
-                }
-                tournament.refsTotal = [...tournament.refsTotal, newUser];
-                const updateTournament = {
-                  refsTotal: JSON.stringify(tournament.refsTotal)
-                }
-                this.service.updateTournament(tournament.key, updateTournament)
-                  .then(() => {
-                    this.messageService.add({
-                      severity: 'success',
-                      summary: 'Success',
-                      detail: 'Arbitru adaugat cu succes in turneele viitoare'
+              if (this.futureTournaments.length > 0) {
+                this.futureTournaments.forEach((tournament: any) => {
+                  let newUser = {
+                    scheduledName: user.scheduledName,
+                    email: user.email,
+                    uid: user.uid
+                  }
+                  tournament.refsTotal = [...tournament.refsTotal, newUser];
+                  const updateTournament = {
+                    refsTotal: JSON.stringify(tournament.refsTotal)
+                  }
+                  this.service.updateTournament(tournament.key, updateTournament)
+                    .then(() => {
+                      this.messageService.add({
+                        severity: 'success',
+                        summary: 'Success',
+                        detail: 'Arbitru adaugat cu succes in turneele viitoare'
+                      })
                     })
-                  })
-              })
+                })
+              }
             }).catch(error => {
             this.messageService.add({severity: 'error', summary: 'Error', detail: error})
           });
