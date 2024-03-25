@@ -135,7 +135,7 @@ export class DashboardEventsComponent {
   drop(tournamet: any) {
     const selectedTournament = this.allTournaments.filter(tour => tour.key === tournamet.key)
     if (this.draggedRef && selectedTournament[0].key === this.tournamentKey) {
-      const includes: boolean = selectedTournament[0].refsConfirmed.filter((ref: any) => ref?.key === this.draggedRef.key).length > 0
+      const includes: boolean = selectedTournament[0].refsConfirmed.filter((ref: any) => ref?.uid === this.draggedRef.uid).length > 0
       if (!includes) {
         selectedTournament[0].refsConfirmed.push(this.draggedRef);
       } else {
@@ -147,7 +147,7 @@ export class DashboardEventsComponent {
   dropSupervisor(tournament: any) {
     const selectedTournament = this.allTournaments.filter(tour => tour.key === tournament.key)
     if (this.draggedRef && selectedTournament[0].key === this.tournamentKey) {
-      const includes: boolean = selectedTournament[0].supervisors.filter((ref: any) => ref?.key === this.draggedRef.key).length > 0
+      const includes: boolean = selectedTournament[0].supervisors.filter((ref: any) => ref?.uid === this.draggedRef.uid).length > 0
       if (!includes) {
         selectedTournament[0].supervisors.push(this.draggedRef);
       } else {

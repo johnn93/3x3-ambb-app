@@ -81,9 +81,7 @@ export class EventsComponent {
     const ref = {
       uid: this.profile.uid,
       scheduledName: this.profile.scheduledName,
-      phone: this.profile.phone,
       email: this.profile.email,
-      photo: this.profile.photo
     }
     let totalRefs = tournament.refsTotal
     // @ts-ignore
@@ -119,11 +117,7 @@ export class EventsComponent {
     const ref = {
       uid: this.profile.uid,
       scheduledName: this.profile.scheduledName,
-      phone: this.profile.phone,
       email: this.profile.email,
-      photo: this.profile.photo,
-      fName: this.profile.fName,
-      lName: this.profile.lName
     }
     let totalRefs = tournament.refsTotal
     // @ts-ignore

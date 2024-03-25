@@ -58,13 +58,9 @@ export class TournamentDialogComponent {
           changes.map(c => {
               return {
                 key: c.payload.key,
-                phone: c.payload.val()?.phone,
                 uid: c.payload.val()?.uid,
-                photo: c.payload.val()?.photo,
                 scheduledName: c.payload.val()?.scheduledName,
                 email: c.payload.val()?.email,
-                fname: c.payload.val()?.fName,
-                lName: c.payload.val()?.lName,
               }
             }
           )
