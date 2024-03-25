@@ -131,12 +131,6 @@ export class DialogComponent {
     if (this.arbitriiFormSignUp.controls.password.value === this.arbitriiFormSignUp.controls.reEnterPassword.value) {
       this.authService.SignUp(this.arbitriiFormSignUp.controls.email.value, this.arbitriiFormSignUp.controls.password.value)
         .then((result) => {
-          let tournamentObject: any[] = [];
-          if (this.futureTournaments.length > 0) {
-            this.futureTournaments.forEach((tournament: any) => {
-              tournamentObject = [...tournamentObject, {key: tournament.key, value: false}]
-            })
-          }
           const user = {
             uid: result.user?.uid,
             email: result.user!.email,
@@ -158,6 +152,7 @@ export class DialogComponent {
                 detail: 'Arbitru adaugat cu succes'
               })
               this.sendEmail([result.user!.email!])
+              this.authService.sendPasswordResetEmail(result.user!.email!)
               this.resetFormValues()
               this.futureTournaments.forEach((tournament: any) => {
                 let newUser = {
