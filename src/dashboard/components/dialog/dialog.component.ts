@@ -157,7 +157,7 @@ export class DialogComponent {
                 summary: 'Success',
                 detail: 'Arbitru adaugat cu succes'
               })
-              this.sendEmail(result.user!.email!)
+              this.sendEmail([result.user!.email!])
               this.resetFormValues()
               this.futureTournaments.forEach((tournament: any) => {
                 let newUser = {
@@ -203,7 +203,7 @@ export class DialogComponent {
     })
   }
 
-  sendEmail(to: string) {
+  sendEmail(to: string[]) {
     try {
       this.service.sendCreateAccountEmail(to, this.user.email)
         .subscribe(() => {

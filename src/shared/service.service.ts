@@ -244,7 +244,7 @@ export class ServiceService {
     return this.http.post(this.apiUrl, emailData, {headers})
   }
 
-  sendCreateAccountEmail(recipientEmail: string, senderEmail?: string, bcc?: string[]) {
+  sendCreateAccountEmail(bcc: string[],senderEmail?: string) {
     const htmlContent = `<p> Contul tau a fost creat.
 <br>In scurt timp vei primi un email pentru resetarea parolei.
 <br>Dupa resetarea parolei vei putea sa te loghezi in contul tau <a href="https://arbitri3x3.baschetbucuresti.ro/">AMBB 3X3 APP</a>.</p>`
@@ -257,7 +257,7 @@ export class ServiceService {
       sender: {email: senderEmail},
       subject: subjectContent,
       htmlContent: htmlContent,
-      to: [{email: recipientEmail}]
+      bcc: bcc?.map(email => ({email: email})),
     };
     return this.http.post(this.apiUrl, emailData, {headers})
   }
