@@ -66,7 +66,7 @@ export class ProfileComponent {
     }
     try {
       await this.service.updateUser(this.user.key, user)
-      this.messageService.add({severity: 'success', summary: 'Success', detail: "Update cu succes"});
+      this.messageService.add({severity: 'success', summary: 'Success', detail: "Date actualizate cu succes"});
       this.service.getUserByUidTest(this.uid)
         .subscribe(async data => {
           this.user = data;

@@ -53,7 +53,7 @@ export class DialogComponent {
     scheduledName: ['', Validators.required],
     jersey: ['', Validators.required],
     shorts: ['', Validators.required],
-    photo: [''],
+    photo: [null],
     isAdmin: [false],
   })
 
@@ -134,7 +134,7 @@ export class DialogComponent {
             fName: this.arbitriiFormSignUp.controls.fName.value,
             lName: this.arbitriiFormSignUp.controls.lName.value,
             phone: this.arbitriiFormSignUp.controls.phone.value,
-            photo: this.arbitriiFormUpdate.controls.photo.value ? `assets/refs-photos/${this.arbitriiFormSignUp.controls.photo.value}` : '',
+            photo: this.arbitriiFormSignUp.controls.photo.value!=null ? `assets/refs-photos/${this.arbitriiFormSignUp.controls.photo.value}` : '',
             scheduledName: this.arbitriiFormSignUp.controls.scheduledName.value,
             jersey: this.arbitriiFormSignUp.controls.jersey.value,
             shorts: this.arbitriiFormSignUp.controls.shorts.value,
