@@ -22,6 +22,7 @@ export class DialogComponent {
   @Output() newUpdateEvent = new EventEmitter();
   futureTournaments: any;
   photos: any[] = [];
+  user: any;
 
   constructor(private fb: FormBuilder,
               private messageService: MessageService,
@@ -61,7 +62,10 @@ export class DialogComponent {
   ngOnInit() {
 
     this.photos = refsPhotos.sort((a: any, b: any) => a.label.localeCompare(b.label))
-
+    this.service.getUserByUidTest(localStorage.getItem('uid'))
+      .subscribe(data => {
+        this.user = data;
+      })
     this.service.getAllTournaments()
       .snapshotChanges()
       .pipe(
@@ -203,7 +207,7 @@ export class DialogComponent {
 
   sendEmail(to: string) {
     try {
-      this.service.sendCreateAccountEmail(to)
+      this.service.sendCreateAccountEmail(to,this.user.email)
         .subscribe(() => {
           this.messageService.add({severity: 'success', summary: 'Success', detail: "Mail trimis cu succes"})
         })
