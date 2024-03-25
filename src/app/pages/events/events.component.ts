@@ -18,8 +18,6 @@ export class EventsComponent {
   @ViewChild(ConfirmationDialogComponent) confirmationDialogComponent: ConfirmationDialogComponent | undefined;
   ref: DynamicDialogRef | undefined;
   protected readonly formatDate = formatDate;
-  startIndex: number = 0;
-  sum = 15;
   allTournaments: any[] = [];
   tournaments: any[] = []
   tournament: any;
@@ -35,7 +33,7 @@ export class EventsComponent {
 
   ngOnInit() {
     this.loading = true;
-    this.getFutureTournaments()
+    this.getTournaments()
     this.service
       .getUserByUid(localStorage.getItem('uid'))
       .valueChanges()
@@ -45,25 +43,7 @@ export class EventsComponent {
       })
   }
 
-  onScroll() {
-    if (this.sum <= this.allTournaments.length) {
-      this.startIndex = this.sum
-      this.sum += 1
-      this.getFutureTournaments()
-    }
-  }
-
-  addItems(index: number, sum: number) {
-    if (this.tournaments.length === this.allTournaments.length) {
-      return;
-    }
-    for (let i = index; i < sum; ++i) {
-      if (i < this.allTournaments.length)
-        this.tournaments.push(this.allTournaments[i]);
-    }
-  }
-
-  getFutureTournaments() {
+  getTournaments() {
     this.subscription = this.service.getTournaments().subscribe(data => {
       data.sort((a: any, b: any): any => {
         let date1 = new Date(a.period[0])
@@ -72,7 +52,6 @@ export class EventsComponent {
         return date1 - date2
       })
       this.allTournaments = data.filter(data => new Date(data.period[0]) > new Date());
-      this.addItems(this.startIndex, this.sum)
     })
   }
 
