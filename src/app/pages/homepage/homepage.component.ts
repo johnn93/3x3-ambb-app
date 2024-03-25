@@ -13,7 +13,6 @@ export class HomepageComponent {
   isAdmin: boolean = false;
   user: any;
   loading: boolean = false;
-  defaultAvatar='https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
 
   constructor(private authService: AuthenticationService,
               private service: ServiceService) {
