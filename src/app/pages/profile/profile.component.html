@@ -48,7 +48,7 @@
       </div>
     </div>
     <div class="button">
-      <p-button [disabled]="!userFormUpdate.valid" type="submit" label="Salveaza"
+      <p-button [disabled]="!userFormUpdate.valid" [loading]="loading" type="submit" label="Salveaza"
                 [text]="true"></p-button>
     </div>
   </form>

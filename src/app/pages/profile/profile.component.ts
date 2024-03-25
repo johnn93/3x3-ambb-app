@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {ServiceService} from "../../../shared/service.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {MessageService} from "primeng/api";
 
 @Component({
@@ -20,8 +20,7 @@ export class ProfileComponent {
   constructor(private fb: FormBuilder,
               private service: ServiceService,
               private activatedRoute: ActivatedRoute,
-              private messageService: MessageService,
-              private router: Router) {
+              private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -30,6 +29,7 @@ export class ProfileComponent {
     this.uid = this.activatedRoute.snapshot.paramMap.get('uid')
     this.service.getUserByUidTest(this.uid)
       .subscribe(data => {
+        console.log(data)
         this.user = data;
         this.setForm();
         this.loading = false;
