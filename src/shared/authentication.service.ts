@@ -32,6 +32,18 @@ export class AuthenticationService {
       .signInWithEmailAndPassword(email, password)
   }
 
+  sendPasswordResetEmail(email:string) {
+    this.auth.sendPasswordResetEmail(email)
+      .then(() => {
+        console.log('Password reset email sent successfully');
+        // Optionally, provide feedback to the user
+      })
+      .catch(error => {
+        console.error('Error sending password reset email:', error);
+        // Handle errors and provide feedback to the user
+      });
+  }
+
   async SignOut() {
     await this.auth
       .signOut();

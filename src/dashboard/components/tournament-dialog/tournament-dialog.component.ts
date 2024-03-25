@@ -97,7 +97,9 @@ export class TournamentDialogComponent {
           summary: 'Error',
           detail: `${e}`
         }))
-      this.sendEmail(emails, tournament, 'created')
+      if (new Date(tournament.period.split(',')[0]) >= new Date) {
+        this.sendEmail(emails, tournament, 'created')
+      }
       this.onHide()
     } else {
       let updateTournament = {}
@@ -114,7 +116,7 @@ export class TournamentDialogComponent {
           refsDeclined: '[]',
           refsAccepted: '[]',
         }
-      }else{
+      } else {
         updateTournament = {
           ...this.tournamentForm.value,
           refsTotal: JSON.stringify(this.allUsers),

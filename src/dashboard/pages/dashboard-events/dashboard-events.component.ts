@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {ServiceService} from "../../../shared/service.service";
-import {Subscription} from "rxjs";
+import {map, Subscription} from "rxjs";
 import {MessageService} from "primeng/api";
 import {formatDate} from "@angular/common";
 import {User} from "../../../interfaces/user";
@@ -32,6 +32,7 @@ export class DashboardEventsComponent {
   searchText: string = '';
   @ViewChild(ConfirmationDialogComponent) confirmationDialogComponent: ConfirmationDialogComponent | undefined;
   ref: DynamicDialogRef | undefined;
+  allUsers: any;
 
   constructor(private service: ServiceService,
               private messageService: MessageService,
@@ -50,7 +51,26 @@ export class DashboardEventsComponent {
         })
         this.allTournaments = data
         this.filteredTournaments = this.allTournaments;
-        this.loading = false;
+        this.service.getAllUsers()
+          .snapshotChanges()
+          .pipe(
+            map(changes =>
+              changes.map(c => {
+                  return {
+                    key: c.payload.key,
+                    uid: c.payload.val()?.uid,
+                    scheduledName: c.payload.val()?.scheduledName,
+                    email: c.payload.val()?.email,
+                  }
+                }
+              )
+            )
+          ).subscribe(data => {
+          this.allUsers = data.sort((a: any, b: any) => {
+            return a.fName?.localeCompare(b.fName!)
+          });
+          this.loading = false;
+        });
       })
 
   }
@@ -251,6 +271,21 @@ export class DashboardEventsComponent {
       severity: 'error',
       summary: 'Error',
       detail: `${message}`
+    })
+  }
+
+  refreshTable() {
+    this.allTournaments.forEach(async tournament => {
+      const updatedTournament = {
+        ...tournament,
+        period: tournament.period.toString(),
+        refsTotal: JSON.stringify(this.allUsers),
+        refsConfirmed:JSON.stringify(tournament.refsConfirmed),
+        refsAccepted:JSON.stringify(tournament.refsAccepted),
+        refsDeclined:JSON.stringify(tournament.refsDeclined),
+        supervisors:JSON.stringify(tournament.supervisors),
+      }
+      await this.service.updateTournament(tournament.key, updatedTournament)
     })
   }
 
