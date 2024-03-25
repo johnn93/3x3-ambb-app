@@ -13,7 +13,9 @@ import {MessageService} from "primeng/api";
 export class ProfileComponent {
   user: any
   loading: boolean = false;
-  defaultAvatar='https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
+  defaultAvatar = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
+  uid: any;
+  today: any;
 
   constructor(private fb: FormBuilder,
               private service: ServiceService,
@@ -24,12 +26,13 @@ export class ProfileComponent {
 
   ngOnInit() {
     this.loading = true;
-    const uid = this.activatedRoute.snapshot.paramMap.get('uid')
-    this.service.getUserByUidTest(uid)
+    this.today = new Date().getFullYear().toString()
+    this.uid = this.activatedRoute.snapshot.paramMap.get('uid')
+    this.service.getUserByUidTest(this.uid)
       .subscribe(data => {
         this.user = data;
-        this.loading = false;
         this.setForm();
+        this.loading = false;
       })
   }
 
@@ -56,15 +59,23 @@ export class ProfileComponent {
   }
 
   async onSubmitUpdate() {
+    this.loading = true;
     const user = {
       ...this.userFormUpdate.value,
-      profileUpdated: true,
+      profileUpdated: this.today,
     }
     try {
       await this.service.updateUser(this.user.key, user)
-      this.messageService.add({severity: 'success', summary: 'Success', detail: "Update cu succes"})
+      this.messageService.add({severity: 'success', summary: 'Success', detail: "Update cu succes"});
+      this.service.getUserByUidTest(this.uid)
+        .subscribe(async data => {
+          this.user = data;
+          this.setForm();
+          await this.router.navigate([''])
+          this.loading = false;
+        })
     } catch (error: any) {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: error.message})
+      this.messageService.add({severity: 'error', summary: 'Error', detail: error.message});
     }
   }
 }

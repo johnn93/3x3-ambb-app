@@ -2,11 +2,15 @@
   <h1 class="title">Profil</h1>
   <p-divider layout="horizontal"></p-divider>
 </div>
-<app-loader *ngIf="loading;else content"/>
 <ng-template #content>
   <div class="avatar">
     <img style="border-radius:50%" [src]="user.photo ? user.photo : defaultAvatar" width="150" alt="profile-photo">
     <p>{{ user.fName + ' ' + user.lName }}</p>
+  </div>
+  <div class="flex justify-content-center">
+    <h3 *ngIf="user.profileUpdated!=today" style="color:red;text-align:center;padding: 0 10px">Te rog sa actualizezi
+      datele personale pentru a
+      avea acces in aplicatie.</h3>
   </div>
   <form [formGroup]="userFormUpdate"
         (ngSubmit)="onSubmitUpdate()">
@@ -48,4 +52,5 @@
     </div>
   </form>
 </ng-template>
+<app-loader *ngIf="loading;else content"/>
 <p-toast/>

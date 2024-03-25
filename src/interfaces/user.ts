@@ -11,5 +11,5 @@ export interface User {
     key:string;
     tournaments:string;
     photo:string;
-    profileUpdated:boolean;
+    profileUpdated:string;
 }

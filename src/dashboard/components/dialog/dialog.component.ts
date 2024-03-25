@@ -148,7 +148,7 @@ export class DialogComponent {
             jersey: this.arbitriiFormSignUp.controls.jersey.value,
             shorts: this.arbitriiFormSignUp.controls.shorts.value,
             isAdmin: this.arbitriiFormSignUp.controls.isAdmin.value,
-            profileUpdated: false,
+            profileUpdated: '',
           } as User
           this.service.createUser(user)
             .then((data) => {

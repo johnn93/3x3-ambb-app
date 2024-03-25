@@ -39,7 +39,7 @@ export class AppComponent {
       }
       this.service.getUserByUidTest(localStorage.getItem('uid')).subscribe(data => {
         const user = data as User
-        if (!user.profileUpdated) {
+        if (user.profileUpdated!==new Date().getFullYear().toString()) {
           this.router.navigate([`/profile/${user.uid}`])
         }
       })

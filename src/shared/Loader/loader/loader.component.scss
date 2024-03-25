@@ -4,6 +4,13 @@
   height: 100px;
 }
 
+.container{
+  position:absolute;
+  bottom:30%;
+  left:50%;
+  transform:translate(-50%,0);
+}
+
 .basketball {
   position: absolute;
   width: 100%;
