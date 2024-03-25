@@ -43,6 +43,7 @@ export class UsersComponent {
 
   newHideEvent() {
     this.visible = false;
+    this.selectedUser=null;
   }
 
   newUpdateEvent(event: any) {
