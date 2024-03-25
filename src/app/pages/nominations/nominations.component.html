@@ -4,8 +4,8 @@
   <app-loader/>
 </div>
 <ng-template #data>
-  <app-tournaments-nominations *ngIf="tournaments.length;else empty" [tournaments]="tournaments"
-                               (newScroll)="onScroll()"></app-tournaments-nominations>
+  <app-tournaments-nominations *ngIf="allTournaments.length;else empty"
+                               [tournaments]="allTournaments"></app-tournaments-nominations>
   <ng-template #empty>
     <div class="flex flex-column justify-content-center align-items-center mt-8">
       <img

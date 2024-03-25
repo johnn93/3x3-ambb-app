@@ -1,7 +1,5 @@
 <div class="container">
-  <p-fieldset *ngFor="let tournament of tournaments" [toggleable]="true" [collapsed]="true" infiniteScroll
-              [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50"
-              (scrolled)="onScroll()">
+  <p-fieldset *ngFor="let tournament of tournaments" [toggleable]="true" [collapsed]="true">
     <ng-template pTemplate="header">
       <div class="flex align-items-center gap-2 px-2">
         <img src="{{tournament.logo}}" width="75px"/>
@@ -26,9 +24,9 @@
       <p-tabPanel header="Arbitrii">
         <div class="refs">
           <div *ngFor="let ref of tournament.refsConfirmed">
-            <div class="figure p-card">
-              <p-avatar image="{{ref.photo}}" size="large"></p-avatar>
-            </div>
+            <p-avatar
+              [image]="ref.photo ? ref.photo : defaultAvatar"
+              size="xlarge"></p-avatar>
             <p class="ref-name"><a href="tel:{{ref.phone}}">{{ ref.scheduledName }}</a></p>
           </div>
         </div>
@@ -36,9 +34,7 @@
       <p-tabPanel header="Supervisors">
         <div class="refs">
           <div *ngFor="let supervisor of tournament.supervisors">
-            <div class="figure p-card">
-              <p-avatar image="{{supervisor.photo}}" size="large"></p-avatar>
-            </div>
+            <p-avatar image="{{supervisor.photo}}" size="large"></p-avatar>
             <p class="ref-name"><a href="tel:{{supervisor.phone}}">{{ supervisor.scheduledName }}</a></p>
           </div>
         </div>

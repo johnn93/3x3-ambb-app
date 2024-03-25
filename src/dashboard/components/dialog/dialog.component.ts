@@ -42,8 +42,8 @@ export class DialogComponent {
     key: [''],
     phone: ['', Validators.required],
     scheduledName: ['', Validators.required],
-    isAdmin: [false, Validators.required],
-    photo: ['', Validators.required]
+    isAdmin: [false],
+    photo: ['']
   })
 
   arbitriiFormUpdate = this.fb.group({
@@ -54,6 +54,7 @@ export class DialogComponent {
     scheduledName: ['', Validators.required],
     jersey: ['', Validators.required],
     shorts: ['', Validators.required],
+    photo: [''],
     isAdmin: [false],
   })
 
@@ -103,6 +104,8 @@ export class DialogComponent {
     if (changes['selectedUser'] !== undefined &&
       changes['selectedUser'].currentValue !== undefined) {
       this.arbitriiFormUpdate.controls.fName.setValue(this.selectedUser!.fName)
+      // @ts-ignore
+      this.arbitriiFormUpdate.controls.photo.setValue(this.selectedUser!.photo.split('/')[2])
       this.arbitriiFormUpdate.controls.lName.setValue(this.selectedUser!.lName)
       this.arbitriiFormUpdate.controls.email.setValue(this.selectedUser!.email)
       this.arbitriiFormUpdate.controls.phone.setValue(this.selectedUser!.phone)
@@ -136,12 +139,11 @@ export class DialogComponent {
             fName: this.arbitriiFormSignUp.controls.fName.value,
             lName: this.arbitriiFormSignUp.controls.lName.value,
             phone: this.arbitriiFormSignUp.controls.phone.value,
-            photo: this.arbitriiFormSignUp.controls.photo.value,
+            photo: this.arbitriiFormUpdate.controls.photo.value ? `assets/refs-photos/${this.arbitriiFormSignUp.controls.photo.value}` : '',
             scheduledName: this.arbitriiFormSignUp.controls.scheduledName.value,
             jersey: this.arbitriiFormSignUp.controls.jersey.value,
             shorts: this.arbitriiFormSignUp.controls.shorts.value,
             isAdmin: this.arbitriiFormSignUp.controls.isAdmin.value,
-            tournaments: this.futureTournaments.length > 0 ? JSON.stringify(tournamentObject) : '[]'
           } as User
           this.service.createUser(user)
             .then((data) => {
@@ -157,7 +159,8 @@ export class DialogComponent {
                   phone: user.phone,
                   scheduledName: user.scheduledName,
                   photo: user.photo,
-                  email:user.email
+                  email: user.email,
+                  uid:user.uid
                 }
                 tournament.refsTotal = [...tournament.refsTotal, newUser];
                 const updateTournament = {
@@ -184,7 +187,11 @@ export class DialogComponent {
   }
 
   onSubmitUpdate() {
-    this.service.updateUser(this.selectedUser!.key, this.arbitriiFormUpdate.value)
+    const user = {
+      ...this.arbitriiFormUpdate.value,
+      photo: this.arbitriiFormUpdate.controls.photo.value ? `assets/refs-photos/${this.arbitriiFormUpdate.controls.photo.value}` : ''
+    }
+    this.service.updateUser(this.selectedUser!.key, user)
       .then(() => {
         this.newUpdateEvent.emit(true)
         this.visible = false;

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from "@angular/fire/compat/database";
 import {User} from "../interfaces/user";
 import {Tournament} from "../interfaces/tournament";
-import {map} from "rxjs";
+import {forkJoin, map, Observable, switchMap} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {emailApiKey, emailApiUrl} from "./constants";
 import {formatDate} from "@angular/common";
@@ -31,6 +31,30 @@ export class ServiceService {
     return this.db.list('users', ref => ref.orderByChild('fName'))
   }
 
+  getUsers(){
+    return this.usersRef
+      .snapshotChanges()
+      .pipe(
+        map(changes =>
+          changes.map(c => {
+              return {
+                key: c.payload.key,
+                fName: c.payload.val()?.fName,
+                lName: c.payload.val()?.lName,
+                email: c.payload.val()?.email,
+                phone: c.payload.val()?.phone,
+                shorts: c.payload.val()?.shorts,
+                scheduledName: c.payload.val()?.scheduledName,
+                isAdmin: c.payload.val()?.isAdmin,
+                uid: c.payload.val()!.uid,
+                photo: c.payload.val()!.photo,
+              }
+            }
+          )
+        )
+      )
+  }
+
   getUserByUidTest(uid: any) {
     return this.db.list('users', ref => ref.orderByChild('uid').equalTo(uid).limitToFirst(1))
       .snapshotChanges()
@@ -43,7 +67,7 @@ export class ServiceService {
   }
 
   getUserByUid(uid: any) {
-    return this.db.list('users', ref => ref.orderByChild('uid').equalTo(uid).limitToFirst(1))
+    return this.db.list('users', ref => ref.orderByChild('uid').equalTo(uid))
   }
 
   getTournaments() {
@@ -115,6 +139,14 @@ export class ServiceService {
 
   updateUser(key: string, value: any): Promise<void> {
     return this.usersRef.update(key, value);
+  }
+
+  async deleteUser(user:any):Promise<void>{
+    try {
+      return await this.usersRef.remove(user.key);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
   }
 
   async deleteTournament(tournament: any): Promise<void> {

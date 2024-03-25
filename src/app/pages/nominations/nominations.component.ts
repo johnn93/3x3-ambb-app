@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ServiceService} from "../../../shared/service.service";
-import {Subscription} from "rxjs";
+import {combineLatest} from "rxjs";
 import {formatDate} from "@angular/common";
 
 @Component({
@@ -10,12 +10,9 @@ import {formatDate} from "@angular/common";
 })
 export class NominationsComponent {
   protected readonly formatDate = formatDate;
-  startIndex: number = 0;
-  sum = 15;
   allTournaments: any[] = []
   tournaments: any[] = []
   tournament: any;
-  subscription: Subscription | undefined
   profile: any;
   loading: boolean = false;
 
@@ -26,54 +23,37 @@ export class NominationsComponent {
     this.getTournaments()
   }
 
-  ngOnDestroy() {
-    this.subscription?.unsubscribe()
-  }
-
   getTournaments() {
-    this.loading=true;
-    this.subscription = this.service.getTournaments().subscribe(data => {
-      data.sort((a: any, b: any): any => {
-        let date1 = new Date(a.period[0])
-        let date2 = new Date(b.period[0])
-        // @ts-ignore
-        return date1 - date2
-      })
-      this.service.getUserByUid(localStorage.getItem('uid'))
-        .valueChanges()
-        .subscribe(profile => {
-          this.profile = profile[0];
-          data.forEach(tournament => {
-            tournament.refsConfirmed.forEach((ref: any) => {
-              if (ref.uid === this.profile.uid && new Date(tournament.period[0]) > new Date()) {
-                this.allTournaments.push(tournament)
-              }
-            })
-          })
-          this.addItems(this.startIndex, this.sum)
-          this.loading=false;
-        })
+    this.loading = true;
+    const tournamentObservable = this.service.getTournaments()
+    const userObservable = this.service.getUsers()
+    combineLatest({
+      tournaments: tournamentObservable,
+      users: userObservable
     })
-  }
-
-  addItems(index: number, sum: number) {
-    if (this.tournaments.length === this.allTournaments.length) {
-      return
-    }
-    if (this.allTournaments.length) {
-      for (let i = index; i < sum; ++i) {
-        if (i < this.allTournaments.length)
-          this.tournaments.push(this.allTournaments[i]);
-      }
-    }
-
-  }
-
-  onScroll() {
-    if (this.sum <= this.allTournaments.length) {
-      this.startIndex = this.sum
-      this.sum += 1
-      this.getTournaments()
-    }
+      .subscribe(result => {
+        const tournaments = result.tournaments;
+        const users = result.users;
+        const tournamentsWithRefsTotal = tournaments.map(tournament => {
+          const refsConfirmed = tournament.refsConfirmed.map((refUid: any) => users.find(user => user.uid === refUid.uid));
+          const supervisors = tournament.supervisors.map((refUid: any) => users.find(user => user.uid === refUid.uid));
+          return {...tournament, refsConfirmed, supervisors};
+        })
+        tournamentsWithRefsTotal.sort((a: any, b: any): any => {
+          let date1 = new Date(a.period[0])
+          let date2 = new Date(b.period[0])
+          // @ts-ignore
+          return date1 - date2
+        })
+        const futureTournaments = tournamentsWithRefsTotal.filter(data => new Date(data.period[0]) > new Date());
+        futureTournaments.forEach(tournament => {
+          tournament.refsConfirmed.forEach((ref: any) => {
+            if (ref.uid === localStorage.getItem('uid')) {
+              this.allTournaments.push(tournament)
+            }
+          })
+        })
+        this.loading = false;
+      })
   }
 }

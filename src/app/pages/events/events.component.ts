@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {ServiceService} from "../../../shared/service.service";
-import {Subscription} from "rxjs";
+import {combineLatest, Subscription} from "rxjs";
 import {formatDate} from "@angular/common";
 import {Tournament} from "../../../interfaces/tournament";
 import {ConfirmationService, MessageService} from "primeng/api";
@@ -35,7 +35,7 @@ export class EventsComponent {
 
   ngOnInit() {
     this.loading = true;
-    this.getTournaments()
+    this.getFutureTournaments()
     this.service
       .getUserByUid(localStorage.getItem('uid'))
       .valueChanges()
@@ -49,7 +49,7 @@ export class EventsComponent {
     if (this.sum <= this.allTournaments.length) {
       this.startIndex = this.sum
       this.sum += 1
-      this.getTournaments()
+      this.getFutureTournaments()
     }
   }
 
@@ -63,7 +63,7 @@ export class EventsComponent {
     }
   }
 
-  getTournaments() {
+  getFutureTournaments() {
     this.subscription = this.service.getTournaments().subscribe(data => {
       data.sort((a: any, b: any): any => {
         let date1 = new Date(a.period[0])
@@ -82,8 +82,8 @@ export class EventsComponent {
       uid: this.profile.uid,
       scheduledName: this.profile.scheduledName,
       phone: this.profile.phone,
-      email:this.profile.email,
-      photo:this.profile.photo
+      email: this.profile.email,
+      photo: this.profile.photo
     }
     let totalRefs = tournament.refsTotal
     // @ts-ignore
@@ -120,10 +120,10 @@ export class EventsComponent {
       uid: this.profile.uid,
       scheduledName: this.profile.scheduledName,
       phone: this.profile.phone,
-      email:this.profile.email,
-      photo:this.profile.photo,
-      fName:this.profile.fName,
-      lName:this.profile.lName
+      email: this.profile.email,
+      photo: this.profile.photo,
+      fName: this.profile.fName,
+      lName: this.profile.lName
     }
     let totalRefs = tournament.refsTotal
     // @ts-ignore

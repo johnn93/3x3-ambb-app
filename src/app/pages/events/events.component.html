@@ -11,7 +11,7 @@
     </div>
   </ng-template>
   <ng-template #data>
-    <div *ngIf="tournaments.length;else empty">
+    <div *ngIf="allTournaments.length;else empty">
       <div class="flex flex-row flex-wrap mt-2 justify-content-center align-items-center gap-2">
         <div class="p-card card p-2" *ngFor="let tournament of tournaments" infiniteScroll
              [infiniteScrollDistance]="2" [infiniteScrollThrottle]="150"

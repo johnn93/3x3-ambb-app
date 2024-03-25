@@ -2,54 +2,58 @@
          [rows]="10"
          [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" responsiveLayout="stack" [value]="allUsers"
          [tableStyle]="{ 'min-width': '10rem' }">
-    <ng-template pTemplate="caption">
-        <div class="flex flex-row justify-content-between">
-            <div>
-                <i class="fa fa-search" style="margin:4px 4px 4px 4px"></i>
-                <input type="text" pInputText size="auto" placeholder="Search"
-                       (input)="dt.filterGlobal($any($event.target).value, 'contains')">
-            </div>
-            <p-button [text]="true" (onClick)="addUser()"
-                      icon="pi pi-user-plus"></p-button>
+  <ng-template pTemplate="caption">
+    <div class="flex flex-row justify-content-between">
+      <div>
+        <i class="fa fa-search" style="margin:4px 4px 4px 4px"></i>
+        <input type="text" pInputText size="auto" placeholder="Search"
+               (input)="dt.filterGlobal($any($event.target).value, 'contains')">
+      </div>
+      <p-button [text]="true" (onClick)="addUser()"
+                icon="pi pi-user-plus"></p-button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Poza</th>
+      <th>Nume</th>
+      <th>Prenume</th>
+      <th>Email</th>
+      <th>Marime Tricou</th>
+      <th>Marime Short</th>
+      <th>Telefon</th>
+      <th>Uid</th>
+      <th>Key</th>
+      <th>Admin</th>
+      <th>Actiuni</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-user>
+    <tr>
+      <td><span class="p-column-title">Nume</span>
+        <p-avatar [image]="user.photo ? user.photo : defaultAvatar" size="xlarge"></p-avatar>
+      </td>
+      <td><span class="p-column-title">Nume</span>{{ user.fName }}</td>
+      <td><span class="p-column-title">Prenume</span>{{ user.lName }}</td>
+      <td><span class="p-column-title">Email</span>{{ user.email }}</td>
+      <td><span class="p-column-title">Marime Tricou</span>{{ user.jersey }}</td>
+      <td><span class="p-column-title">Marime Short</span>{{ user.shorts }}</td>
+      <td><span class="p-column-title">Telefon</span>{{ user.phone }}</td>
+      <td><span class="p-column-title">Uid</span>{{ user.uid }}</td>
+      <td><span class="p-column-title">Key</span>{{ user.key }}</td>
+      <td><span class="p-column-title">Admin</span>
+        <i *ngIf="user.isAdmin" class="pi pi-check" style="color:green"></i>
+        <i *ngIf="!user.isAdmin" class="pi pi-times" style="color:red"></i></td>
+      <td>
+        <div class="buttons">
+          <p-button [text]="true" icon="pi pi-trash"
+                    (onClick)="deleteUser(user)"></p-button>
+          <p-button [text]="true" icon="pi pi-user-edit"
+                    (onClick)="openUpdateDialog(user)"></p-button>
         </div>
-    </ng-template>
-    <ng-template pTemplate="header">
-        <tr>
-            <th>Nume</th>
-            <th>Prenume</th>
-            <th>Email</th>
-            <th>Marime Tricou</th>
-            <th>Marime Short</th>
-            <th>Telefon</th>
-            <th>Uid</th>
-            <th>Key</th>
-            <th>Admin</th>
-            <th>Actiuni</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-user>
-        <tr>
-            <td><span class="p-column-title">Nume</span>{{ user.fName }}</td>
-            <td><span class="p-column-title">Prenume</span>{{ user.lName}}</td>
-            <td><span class="p-column-title">Email</span>{{user.email}}</td>
-            <td><span class="p-column-title">Marime Tricou</span>{{ user.jersey}}</td>
-            <td><span class="p-column-title">Marime Short</span>{{ user.shorts}}</td>
-            <td><span class="p-column-title">Telefon</span>{{user.phone}}</td>
-            <td><span class="p-column-title">Uid</span>{{user.uid}}</td>
-            <td><span class="p-column-title">Key</span>{{ user.key}}</td>
-            <td><span class="p-column-title">Admin</span>
-                <i *ngIf="user.isAdmin" class="pi pi-check" style="color:green"></i>
-                <i *ngIf="!user.isAdmin" class="pi pi-times" style="color:red"></i></td>
-            <td>
-                <div class="buttons">
-                <p-button [text]="true" icon="pi pi-trash"
-                          (onClick)="deleteUser(user)"></p-button>
-                <p-button [text]="true" icon="pi pi-user-edit"
-                          (onClick)="openUpdateDialog(user)"></p-button>
-                </div>
-            </td>
-        </tr>
-    </ng-template>
+      </td>
+    </tr>
+  </ng-template>
 </p-table>
 <p-toast [breakpoints]="{'920px': {width: '90%', right: '0'}}"></p-toast>
 <app-dialog [editMode]="editMode" [selectedUser]="selectedUser" (newHideEvent)="newHideEvent()"

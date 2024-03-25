@@ -165,6 +165,7 @@ export class DashboardEventsComponent {
       }
     })
     const tournamentUpdate = {
+      refsTotal: JSON.stringify(tournament.refsTotal),
       refsConfirmed: JSON.stringify(tournament.refsConfirmed),
       supervisors: JSON.stringify(tournament.supervisors)
     } as Tournament
@@ -177,10 +178,12 @@ export class DashboardEventsComponent {
         summary: 'Success',
         detail: 'Nominalizari inregistrate cu succes.'
       })
-      try {
-        this.sendEmail(emails, tournament, 'nomination')
-      } catch (error: any) {
-        this.handleError(error.detail)
+      if (tournament.refsConfirmed.length !== 0) {
+        try {
+          this.sendEmail(emails, tournament, 'nomination')
+        } catch (error: any) {
+          this.handleError(error.detail)
+        }
       }
     } catch (e: any) {
       this.handleError(e.detail)
@@ -188,10 +191,18 @@ export class DashboardEventsComponent {
     this.isSaving = false;
   }
 
-  onRemove(ref: User, tournament: any) {
+  onRemoveRefsConfirmed(ref: User, tournament: any) {
     tournament.refsConfirmed.forEach((element: any, index: any) => {
       if (element.key === ref.key) {
         tournament.refsConfirmed.splice(index, 1)
+      }
+    })
+  }
+
+  onRemoveRefsTotal(ref: User, tournament: any) {
+    tournament.refsTotal.forEach((element: any, index: any) => {
+      if (element.key === ref.key) {
+        tournament.refsTotal.splice(index, 1)
       }
     })
   }
@@ -205,6 +216,9 @@ export class DashboardEventsComponent {
   }
 
   sendEmail(bcc: any, tournament: any, type: string) {
+    if (bcc.length === 0) {
+      return;
+    }
     switch (type) {
       case 'nomination':
         this.service.sendNominationEmail('bicinigar@gmail.com', ['ionut.b.alex@gmail.com'], tournament.name, tournament.period)

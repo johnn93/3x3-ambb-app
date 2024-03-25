@@ -18,6 +18,7 @@ export class UsersComponent {
   selectedUser: any;
   loading: boolean = false;
   allUsers: any[] = []
+  defaultAvatar = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
 
   constructor(private messageService: MessageService,
               private service: ServiceService) {
@@ -30,9 +31,7 @@ export class UsersComponent {
   }
 
   deleteUser(user: any) {
-    // this.service.deleteUserFromDataBase(user);
-    // this.service.deleteUserFromAuthentication(user);
-    // this.messageService.add({severity: 'warn', summary: 'Info', detail: 'Nu se pot sterge useri'})
+    console.log('not possible')
   }
 
   openUpdateDialog(user: User) {
@@ -72,6 +71,7 @@ export class UsersComponent {
               return {
                 key: c.payload.key,
                 fName: c.payload.val()?.fName,
+                photo: c.payload.val()?.photo,
                 lName: c.payload.val()?.lName,
                 email: c.payload.val()?.email,
                 phone: c.payload.val()?.phone,
