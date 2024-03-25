@@ -152,6 +152,7 @@ export class DialogComponent {
                 summary: 'Success',
                 detail: 'Arbitru adaugat cu succes'
               })
+              this.sendEmail(result.user!.email!)
               this.resetFormValues()
               this.futureTournaments.forEach((tournament: any) => {
                 let newUser = {
@@ -160,7 +161,7 @@ export class DialogComponent {
                   scheduledName: user.scheduledName,
                   photo: user.photo,
                   email: user.email,
-                  uid:user.uid
+                  uid: user.uid
                 }
                 tournament.refsTotal = [...tournament.refsTotal, newUser];
                 const updateTournament = {
@@ -198,5 +199,16 @@ export class DialogComponent {
       }).catch((error: any) => {
       this.newUpdateEvent.emit(error)
     })
+  }
+
+  sendEmail(to: string) {
+    try {
+      this.service.sendCreateAccountEmail(to)
+        .subscribe(() => {
+          this.messageService.add({severity: 'success', summary: 'Success', detail: "Mail trimis cu succes"})
+        })
+    } catch (error: any) {
+      this.messageService.add({severity: 'error', summary: 'Error', detail: error.message})
+    }
   }
 }
