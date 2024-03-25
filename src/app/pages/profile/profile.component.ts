@@ -29,7 +29,6 @@ export class ProfileComponent {
     this.uid = this.activatedRoute.snapshot.paramMap.get('uid')
     this.service.getUserByUidTest(this.uid)
       .subscribe(data => {
-        console.log(data)
         this.user = data;
         this.setForm();
         this.loading = false;
