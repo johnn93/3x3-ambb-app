@@ -172,7 +172,7 @@ export class DialogComponent {
                     })
                 })
               }
-              this.newUpdateEvent.emit(true)
+              this.newHideEvent.emit(true)
             }).catch(error => {
             this.messageService.add({severity: 'error', summary: 'Error', detail: error})
           });
