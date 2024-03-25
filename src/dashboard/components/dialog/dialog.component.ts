@@ -20,7 +20,7 @@ export class DialogComponent {
   @Input() visible: boolean = false;
   @Output() newHideEvent = new EventEmitter();
   @Output() newUpdateEvent = new EventEmitter();
-  futureTournaments: any;
+  futureTournaments: any[] = [];
   photos: any[] = [];
   user: any;
 
