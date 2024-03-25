@@ -18,7 +18,7 @@
           </p>
           <p class="info-items">Nr Terenuri: {{ tournament.courtNo }}</p>
           <a class="tournament-link info-items"
-             href="https://play.fiba3x3.com/events/21583c19-34d6-41fb-932f-c8e01fcb0082">Link Turneu</a>
+             href="{{tournament.link}}">Link Turneu</a>
         </div>
       </p-tabPanel>
       <p-tabPanel header="Arbitrii">
@@ -34,7 +34,7 @@
       <p-tabPanel header="Supervisors">
         <div class="refs">
           <div *ngFor="let supervisor of tournament.supervisors">
-            <p-avatar image="{{supervisor.photo}}" size="large"></p-avatar>
+            <p-avatar [image]="supervisor.photo ? supervisor.photo : defaultAvatar" size="xlarge"></p-avatar>
             <p class="ref-name"><a href="tel:{{supervisor.phone}}">{{ supervisor.scheduledName }}</a></p>
           </div>
         </div>

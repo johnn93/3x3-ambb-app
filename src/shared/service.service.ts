@@ -67,7 +67,7 @@ export class ServiceService {
   }
 
   getUserByUid(uid: any) {
-    return this.db.list('users', ref => ref.orderByChild('uid').equalTo(uid))
+    return this.db.list('users', ref => ref.orderByChild('uid').equalTo(uid).limitToFirst(1))
   }
 
   getTournaments() {
