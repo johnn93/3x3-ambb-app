@@ -37,12 +37,14 @@ export class AppComponent {
         this.homepage = event.url !== '/';
         this.dashboard = event.url.includes('dashboard')
       }
-      this.service.getUserByUidTest(localStorage.getItem('uid')).subscribe(async data => {
-        const user = data as User
-        if ((user.profileUpdated !== new Date().getFullYear().toString()) && localStorage.getItem('user')!=null) {
-          await this.router.navigate([`/profile/${user.uid}`])
-        }
-      })
+      if (localStorage.getItem('uid')!=='null') {
+        this.service.getUserByUidTest(localStorage.getItem('uid')).subscribe(async data => {
+          const user = data as User
+          if ((user.profileUpdated !== new Date().getFullYear().toString()) && localStorage.getItem('user') != null) {
+            await this.router.navigate([`/profile/${user.uid}`])
+          }
+        })
+      }
     });
 
     this.updateOnlineStatus();

@@ -72,8 +72,6 @@ export class LoginPageComponent {
             this.loginForm.enable()
             this.loading = false;
           })
-
-
       }).catch(() => {
       this.loading = false;
       this.loginForm.enable()
