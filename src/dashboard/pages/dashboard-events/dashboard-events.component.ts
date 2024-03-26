@@ -241,7 +241,7 @@ export class DashboardEventsComponent {
     }
     switch (type) {
       case 'nomination':
-        this.service.sendNominationEmail('bicinigar@gmail.com', ['ionut.b.alex@gmail.com'], tournament.name, tournament.period)
+        this.service.sendNominationEmail('bicinigar@gmail.com', bcc, tournament.name, tournament.period)
           .subscribe(
             response => {
               this.messageService.add({severity: 'success', summary: 'Success', detail: "Mail-uri trimise cu succes"})
@@ -280,10 +280,10 @@ export class DashboardEventsComponent {
         ...tournament,
         period: tournament.period.toString(),
         refsTotal: JSON.stringify(this.allUsers),
-        refsConfirmed:JSON.stringify(tournament.refsConfirmed),
-        refsAccepted:JSON.stringify(tournament.refsAccepted),
-        refsDeclined:JSON.stringify(tournament.refsDeclined),
-        supervisors:JSON.stringify(tournament.supervisors),
+        refsConfirmed: JSON.stringify(tournament.refsConfirmed),
+        refsAccepted: JSON.stringify(tournament.refsAccepted),
+        refsDeclined: JSON.stringify(tournament.refsDeclined),
+        supervisors: JSON.stringify(tournament.supervisors),
       }
       await this.service.updateTournament(tournament.key, updatedTournament)
     })

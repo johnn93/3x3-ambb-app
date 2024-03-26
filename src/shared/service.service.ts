@@ -161,7 +161,8 @@ export class ServiceService {
     const name = tournamentName;
     const date = formatDate(tournamentDate[0], 'dd/MM/yyyy', 'ro-RO') + '-' + formatDate(tournamentDate[1], 'dd/MM/yyyy', 'ro-RO');
     const htmlContent = `<p> Ai fost nominalizat la turneul ${name} din data de ${date}.
-        <br>Mai multe detalii poti vedea in aplicatie.</p>`
+        <br>Mai multe detalii poti vedea in aplicatie.
+        <br><a href="https://arbitri3x3.baschetbucuresti.ro/">AMBB 3X3 APP</a></p>`
     const subjectContent = `Nominalizari ${name}`
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -183,7 +184,8 @@ export class ServiceService {
     const name = tournamentName;
     const date = formatDate(tournamentDate[0], 'dd/MM/yyyy', 'ro-RO') + '-' + formatDate(tournamentDate[1], 'dd/MM/yyyy', 'ro-RO');
     const htmlContent = `<p> Turneul ${name} in perioada ${date} a fost incarcat in aplicatie.
-        <br>Te rog sa accesezi aplicatia pentru a iti oferi disponibilitatea la turneu.</p>`
+        <br>Te rog sa accesezi aplicatia pentru a iti oferi disponibilitatea la turneu.
+        <br><a href="https://arbitri3x3.baschetbucuresti.ro/">AMBB 3X3 APP</a></p>`
     const subjectContent = `Turneu ${name}`
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

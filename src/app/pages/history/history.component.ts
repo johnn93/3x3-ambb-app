@@ -51,12 +51,16 @@ export class HistoryComponent {
         this.allTournaments = tournamentsWithRefsTotal.filter(data => new Date(data.period[0]) < new Date());
         this.addYears(this.allTournaments)
         this.addPersonalYears(this.allTournaments)
-        this.loading = false;
+        this.service.getUserByUidTest(localStorage.getItem('uid'))
+          .subscribe(data => {
+            this.profile = data;
+            this.loading = false;
+          })
       })
   }
 
   checkIfRef(tournament: any) {
-    return tournament.find((ref: any) => ref?.uid === this.profile?.uid)
+    return tournament.find((ref: any) => ref?.uid === localStorage.getItem('uid'))
   }
 
   addPersonalYears(tournaments: any) {

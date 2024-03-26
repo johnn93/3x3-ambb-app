@@ -12,10 +12,12 @@
                placeholder="Search"
                (input)="filterTournaments()">
       </div>
-      <p-button [outlined]="true" (onClick)="addTournament()"
-                label="Adauga turneu"></p-button>
-      <p-button [outlined]="true" (onClick)="refreshTable()"
-                label="Refresh"></p-button>
+      <div class="gap-3 flex">
+        <p-button [outlined]="true" (onClick)="addTournament()"
+                  label="Adauga turneu"></p-button>
+        <p-button [outlined]="true" (onClick)="refreshTable()"
+                  label="Refresh"></p-button>
+      </div>
     </div>
   </ng-template>
   <ng-template pTemplate="header">
