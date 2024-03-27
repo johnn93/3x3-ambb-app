@@ -35,7 +35,7 @@
         <div class="refs">
           <div *ngFor="let supervisor of tournament.supervisors">
             <p-avatar [image]="supervisor.photo ? supervisor.photo : defaultAvatar" size="xlarge"></p-avatar>
-            <p class="ref-name"><a href="tel:{{supervisor.phone}}">{{ supervisor.scheduledName }}</a></p>
+            <p class="ref-name"><a href="tel:{{supervisor.phone}}">{{ supervisor.fName + " " + supervisor.lName }}</a></p>
           </div>
         </div>
       </p-tabPanel>
