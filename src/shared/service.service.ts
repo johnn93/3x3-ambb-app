@@ -85,6 +85,7 @@ export class ServiceService {
                 courtNo: c.payload.val()?.courtNo,
                 logo: c.payload.val()?.logo,
                 link: c.payload.val()?.link,
+                isFree:c.payload.val()?.isFree,
                 refsTotal: c.payload.val()!.refsTotal ? JSON.parse(c.payload.val()!.refsTotal) : [],
                 refsDeclined: c.payload.val()!.refsDeclined ? JSON.parse(c.payload.val()!.refsDeclined) : [],
                 refsAccepted: c.payload.val()!.refsAccepted ? JSON.parse(c.payload.val()!.refsAccepted) : [],

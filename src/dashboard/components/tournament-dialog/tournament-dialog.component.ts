@@ -34,6 +34,7 @@ export class TournamentDialogComponent {
     courtNo: ['', Validators.required],
     logo: ['', Validators.required],
     link: ['', Validators.required],
+    isFree:[false]
   })
 
   ngOnInit() {
@@ -163,6 +164,7 @@ export class TournamentDialogComponent {
       this.tournamentForm.controls.courtNo.setValue(this.selectedTournament?.courtNo || null)
       this.tournamentForm.controls.logo.setValue(this.selectedTournament?.logo || null)
       this.tournamentForm.controls.link.setValue(this.selectedTournament?.link || null)
+      this.tournamentForm.controls.isFree.setValue(this.selectedTournament?.isFree || false)
     }
   }
 

@@ -27,6 +27,7 @@
 
 .refs{
   display:grid;
+  width:300px;
   grid-template-columns: repeat(auto-fill, 5rem);
   grid-gap: .5rem;
   grid-auto-flow:row;
@@ -52,9 +53,10 @@
 
 .ref-name{
   color:var(--text-color);
-  font-size:.7rem;
+  font-size:.6rem;
   text-align:left;
   font-weight:bold;
+  width:100%;
 }
 
 .content-divider{

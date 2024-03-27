@@ -20,6 +20,9 @@
   flex-direction:row;
   width:20rem;
   height:4rem;
+  &:hover{
+    cursor:pointer;
+  }
 }
 
 .location-date{

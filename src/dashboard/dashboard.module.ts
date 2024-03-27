@@ -34,6 +34,7 @@ import {ConfirmationDialogComponent} from "../shared/confirmation-dialog/confirm
 import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {TabViewModule} from "primeng/tabview";
 import {HttpClientModule} from "@angular/common/http";
+import {CheckboxModule} from "primeng/checkbox";
 
 
 @NgModule({
@@ -76,6 +77,7 @@ import {HttpClientModule} from "@angular/common/http";
     ConfirmPopupModule,
     TabViewModule,
     FormsModule,
+    CheckboxModule,
   ],
     providers: [{ provide: LOCALE_ID, useValue: 'ro-RO' }],
   exports: [

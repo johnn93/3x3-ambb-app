@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {ServiceService} from "../../../shared/service.service";
-import {map, Subscription} from "rxjs";
+import {debounceTime, map, Subject, Subscription} from "rxjs";
 import {MessageService} from "primeng/api";
 import {formatDate} from "@angular/common";
 import {User} from "../../../interfaces/user";
@@ -30,6 +30,7 @@ export class DashboardEventsComponent {
   history: any[] = [];
   filteredTournaments: any[] = [];
   searchText: string = '';
+  searchTextChanged = new Subject<string>()
   @ViewChild(ConfirmationDialogComponent) confirmationDialogComponent: ConfirmationDialogComponent | undefined;
   ref: DynamicDialogRef | undefined;
   allUsers: any;
@@ -37,6 +38,21 @@ export class DashboardEventsComponent {
   constructor(private service: ServiceService,
               private messageService: MessageService,
               private dialogService: DialogService) {
+    this.searchTextChanged.pipe(
+      debounceTime(300) // Adjust the debounce time as needed (e.g., 300 milliseconds)
+    ).subscribe((searchText: string) => {
+      this.filteredTournaments = this.allTournaments.filter(tournament =>
+        tournament.name?.toLowerCase().includes(searchText.toLowerCase()) ||
+        tournament.period[0]?.toLowerCase().includes(searchText.toLowerCase()) ||
+        tournament.period[1]?.toLowerCase().includes(searchText.toLowerCase()) ||
+        (tournament.isFree === true && this.searchText.toLowerCase() === 'gratis') ||
+        ((tournament.isFree === false || tournament.isFree === undefined) && this.searchText.toLowerCase() === 'cu plata') ||
+        tournament.refsTotal?.some((ref: any) => ref.scheduledName.toLowerCase().includes(searchText.toLowerCase())) ||
+        tournament.refsAccepted?.some((ref: any) => ref.scheduledName.toLowerCase().includes(searchText.toLowerCase())) ||
+        tournament.refsDeclined?.some((ref: any) => ref.scheduledName.toLowerCase().includes(searchText.toLowerCase())) ||
+        tournament.supervisors?.some((ref: any) => ref.scheduledName.toLowerCase().includes(searchText.toLowerCase()))
+      );
+    });
   }
 
   ngOnInit() {
@@ -76,16 +92,7 @@ export class DashboardEventsComponent {
   }
 
   filterTournaments() {
-    this.filteredTournaments = this.allTournaments.filter(tournament =>
-      tournament.name?.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      tournament.period[0]?.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      tournament.period[1]?.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      tournament.refsTotal?.some((ref: any) => ref.scheduledName.toLowerCase().includes(this.searchText.toLowerCase())) ||
-      tournament.refsAccepted?.some((ref: any) => ref.scheduledName.toLowerCase().includes(this.searchText.toLowerCase())) ||
-      tournament.refsDeclined?.some((ref: any) => ref.scheduledName.toLowerCase().includes(this.searchText.toLowerCase())) ||
-      tournament.supervisors?.some((ref: any) => ref.scheduledName.toLowerCase().includes(this.searchText.toLowerCase()))
-    );
-    return this.filteredTournaments
+    this.searchTextChanged.next(this.searchText);
   }
 
   addTournament() {

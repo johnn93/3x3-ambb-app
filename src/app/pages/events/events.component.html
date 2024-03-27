@@ -13,7 +13,13 @@
   <ng-template #data>
     <div *ngIf="allTournaments.length;else empty">
       <div class="flex flex-row flex-wrap mt-2 justify-content-center align-items-center gap-2">
-        <div class="p-card card p-2" *ngFor="let tournament of allTournaments">
+        <div class="relative p-card card p-2" *ngFor="let tournament of allTournaments">
+          <div *ngIf="tournament.isFree" class="free-message">
+            <div class="flex flex-column justify-content-center align-items-center content">
+              <i class="pi pi-gift"></i>
+              <p>Pro bono</p>
+            </div>
+          </div>
           <div class="header">
             <p-avatar image="{{tournament.logo}}" size="xlarge"/>
             <div class="subheader">

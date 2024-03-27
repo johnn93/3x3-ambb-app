@@ -31,6 +31,7 @@
       <th>Acceptat</th>
       <th>Delegati</th>
       <th>Supervisors</th>
+      <th>Tip</th>
       <th>Actiuni</th>
     </tr>
   </ng-template>
@@ -74,6 +75,10 @@
         <p-chip *ngFor="let ref of tournament.supervisors" [removable]="true"
                 (onRemove)="onRemoveSupervisor(ref,tournament)">{{ ref.scheduledName }}
         </p-chip>
+      </td>
+      <td><span class="p-column-title">Gratis</span>
+        <p *ngIf="tournament.isFree" style="color:red">Gratis</p>
+        <p *ngIf="!tournament.isFree" style="color:green">Cu plata</p>
       </td>
       <td>
         <div class="buttons">

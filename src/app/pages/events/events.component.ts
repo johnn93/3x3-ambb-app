@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {ServiceService} from "../../../shared/service.service";
-import {combineLatest, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {formatDate} from "@angular/common";
 import {Tournament} from "../../../interfaces/tournament";
 import {ConfirmationService, MessageService} from "primeng/api";
@@ -32,18 +32,11 @@ export class EventsComponent {
   }
 
   ngOnInit() {
-    this.loading = true;
-    this.getTournaments()
-    this.service
-      .getUserByUid(localStorage.getItem('uid'))
-      .valueChanges()
-      .subscribe(data => {
-        this.profile = data[0];
-        this.loading = false;
-      })
+    this.getData()
   }
 
-  getTournaments() {
+  getData() {
+    this.loading = true;
     this.subscription = this.service.getTournaments().subscribe(data => {
       data.sort((a: any, b: any): any => {
         let date1 = new Date(a.period[0])
@@ -52,6 +45,13 @@ export class EventsComponent {
         return date1 - date2
       })
       this.allTournaments = data.filter(data => new Date(data.period[0]) > new Date());
+      this.service
+        .getUserByUid(localStorage.getItem('uid'))
+        .valueChanges()
+        .subscribe(data => {
+          this.profile = data[0];
+          this.loading = false;
+        })
     })
   }
 
