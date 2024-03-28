@@ -205,7 +205,7 @@ export class DashboardEventsComponent {
         summary: 'Success',
         detail: 'Nominalizari inregistrate cu succes.'
       })
-      if (tournament.refsConfirmed.length !== 0) {
+      if (tournament.refsConfirmed.length !== 0 && new Date(tournament.period[0]) < new Date()) {
         try {
           this.sendEmail(emails, tournament, 'nomination')
         } catch (error: any) {

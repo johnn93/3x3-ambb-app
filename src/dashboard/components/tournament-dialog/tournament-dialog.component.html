@@ -53,6 +53,11 @@
                         <input pInputText id="link" formControlName="link"/>
                         <label for="link">Link turneu</label>
                      </span>
+        <span class="p-float-label">
+                      <textarea formControlName="tournamentDetails" id="tournament-details" rows="1" cols="30"
+                                pInputTextarea></textarea>
+                      <label for="tournament-details">Detalii</label>
+                    </span>
         <div class="flex gap-2">
           <p-checkbox id="isFree" [binary]="true" formControlName="isFree"/>
           <label style="color:var(--text-color)" for="isFree">Gratis</label>

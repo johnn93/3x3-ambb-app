@@ -11,45 +11,61 @@
     </div>
   </ng-template>
   <ng-template #data>
-    <div *ngIf="allTournaments.length;else empty">
-      <div class="flex flex-row flex-wrap mt-2 justify-content-center align-items-center gap-2">
-        <div class="relative p-card card p-2" *ngFor="let tournament of allTournaments">
-          <div *ngIf="tournament.isFree" class="free-message">
-            <div class="flex flex-column justify-content-center align-items-center content">
-              <i class="pi pi-gift"></i>
-              <p>Pro bono</p>
+    <div *ngIf="allTournaments.length;else empty"
+         class="flex flex-row flex-wrap mt-2 justify-content-center align-items-center gap-2">
+      <div *ngFor="let tournament of allTournaments" class="tp-wrapper">
+        <div class="tp-box"
+             [@flipState]="tournament.isFlipped" (click)="toggleFlip(tournament)">
+          <div class="tp-box__side tp-box__front p-2">
+            <div *ngIf="tournament.tournamentDetails?.length" class="toggle-button">
+              <p-button (click)="toggleFlip(tournament);$event.stopPropagation()" [rounded]="true"
+                        [outlined]="true" size="small"
+                        icon="pi pi-info"/>
+            </div>
+            <div *ngIf="tournament.isFree" class="free-message">
+              <div class="flex flex-column justify-content-center align-items-center content">
+                <i class="pi pi-gift"></i>
+                <p>Pro bono</p>
+              </div>
+            </div>
+            <div class="header">
+              <p-avatar image="{{tournament.logo}}" size="xlarge"/>
+              <div class="subheader">
+                <h2>{{ tournament.name }}</h2><br>
+                {{ formatDate(tournament.period[0], 'shortDate', 'ro-RO') + ' - ' + formatDate(tournament.period[1], 'shortDate', 'ro-RO') }}
+                <p>{{ tournament.court + ' | ' + tournament.city }}</p>
+              </div>
+            </div>
+            <div class="buttons"
+                 *ngIf="(!checkIfAccepted(tournament.refsAccepted) && !checkIfDeclined(tournament.refsDeclined));else showText">
+              <p-button [loading]='isSaving' size="small" label="Disponibil"
+                        [style]="{'font-size':'.75rem','max-width':'5.5rem','padding':'.75rem'}"
+                        (onClick)="openConfirmationDialog(tournament,'disponibil')"></p-button>
+              <p-button [loading]='isSaving' size="small" label="Refuza" styleClass="p-button-secondary"
+                        [style]="{ 'font-size':'.75rem','max-width':'4.5rem','padding':'.75rem' }"
+                        (onClick)="openConfirmationDialog(tournament,'indisponibil')"></p-button>
+            </div>
+            <ng-template #showText>
+              <p class="text-xs text-available-unavailable" *ngIf="checkIfAccepted(tournament.refsAccepted)"
+                 style="color:var(--text-color);text-align:center;"
+              >
+                <strong>Esti disponibil pentru acest turneu.</strong></p>
+              <p class="text-xs text-available-unavailable" *ngIf="checkIfDeclined(tournament.refsDeclined)"
+                 style="color:var(--text-color);text-align:center;"
+              >
+                <strong>Ai refuzat acest turneu.</strong></p>
+            </ng-template>
+          </div>
+          <div class="tp-box__side tp-box__back">
+            <div class=" flex flex-column p-2">
+              <h3>Detalii</h3>
+              <p>{{ tournament.tournamentDetails }}</p>
             </div>
           </div>
-          <div class="header">
-            <p-avatar image="{{tournament.logo}}" size="xlarge"/>
-            <div class="subheader">
-              <h2>{{ tournament.name }}</h2><br>
-              {{ formatDate(tournament.period[0], 'shortDate', 'ro-RO') + ' - ' + formatDate(tournament.period[1], 'shortDate', 'ro-RO') }}
-              <p>{{ tournament.court + ' | ' + tournament.city }}</p>
-            </div>
-          </div>
-          <div class="buttons"
-               *ngIf="(!checkIfAccepted(tournament.refsAccepted) && !checkIfDeclined(tournament.refsDeclined));else showText">
-            <p-button [loading]='isSaving' size="small" label="Disponibil"
-                      [style]="{'font-size':'.75rem','max-width':'5.5rem','padding':'.75rem'}"
-                      (onClick)="openConfirmationDialog(tournament,'disponibil')"></p-button>
-            <p-button [loading]='isSaving' size="small" label="Refuza" styleClass="p-button-secondary"
-                      [style]="{ 'margin-left': '.75rem','font-size':'.75rem','max-width':'4.5rem','padding':'.75rem' }"
-                      (onClick)="openConfirmationDialog(tournament,'indisponibil')"></p-button>
-          </div>
-          <ng-template #showText>
-            <p class="text-xs" *ngIf="checkIfAccepted(tournament.refsAccepted)"
-               style="color:var(--text-color)"
-            >
-              <strong>Esti disponibil pentru acest turneu.</strong></p>
-            <p class="text-xs" *ngIf="checkIfDeclined(tournament.refsDeclined)"
-               style="color:var(--text-color)"
-            >
-              <strong>Ai refuzat acest turneu.</strong></p>
-          </ng-template>
         </div>
       </div>
     </div>
   </ng-template>
+  <p-scrollTop></p-scrollTop>
 </div>
 <p-toast></p-toast>

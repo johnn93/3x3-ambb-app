@@ -1,47 +1,108 @@
-.header{
-  display:flex;
-  flex-direction:column;
+.header {
+  display: flex;
+  flex-direction: column;
   justify-content: start;
-  align-items:center;
+  align-items: center;
 }
 
-.card{
-  background:black;
-  border:1px solid var(--red-color);
-  color:var(--text-color);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  width:250px;
+.text-available-unavailable {
+  margin-top: 20px
 }
 
-.subheader{
-  display:flex;
-  flex-direction:column;
+.card {
+  background: black;
+  border: 1px solid var(--red-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 250px;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.tp-wrapper {
+  -webkit-perspective: 800px;
+  transform-style: preserve-3d;
+  perspective: 800px;
+}
+
+.tp-box {
+  position: relative;
+  color: var(--text-color);
+  width: 250px;
+  height: 260px;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transform: transform 1s;
+}
+
+.tp-box__side {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.tp-box__front {
+  background: black;
+  -webkit-transform: rotateY(0deg);
+  -ms-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+  border: 1px solid var(--red-color);
+  border-radius: 6px;
+}
+
+.tp-box__back {
+  background: black;
+  border: 1px solid var(--red-color);
+  border-radius: 6px;
+  -webkit-transform: rotateY(-180deg);
+  -ms-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
+}
+
+.subheader {
+  display: flex;
+  flex-direction: column;
   line-height: .75rem;
-  justify-content:center;
-  align-items:center;
+  justify-content: center;
+  align-items: center;
 }
 
-.title{
-  color:var(--text-color);
-  text-align:center;
-  margin-top:27px;
+.title {
+  color: var(--text-color);
+  text-align: center;
+  margin-top: 27px;
 }
 
-.free-message{
-  position:absolute;
-  top:10px;
-  right:10px;
+.free-message {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
-.content{
-  line-height:1px;
+.toggle-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 
-.buttons{
-  display:flex;
+.content {
+  line-height: 1px;
+}
+
+.buttons {
+  display: flex;
   flex-direction: row;
-  margin-top:1rem;
+  justify-content: space-evenly;
+  margin-top: 1rem;
 }

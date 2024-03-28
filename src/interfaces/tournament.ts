@@ -12,5 +12,6 @@ export interface Tournament {
     refsConfirmed:string;
     key:string;
     supervisors:string;
+    tournamentDetails:string;
     isFree:boolean;
 }

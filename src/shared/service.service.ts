@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from "@angular/fire/compat/database";
 import {User} from "../interfaces/user";
 import {Tournament} from "../interfaces/tournament";
-import {forkJoin, map, Observable, switchMap} from "rxjs";
+import {map} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {emailApiKey, emailApiUrl} from "./constants";
 import {formatDate} from "@angular/common";
@@ -31,7 +31,7 @@ export class ServiceService {
     return this.db.list('users', ref => ref.orderByChild('fName'))
   }
 
-  getUsers(){
+  getUsers() {
     return this.usersRef
       .snapshotChanges()
       .pipe(
@@ -85,12 +85,14 @@ export class ServiceService {
                 courtNo: c.payload.val()?.courtNo,
                 logo: c.payload.val()?.logo,
                 link: c.payload.val()?.link,
-                isFree:c.payload.val()?.isFree,
+                isFree: c.payload.val()?.isFree,
                 refsTotal: c.payload.val()!.refsTotal ? JSON.parse(c.payload.val()!.refsTotal) : [],
                 refsDeclined: c.payload.val()!.refsDeclined ? JSON.parse(c.payload.val()!.refsDeclined) : [],
                 refsAccepted: c.payload.val()!.refsAccepted ? JSON.parse(c.payload.val()!.refsAccepted) : [],
                 refsConfirmed: c.payload.val()!.refsConfirmed ? JSON.parse(c.payload.val()!.refsConfirmed) : [],
-                supervisors: c.payload.val()!.supervisors ? JSON.parse(c.payload.val()!.supervisors) : []
+                supervisors: c.payload.val()!.supervisors ? JSON.parse(c.payload.val()!.supervisors) : [],
+                isFlipped: 'inactive',
+                tournamentDetails: c.payload.val()?.tournamentDetails
               }
             }
           )
@@ -114,7 +116,7 @@ export class ServiceService {
                 logo: c.payload.val()?.logo,
                 link: c.payload.val()?.link,
                 refsConfirmed: JSON.parse(c.payload.val()!.refsConfirmed),
-                supervisors: JSON.parse(c.payload.val()!.supervisors)
+                supervisors: JSON.parse(c.payload.val()!.supervisors),
               }
             }
           )
@@ -142,7 +144,7 @@ export class ServiceService {
     return this.usersRef.update(key, value);
   }
 
-  async deleteUser(user:any):Promise<void>{
+  async deleteUser(user: any): Promise<void> {
     try {
       return await this.usersRef.remove(user.key);
     } catch (error) {
@@ -247,7 +249,7 @@ export class ServiceService {
     return this.http.post(this.apiUrl, emailData, {headers})
   }
 
-  sendCreateAccountEmail(bcc: string[],senderEmail?: string) {
+  sendCreateAccountEmail(bcc: string[], senderEmail?: string) {
     const htmlContent = `<p> Contul tau a fost creat.
 <br>In scurt timp vei primi un email pentru resetarea parolei.
 <br>Dupa resetarea parolei vei putea sa te loghezi in contul tau <a href="https://arbitri3x3.baschetbucuresti.ro/">AMBB 3X3 APP</a>.</p>`

@@ -47,6 +47,7 @@ import {getAuth, provideAuth} from "@angular/fire/auth";
 // @ts-ignore
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {MessageService} from "primeng/api";
+import {ScrollTopModule} from "primeng/scrolltop";
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -105,7 +106,8 @@ firebase.initializeApp(environment.firebaseConfig);
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    ScrollTopModule
   ],
   providers: [MessageService],
   exports: [],

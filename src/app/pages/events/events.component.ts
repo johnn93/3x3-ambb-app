@@ -6,12 +6,25 @@ import {Tournament} from "../../../interfaces/tournament";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ConfirmationDialogComponent} from "../../../shared/confirmation-dialog/confirmation-dialog.component";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss'],
-  providers: [MessageService, ConfirmationService, DialogService]
+  providers: [MessageService, ConfirmationService, DialogService],
+  animations: [
+    trigger('flipState', [
+      state('active', style({
+        transform: 'rotateY(179deg)'
+      })),
+      state('inactive', style({
+        transform: 'rotateY(0)'
+      })),
+      transition('active => inactive', animate('500ms ease-out')),
+      transition('inactive => active', animate('500ms ease-in'))
+    ])
+  ]
 })
 export class EventsComponent {
 
@@ -150,5 +163,12 @@ export class EventsComponent {
         await this.declined(event);
       }
     });
+  }
+
+  toggleFlip(tournament: any) {
+    if (!tournament.tournamentDetails?.length) {
+      return;
+    }
+    tournament.isFlipped = (tournament.isFlipped === 'inactive') ? 'active' : 'inactive';
   }
 }

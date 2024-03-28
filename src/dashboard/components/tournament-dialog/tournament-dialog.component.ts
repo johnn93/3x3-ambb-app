@@ -34,6 +34,7 @@ export class TournamentDialogComponent {
     courtNo: ['', Validators.required],
     logo: ['', Validators.required],
     link: ['', Validators.required],
+    tournamentDetails: [''],
     isFree:[false]
   })
 
@@ -164,6 +165,7 @@ export class TournamentDialogComponent {
       this.tournamentForm.controls.courtNo.setValue(this.selectedTournament?.courtNo || null)
       this.tournamentForm.controls.logo.setValue(this.selectedTournament?.logo || null)
       this.tournamentForm.controls.link.setValue(this.selectedTournament?.link || null)
+      this.tournamentForm.controls.tournamentDetails.setValue(this.selectedTournament?.tournamentDetails || '')
       this.tournamentForm.controls.isFree.setValue(this.selectedTournament?.isFree || false)
     }
   }

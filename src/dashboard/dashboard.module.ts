@@ -35,6 +35,8 @@ import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {TabViewModule} from "primeng/tabview";
 import {HttpClientModule} from "@angular/common/http";
 import {CheckboxModule} from "primeng/checkbox";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {ScrollTopModule} from "primeng/scrolltop";
 
 
 @NgModule({
@@ -78,6 +80,8 @@ import {CheckboxModule} from "primeng/checkbox";
     TabViewModule,
     FormsModule,
     CheckboxModule,
+    InputTextareaModule,
+    ScrollTopModule,
   ],
     providers: [{ provide: LOCALE_ID, useValue: 'ro-RO' }],
   exports: [
