@@ -5,7 +5,7 @@
   <form [formGroup]="tournamentForm"
         (ngSubmit)="onSubmitForm()">
     <div class="form">
-      <div class="tournament">
+      <div class="flex flex-column md:flex-row md:flex-wrap justify-content-center align-items-center gap-5">
                     <span class="p-float-label div">
                         <input pInputText id="name" formControlName="name"/>
                         <label for="name">Nume turneu</label>
@@ -53,15 +53,14 @@
                         <input pInputText id="link" formControlName="link"/>
                         <label for="link">Link turneu</label>
                      </span>
-        <span class="p-float-label">
-                      <textarea formControlName="tournamentDetails" id="tournament-details" rows="1" cols="30"
-                                pInputTextarea></textarea>
-                      <label for="tournament-details">Detalii</label>
-                    </span>
         <div class="flex gap-2">
           <p-checkbox id="isFree" [binary]="true" formControlName="isFree"/>
           <label style="color:var(--text-color)" for="isFree">Gratis</label>
         </div>
+      </div>
+      <div class="mt-5 w-full">
+        <app-ckeditor data="{{selectedTournament?.tournamentDetails}}"
+                      [control]="tournamentForm.controls.tournamentDetails"></app-ckeditor>
       </div>
     </div>
     <div class="button">

@@ -14,6 +14,10 @@
   padding: 1rem;
 }
 
+.p-dialog-mask{
+  z-index:0 !important;
+}
+
 .p-dialog .p-dialog-header .p-dialog-header-icon {
   color: var(--text-color)
 }

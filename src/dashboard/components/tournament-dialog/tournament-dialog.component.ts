@@ -20,6 +20,7 @@ export class TournamentDialogComponent {
   logos: any;
   allUsers: any = [];
   initialDate: any;
+  tournamentDetails: string | undefined = '' || undefined
 
   constructor(private fb: FormBuilder,
               private service: ServiceService,
@@ -35,7 +36,7 @@ export class TournamentDialogComponent {
     logo: ['', Validators.required],
     link: ['', Validators.required],
     tournamentDetails: [''],
-    isFree:[false]
+    isFree: [false]
   })
 
   ngOnInit() {
@@ -158,6 +159,7 @@ export class TournamentDialogComponent {
     if (changes['selectedTournament'] !== undefined &&
       changes['selectedTournament'].currentValue !== undefined && this.edit) {
       this.initialDate = this.selectedTournament?.period
+      this.tournamentDetails = this.selectedTournament?.tournamentDetails
       this.tournamentForm.controls.date.setValue([new Date(this.selectedTournament?.period[0] || new Date()), new Date(this.selectedTournament?.period[1] || new Date())])
       this.tournamentForm.controls.name.setValue(this.selectedTournament?.name || null)
       this.tournamentForm.controls.court.setValue(this.selectedTournament?.court || null)

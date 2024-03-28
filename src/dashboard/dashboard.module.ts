@@ -37,6 +37,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {CheckboxModule} from "primeng/checkbox";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {ScrollTopModule} from "primeng/scrolltop";
+import {EditorModule} from "primeng/editor";
+import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
+import { ClassicEditorComponent } from './ckeditor/classic-editor.component';
 
 
 @NgModule({
@@ -48,7 +51,8 @@ import {ScrollTopModule} from "primeng/scrolltop";
     DashboardEventsComponent,
     TournamentDialogComponent,
     LoaderComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    ClassicEditorComponent
   ],
   imports: [
     DashboardRoutingModule,
@@ -82,6 +86,8 @@ import {ScrollTopModule} from "primeng/scrolltop";
     CheckboxModule,
     InputTextareaModule,
     ScrollTopModule,
+    EditorModule,
+    CKEditorModule,
   ],
     providers: [{ provide: LOCALE_ID, useValue: 'ro-RO' }],
   exports: [

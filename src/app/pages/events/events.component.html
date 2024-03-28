@@ -57,10 +57,13 @@
             </ng-template>
           </div>
           <div class="tp-box__side tp-box__back">
-            <div class=" flex flex-column p-2">
-              <h3>Detalii</h3>
+            <div class=" p-2">
+              <h3 style="margin-bottom:-10px;">
+                Detalii
+              </h3>
+              <br>
               <div class="tournament-details p-2">
-                <p>{{ tournament.tournamentDetails }}</p>
+                <p [innerHTML]="tournament.tournamentDetails"></p>
               </div>
             </div>
           </div>
