@@ -37,7 +37,6 @@ import {HttpClientModule} from "@angular/common/http";
 import {CheckboxModule} from "primeng/checkbox";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {ScrollTopModule} from "primeng/scrolltop";
-import {EditorModule} from "primeng/editor";
 import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 import { ClassicEditorComponent } from './ckeditor/classic-editor.component';
 
@@ -86,7 +85,6 @@ import { ClassicEditorComponent } from './ckeditor/classic-editor.component';
     CheckboxModule,
     InputTextareaModule,
     ScrollTopModule,
-    EditorModule,
     CKEditorModule,
   ],
     providers: [{ provide: LOCALE_ID, useValue: 'ro-RO' }],
